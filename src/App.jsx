@@ -95,7 +95,7 @@ function App() {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-slate-50 text-slate-800">
         <Loader2 className="w-12 h-12 text-emerald-600 animate-spin mb-4" />
-        <p className="text-lg font-medium animate-pulse">Menghubungkan ke database NandaDigital...</p>
+        <p className="text-lg font-medium animate-pulse">Menghubungkan ke database...</p>
       </div>
     )
   }
@@ -103,9 +103,9 @@ function App() {
   // Fallback data in case the API is unreachable (so the frontend still loads beautifully!)
   const landingData = data || {
     site_config: {
-      site_name: 'NandaDigital',
+      site_name: 'PrintHub',
       whatsapp_number: '628123456789',
-      email: 'info@nandadigital.com',
+      email: 'info@printhub.com',
       address: 'Jl. Percetakan Indah No. 45, Jakarta Selatan',
       facebook_url: '#',
       instagram_url: '#',
@@ -156,7 +156,7 @@ function App() {
   const { site_config, hero_section, why_choose_us, statistics, services, order_steps, portfolios, testimonials } = landingData
 
   // WhatsApp redirection generator
-  const getWhatsAppLink = (message = "Halo NandaDigital, saya ingin memesan cetakan...") => {
+  const getWhatsAppLink = (message = "Halo PrintHub, saya ingin memesan cetakan...") => {
     const cleanNumber = site_config.whatsapp_number.replace(/\D/g, '')
     return `https://wa.me/${cleanNumber}?text=${encodeURIComponent(message)}`
   }
@@ -208,7 +208,7 @@ function App() {
           {/* WhatsApp Header Button */}
           <div className="hidden md:flex items-center">
             <a
-              href={getWhatsAppLink("Halo NandaDigital, saya ingin melakukan pemesanan...")}
+              href={getWhatsAppLink("Halo PrintHub, saya ingin melakukan pemesanan...")}
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold shadow-md shadow-emerald-600/10 hover:shadow-emerald-600/20 active:scale-95 transition-all"
@@ -276,7 +276,7 @@ function App() {
               Testimoni
             </a>
             <a
-              href={getWhatsAppLink("Halo NandaDigital, saya ingin melakukan pemesanan...")}
+              href={getWhatsAppLink("Halo PrintHub, saya ingin melakukan pemesanan...")}
               target="_blank"
               rel="noreferrer"
               className="mt-4 flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold shadow-md"
@@ -316,7 +316,7 @@ function App() {
 
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
                 <a
-                  href={getWhatsAppLink(`Halo NandaDigital, saya tertarik untuk memesan layanan percetakan Anda. Mohon dibantu.`)}
+                  href={getWhatsAppLink(`Halo PrintHub, saya tertarik untuk memesan layanan percetakan Anda. Mohon dibantu.`)}
                   target="_blank"
                   rel="noreferrer"
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-base font-bold shadow-lg shadow-emerald-600/20 hover:shadow-emerald-600/30 hover:-translate-y-0.5 active:translate-y-0 transition-all"
@@ -343,7 +343,7 @@ function App() {
                   <div className="relative overflow-hidden rounded-2xl border border-slate-200/80 shadow-2xl bg-white p-2 animate-in slide-in-from-right-12 duration-700">
                     <img
                       src={getImageUrl(hero_section.image_path)}
-                      alt="NandaDigital Printing Machine Banner"
+                      alt="PrintHub Printing Machine Banner"
                       className="w-full h-auto rounded-xl object-cover hover:scale-[1.02] transition-transform duration-500"
                     />
                   </div>
@@ -359,7 +359,7 @@ function App() {
                         <div className="w-3 h-3 rounded-full bg-amber-400"></div>
                         <div className="w-3 h-3 rounded-full bg-emerald-400"></div>
                       </div>
-                      <span className="text-xs font-bold text-slate-400 tracking-wider uppercase">Suppliyam Print Engine</span>
+                      <span className="text-xs font-bold text-slate-400 tracking-wider uppercase">PrintHub Print Engine</span>
                     </div>
 
                     <div className="flex-1 flex items-center justify-center relative py-6">
@@ -448,7 +448,7 @@ function App() {
 
                   <div className={`pt-6 border-t mt-6 flex items-center justify-between ${isFirst ? 'border-emerald-500/30' : 'border-slate-50'}`}>
                     <a
-                      href={getWhatsAppLink(`Halo NandaDigital, saya ingin berkonsultasi tentang cetak custom ${service.title}.`)}
+                      href={getWhatsAppLink(`Halo PrintHub, saya ingin berkonsultasi tentang cetak custom ${service.title}.`)}
                       target="_blank"
                       rel="noreferrer"
                       className={`inline-flex items-center gap-1 text-xs font-bold ${isFirst ? 'text-white hover:text-emerald-100' : 'text-emerald-600 group-hover:text-emerald-700'}`}
@@ -516,7 +516,7 @@ function App() {
                     </div>
 
                     <div className="border-t border-slate-100 pt-4 text-center">
-                      <span className="text-xs font-bold text-emerald-600">NandaDigital Printing House</span>
+                      <span className="text-xs font-bold text-emerald-600">PrintHub Printing House</span>
                     </div>
                   </div>
                 )}
@@ -597,7 +597,7 @@ function App() {
                   <h3 className="text-white text-base font-extrabold tracking-tight">{portfolio.title}</h3>
                   <div className="pt-2">
                     <a
-                      href={getWhatsAppLink(`Halo NandaDigital, saya tertarik dengan hasil cetakan portofolio "${portfolio.title}". Bisakah saya cetak custom yang mirip?`)}
+                      href={getWhatsAppLink(`Halo PrintHub, saya tertarik dengan hasil cetakan portofolio "${portfolio.title}". Bisakah saya cetak custom yang mirip?`)}
                       target="_blank"
                       rel="noreferrer"
                       className="px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md tracking-wider uppercase inline-flex items-center gap-1.5"
@@ -621,7 +621,7 @@ function App() {
               Kami sedang memperbarui galeri cetakan digital terbaru kami. Hubungi admin kami untuk melihat katalog foto sampel cetakan stiker, brosur, atau banner lengkap!
             </p>
             <a
-              href={getWhatsAppLink("Halo NandaDigital, saya ingin meminta katalog foto hasil cetakan sampel stiker & brosur.")}
+              href={getWhatsAppLink("Halo PrintHub, saya ingin meminta katalog foto hasil cetakan sampel stiker & brosur.")}
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md tracking-wider uppercase"
@@ -675,7 +675,7 @@ function App() {
                     {step.step_number === 1 && (
                       <div className="pt-4 border-t border-slate-100 mt-4 w-full">
                         <a
-                          href={getWhatsAppLink("Halo NandaDigital, saya ingin melakukan konsultasi cetak custom.")}
+                          href={getWhatsAppLink("Halo PrintHub, saya ingin melakukan konsultasi cetak custom.")}
                           target="_blank"
                           rel="noreferrer"
                           className="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 hover:text-emerald-700 justify-center w-full"
@@ -758,7 +758,7 @@ function App() {
             
             <div className="flex flex-wrap justify-center gap-4 pt-4">
               <a
-                href={getWhatsAppLink("Halo NandaDigital, saya ingin konsultasi cetak custom.")}
+                href={getWhatsAppLink("Halo PrintHub, saya ingin konsultasi cetak custom.")}
                 target="_blank"
                 rel="noreferrer"
                 className="px-8 py-3.5 rounded-xl bg-white hover:bg-emerald-50 text-emerald-950 font-extrabold text-sm shadow-md tracking-wider uppercase transition-all hover:scale-105 active:scale-95"
@@ -778,7 +778,7 @@ function App() {
 
       {/* 9. WhatsApp Sticky Floating Button with Pulse Animation */}
       <a
-        href={getWhatsAppLink("Halo NandaDigital, saya ingin bertanya tentang cetak custom...")}
+        href={getWhatsAppLink("Halo PrintHub, saya ingin bertanya tentang cetak custom...")}
         target="_blank"
         rel="noreferrer"
         className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white shadow-2xl hover:scale-105 active:scale-95 transition-all group flex items-center justify-center"
@@ -863,7 +863,7 @@ function App() {
                 )}
                 <li className="flex gap-3 items-center">
                   <Phone className="w-5 h-5 text-emerald-500 flex-shrink-0" />
-                  <a href={getWhatsAppLink("Halo NandaDigital, saya ingin memesan cetakan.")} target="_blank" rel="noreferrer" className="hover:text-emerald-500 transition-colors">
+                  <a href={getWhatsAppLink("Halo PrintHub, saya ingin memesan cetakan.")} target="_blank" rel="noreferrer" className="hover:text-emerald-500 transition-colors">
                     +{site_config.whatsapp_number}
                   </a>
                 </li>
