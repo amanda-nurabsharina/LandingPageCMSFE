@@ -359,12 +359,12 @@ function App() {
                         <div className="w-3 h-3 rounded-full bg-amber-400"></div>
                         <div className="w-3 h-3 rounded-full bg-emerald-400"></div>
                       </div>
-                      <span className="text-xs font-bold text-slate-400 tracking-wider uppercase">PrintHub Print Engine</span>
+                      <span className="text-xs font-bold text-slate-400 tracking-wider uppercase">FourplusOne CMS Engine</span>
                     </div>
 
                     <div className="flex-1 flex items-center justify-center relative py-6">
                       <div className="w-32 h-32 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 shadow-xl flex items-center justify-center text-white scale-95 group-hover:scale-100 group-hover:rotate-3 transition-all duration-500">
-                        <Printer className="w-16 h-16 animate-bounce" />
+                        <Sparkles className="w-16 h-16 animate-pulse" />
                       </div>
                       <div className="absolute top-2 left-6 px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-100 text-emerald-800 text-xs font-bold shadow-sm -rotate-6">
                         Premium Quality
@@ -379,7 +379,7 @@ function App() {
                         <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></div>
                         <span className="text-xs font-bold text-slate-600">Dynamic CMS Connected</span>
                       </div>
-                      <span className="text-xs font-semibold text-emerald-600">Ready to print</span>
+                      <span className="text-xs font-semibold text-emerald-600">Active & Live</span>
                     </div>
                   </div>
                 )}
@@ -406,7 +406,7 @@ function App() {
       </section>
 
       {/* 4. LAYANAN (SERVICES) SECTION */}
-      <section id="services" className="py-24 bg-[#f0f8e8] w-full border-b border-emerald-600/10">
+      <section id="services" className="py-24 bg-emerald-50 w-full border-b border-emerald-600/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
             <span className="text-xs font-extrabold tracking-widest text-emerald-700 uppercase">Layanan Kami</span>
@@ -466,7 +466,7 @@ function App() {
       </section>
 
       {/* 5. MENGAPA MEMILIH KAMI (BENEFITS) SECTION */}
-      <section id="benefits" className="py-20 bg-slate-100/50 border-y border-slate-200/50">
+      <section id="benefits" className="py-20 bg-[#FAF6F0] border-y border-slate-200/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             {/* Left Side: Mockup Illustration */}
@@ -549,7 +549,8 @@ function App() {
       </section>
 
       {/* 6. PORTFOLIO GRID SECTION */}
-      <section id="portfolio" className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="portfolio" className="py-24 bg-[#FCFAF7] border-b border-slate-200/40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto space-y-4 mb-12">
           <span className="text-xs font-extrabold tracking-widest text-emerald-600 uppercase">Portofolio</span>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
@@ -631,10 +632,11 @@ function App() {
             </a>
           </div>
         )}
+        </div>
       </section>
 
       {/* 7. CARA PEMESANAN (TIMELINE) SECTION */}
-      <section id="timeline" className="py-24 bg-slate-50/50 border-y border-slate-200/50">
+      <section id="timeline" className="py-24 bg-[#FAF6F0] border-y border-slate-200/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto space-y-4 mb-20">
             <span className="text-xs font-extrabold tracking-widest text-emerald-600 uppercase">Proses Kerja</span>
@@ -694,7 +696,8 @@ function App() {
       </section>
 
       {/* 8. TESTIMONIAL SLIDER/GRID SECTION */}
-      <section id="testimonials" className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="testimonials" className="py-24 bg-[#FCFAF7] border-b border-slate-200/40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
           <span className="text-xs font-extrabold tracking-widest text-emerald-600 uppercase">Testimoni</span>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
@@ -741,11 +744,12 @@ function App() {
           <span className="w-2 h-2 rounded-full bg-slate-300"></span>
           <span className="w-2 h-2 rounded-full bg-slate-300"></span>
         </div>
+        </div>
       </section>
 
       {/* 8.5 DYNAMIC CTA BANNER */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
-        <div className="bg-[#295213] rounded-3xl p-12 text-center text-white relative overflow-hidden shadow-xl">
+        <div className="bg-emerald-950 rounded-3xl p-12 text-center text-white relative overflow-hidden shadow-xl">
           <div className="absolute inset-0 bg-gradient-to-r from-emerald-600/30 to-teal-500/10 mix-blend-overlay"></div>
           
           <div className="relative z-10 max-w-3xl mx-auto space-y-6">

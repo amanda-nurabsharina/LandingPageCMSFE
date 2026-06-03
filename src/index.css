@@ -3,29 +3,35 @@
 @import "tailwindcss";
 
 @theme {
-  --color-emerald-50: #f5f9f0;
-  --color-emerald-100: #e7f3dc;
-  --color-emerald-200: #cfe6bf;
-  --color-emerald-300: #add393;
-  --color-emerald-400: #84bb64;
-  --color-emerald-500: #619f40;
-  --color-emerald-600: #3c7618;
-  --color-emerald-700: #316015;
-  --color-emerald-800: #284d13;
-  --color-emerald-900: #223f11;
-  --color-emerald-950: #112308;
+  --color-emerald-50: #FEF3C7; /* Amber 50 */
+  --color-emerald-100: #FDE68A; /* Amber 200 */
+  --color-emerald-200: #FBBF24; /* Amber 300 */
+  --color-emerald-300: #F59E0B; /* Accent: Gold / Amber 500 */
+  --color-emerald-400: #D97706; /* Amber 600 */
+  --color-emerald-500: #881337; /* Primary: Wine Red */
+  --color-emerald-600: #9F1239; /* Wine Red Hover */
+  --color-emerald-700: #BE123C;
+  --color-emerald-800: #E11D48;
+  --color-emerald-900: #020617; /* Navy Dark */
+  --color-emerald-950: #0F172A; /* Secondary: Navy */
 
-  --color-teal-50: #f5f9f0;
-  --color-teal-100: #e7f3dc;
-  --color-teal-200: #cfe6bf;
-  --color-teal-300: #add393;
-  --color-teal-400: #84bb64;
-  --color-teal-500: #619f40;
-  --color-teal-600: #3c7618;
-  --color-teal-700: #316015;
-  --color-teal-800: #284d13;
-  --color-teal-900: #223f11;
-  --color-teal-950: #112308;
+  --color-teal-50: #FEF3C7;
+  --color-teal-100: #FDE68A;
+  --color-teal-200: #FBBF24;
+  --color-teal-300: #F59E0B;
+  --color-teal-400: #D97706;
+  --color-teal-500: #881337;
+  --color-teal-600: #9F1239;
+  --color-teal-700: #BE123C;
+  --color-teal-800: #E11D48;
+  --color-teal-900: #020617;
+  --color-teal-950: #0F172A;
+
+  --color-slate-50: #F8FAFC; /* Background */
+  --color-slate-100: #F1F5F9;
+  --color-slate-200: #E2E8F0;
+  --color-slate-800: #1E293B;
+  --color-slate-900: #0F172A; /* Secondary */
 }
 
 :root {
@@ -40,8 +46,8 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  background-color: #f8fafc;
-  color: #1e293b;
+  background-color: #F8FAFC; /* Background */
+  color: #0F172A; /* Secondary */
 }
 
 /* Custom scrollbar for premium feel */
