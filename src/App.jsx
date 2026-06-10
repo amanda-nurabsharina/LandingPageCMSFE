@@ -1060,7 +1060,7 @@ function App() {
           <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
             <span>&copy; {new Date().getFullYear()} {site_config.site_name}. All rights reserved.</span>
             <div className="flex gap-4">
-              <span>Managed by CMS Admin Panel</span>
+              <span>Managed by Four Plus One</span>
               <span>&bull;</span>
               <span>Design Premium</span>
             </div>
