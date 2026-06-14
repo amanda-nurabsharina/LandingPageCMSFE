@@ -28,6 +28,7 @@ import {
   Truck,
   Shield,
   Users,
+  User,
   Settings,
   Percent,
   Heart,
@@ -166,6 +167,197 @@ function App() {
   const [error, setError] = useState(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [activePortfolioTab, setActivePortfolioTab] = useState('Semua')
+  const [currentPage, setCurrentPage] = useState('landing') // landing, news-list, activity-list, news-detail, activity-detail
+  const [newsList, setNewsList] = useState([])
+  const [activitiesList, setActivitiesList] = useState([])
+  const [listLoading, setListLoading] = useState(false)
+  const [detailItem, setDetailItem] = useState(null)
+  const [detailLoading, setDetailLoading] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [contactName, setContactName] = useState('')
+  const [contactPhone, setContactPhone] = useState('')
+  const [contactMessage, setContactMessage] = useState('')
+  const [contactLoading, setContactLoading] = useState(false)
+  const [contactSuccess, setContactSuccess] = useState('')
+  const [contactError, setContactError] = useState('')
+
+  // Get or create persistent session_id for unique visitor tracking
+  const getSessionId = () => {
+    let sid = localStorage.getItem('analytics_session_id')
+    if (!sid) {
+      sid = 'session_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+      localStorage.setItem('analytics_session_id', sid)
+    }
+    return sid
+  }
+  const sessionId = getSessionId()
+
+  // Send analytics event to Laravel backend
+  const trackEvent = (eventType, pageName = null) => {
+    fetch(`${API_BASE_URL}/api/analytics`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        event_type: eventType,
+        page_name: pageName,
+        session_id: sessionId
+      })
+    })
+    .catch(err => console.error('Error logging analytics event:', err))
+  }
+
+  const goHome = (e) => {
+    if (e) e.preventDefault()
+    setCurrentPage('landing')
+    setMobileMenuOpen(false)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const navigateToNewsList = () => {
+    setListLoading(true)
+    setCurrentPage('news-list')
+    setMobileMenuOpen(false)
+    setSearchTerm('')
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    fetch(`${API_BASE_URL}/api/news`)
+      .then(res => res.json())
+      .then(resData => {
+        if (resData.status === 'success') {
+          setNewsList(resData.data)
+        }
+      })
+      .catch(err => console.error(err))
+      .finally(() => setListLoading(false))
+  }
+
+  const navigateToActivitiesList = () => {
+    setListLoading(true)
+    setCurrentPage('activity-list')
+    setMobileMenuOpen(false)
+    setSearchTerm('')
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    fetch(`${API_BASE_URL}/api/activities`)
+      .then(res => res.json())
+      .then(resData => {
+        if (resData.status === 'success') {
+          setActivitiesList(resData.data)
+        }
+      })
+      .catch(err => console.error(err))
+      .finally(() => setListLoading(false))
+  }
+
+  const navigateToNewsDetail = (slug) => {
+    setDetailLoading(true)
+    setCurrentPage('news-detail')
+    setDetailItem(null)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    fetch(`${API_BASE_URL}/api/news/${slug}`)
+      .then(res => res.json())
+      .then(resData => {
+        if (resData.status === 'success') {
+          setDetailItem(resData.data)
+        }
+      })
+      .catch(err => console.error(err))
+      .finally(() => setDetailLoading(false))
+  }
+
+  const navigateToActivityDetail = (slug) => {
+    setDetailLoading(true)
+    setCurrentPage('activity-detail')
+    setDetailItem(null)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    fetch(`${API_BASE_URL}/api/activities/${slug}`)
+      .then(res => res.json())
+      .then(resData => {
+        if (resData.status === 'success') {
+          setDetailItem(resData.data)
+        }
+      })
+      .catch(err => console.error(err))
+      .finally(() => setDetailLoading(false))
+  }
+
+  // Track page view event when currentPage or detailItem changes
+  useEffect(() => {
+    let pageName = 'Home'
+    if (currentPage === 'news-list') {
+      pageName = 'Kumpulan Berita'
+    } else if (currentPage === 'activity-list') {
+      pageName = 'Dokumentasi Kegiatan'
+    } else if (currentPage === 'news-detail') {
+      pageName = detailItem ? `Berita: ${detailItem.title}` : 'Detail Berita'
+    } else if (currentPage === 'activity-detail') {
+      pageName = detailItem ? `Aktifitas: ${detailItem.title}` : 'Detail Aktifitas'
+    }
+    
+    trackEvent('page_view', pageName)
+  }, [currentPage, detailItem])
+
+  // Track global WhatsApp link clicks automatically
+  useEffect(() => {
+    const handleGlobalClick = (e) => {
+      const anchor = e.target.closest('a')
+      if (anchor && anchor.href && anchor.href.includes('wa.me')) {
+        trackEvent('click_wa')
+      }
+    }
+    
+    document.addEventListener('click', handleGlobalClick)
+    return () => document.removeEventListener('click', handleGlobalClick)
+  }, [])
+
+  const handleContactSubmit = (e) => {
+    e.preventDefault()
+    
+    if (!contactName.trim() || !contactPhone.trim() || !contactMessage.trim()) {
+      setContactError('Semua kolom wajib diisi.')
+      return
+    }
+
+    setContactLoading(true)
+    setContactError('')
+    setContactSuccess('')
+
+    fetch(`${API_BASE_URL}/api/leads`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: contactName,
+        phone: contactPhone,
+        message: contactMessage,
+        session_id: sessionId
+      })
+    })
+    .then(res => {
+      if (!res.ok) {
+        throw new Error('Gagal mengirim pesan. Silakan coba beberapa saat lagi.')
+      }
+      return res.json()
+    })
+    .then(resData => {
+      if (resData.status === 'success') {
+        setContactSuccess(resData.message || 'Pesan Anda berhasil terkirim!')
+        setContactName('')
+        setContactPhone('')
+        setContactMessage('')
+      } else {
+        throw new Error(resData.message || 'Terjadi kesalahan.')
+      }
+    })
+    .catch(err => {
+      console.error(err)
+      setContactError(err.message)
+    })
+    .finally(() => {
+      setContactLoading(false)
+    })
+  }
 
   // Fetch landing page data from Laravel REST API
   useEffect(() => {
@@ -228,6 +420,8 @@ function App() {
       facebook_url: '#',
       instagram_url: '#',
       twitter_url: '#',
+      contact_title: 'Kirimkan Pesan atau Konsultasi Gratis',
+      contact_subtitle: 'Punya pertanyaan mengenai bahan, ukuran cetakan, atau ingin mendiskusikan pesanan khusus (custom)? Isi formulir, tim ahli kami akan segera menghubungi Anda.',
     },
     hero_section: {
       badge: 'Percetakan Digital',
@@ -268,10 +462,21 @@ function App() {
     portfolios: [],
     testimonials: [
       { client_name: 'Rian Diantono', client_role: 'Pemilik Kedai Kopi', stars: 5, content: 'Sangat puas dengan cetakan stiker kemasan cup kopi saya. Warnanya tajam, tidak luntur bila terkena air, dan pengerjaannya sangat cepat!' }
-    ]
+    ],
+    news: [],
+    activities: [],
+    cta_section: {
+      title: 'Siap Mencetak Ide Anda?',
+      subtitle: 'Yuk, mulai konsultasi gratis dengan tim ahli kami untuk mendapatkan hasil terbaik untuk bisnismu!',
+      btn_text: 'Pesan Sekarang',
+      btn_url: 'whatsapp',
+    },
   }
 
-  const { site_config, hero_section, why_choose_us, statistics, services, order_steps, portfolios, testimonials, sections: rawSections } = landingData
+  const { site_config, hero_section, why_choose_us, cta_section, statistics, services, order_steps, portfolios, testimonials, sections: rawSections, news: rawNews, activities: rawActivities } = landingData
+
+  const news = rawNews || []
+  const activities = rawActivities || []
 
   const sections = rawSections || [
     { section_key: 'hero', is_active: true },
@@ -281,7 +486,10 @@ function App() {
     { section_key: 'portfolio', is_active: true },
     { section_key: 'timeline', is_active: true },
     { section_key: 'testimonials', is_active: true },
+    { section_key: 'news', is_active: true },
+    { section_key: 'activities', is_active: true },
     { section_key: 'cta', is_active: true },
+    { section_key: 'contact', is_active: true },
   ]
 
   const isSectionActive = (key) => {
@@ -293,6 +501,10 @@ function App() {
   const getWhatsAppLink = (message = "Halo PrintHub, saya ingin memesan cetakan...") => {
     const cleanNumber = site_config.whatsapp_number.replace(/\D/g, '')
     return `https://wa.me/${cleanNumber}?text=${encodeURIComponent(message)}`
+  }
+
+  const handleWaClick = () => {
+    trackEvent('click_wa')
   }
 
   // Helper to resolve button details dynamically based on dropdown values
@@ -802,20 +1014,20 @@ function App() {
               
               <div className="relative z-10 max-w-3xl mx-auto space-y-6">
                 <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
-                  Siap Mencetak Ide Anda?
+                  {cta_section.title || 'Siap Mencetak Ide Anda?'}
                 </h2>
                 <p className="text-emerald-100 text-sm sm:text-base leading-relaxed max-w-xl mx-auto font-normal">
-                  Yuk, mulai konsultasi gratis dengan tim ahli kami untuk mendapatkan hasil terbaik untuk bisnismu!
+                  {cta_section.subtitle || 'Yuk, mulai konsultasi gratis dengan tim ahli kami untuk mendapatkan hasil terbaik untuk bisnismu!'}
                 </p>
                 
                 <div className="flex flex-wrap justify-center gap-4 pt-4">
                   <a
-                    href={getWhatsAppLink("Halo PrintHub, saya ingin konsultasi cetak custom.")}
-                    target="_blank"
-                    rel="noreferrer"
+                    href={resolveButtonUrl(cta_section.btn_url, 'whatsapp')}
+                    target={getButtonTarget(cta_section.btn_url)}
+                    rel={getButtonRel(cta_section.btn_url)}
                     className="px-8 py-3.5 rounded-xl bg-white hover:bg-emerald-50 text-emerald-950 font-extrabold text-sm shadow-md tracking-wider uppercase transition-all hover:scale-105 active:scale-95"
                   >
-                    Pesan Sekarang
+                    {cta_section.btn_text || 'Pesan Sekarang'}
                   </a>
                   {isSectionActive('services') && (
                     <a
@@ -831,9 +1043,550 @@ function App() {
           </section>
         )
 
+      case 'news':
+        return (
+          <section key="news" id="news" className="py-24 bg-slate-50 w-full border-b border-slate-200/40">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+                <div className="space-y-4 max-w-3xl text-left">
+                  <span className="text-xs font-extrabold tracking-widest text-emerald-650 uppercase">Kabar Terbaru</span>
+                  <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Berita & Informasi Terkini</h2>
+                  <p className="text-base text-slate-600">Ikuti perkembangan terbaru mengenai layanan, promo, dan tips seputar percetakan digital kami.</p>
+                </div>
+                {news.length > 0 && (
+                  <button
+                    onClick={navigateToNewsList}
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-slate-200 hover:border-emerald-600 hover:bg-emerald-50/20 text-slate-700 hover:text-emerald-700 font-bold text-sm cursor-pointer transition-all"
+                  >
+                    <span>Lihat Semua Berita</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
+
+              {news.length > 0 ? (
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {news.slice(0, 5).map((item, i) => (
+                    <article key={i} className="bg-white border border-slate-100/80 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group text-left">
+                      <div className="relative aspect-[16/10] bg-slate-100 overflow-hidden">
+                        {item.thumbnail ? (
+                          <img
+                            src={getImageUrl(item.thumbnail)}
+                            alt={item.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-slate-400 bg-slate-200 font-bold">No Image</div>
+                        )}
+                      </div>
+                      <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+                        <div className="space-y-2">
+                          <span className="text-[10px] font-bold text-slate-400 block">{new Date(item.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                          <h3 
+                            onClick={() => navigateToNewsDetail(item.slug)}
+                            className="text-lg font-bold text-slate-900 group-hover:text-emerald-600 transition-colors cursor-pointer line-clamp-2 leading-snug"
+                          >
+                            {item.title}
+                          </h3>
+                        </div>
+                        <button
+                          onClick={() => navigateToNewsDetail(item.slug)}
+                          className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 hover:text-emerald-750 group-hover:translate-x-0.5 cursor-pointer transition-all self-start"
+                        >
+                          <span>Baca Selengkapnya</span>
+                          <ChevronRight className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              ) : (
+                <div className="bg-white border border-slate-200/60 border-dashed rounded-3xl p-12 text-center max-w-xl mx-auto space-y-4">
+                  <p className="text-sm text-slate-500 font-semibold">Belum ada berita yang diterbitkan saat ini.</p>
+                </div>
+              )}
+            </div>
+          </section>
+        )
+
+      case 'activities':
+        return (
+          <section key="activities" id="activities" className="py-24 bg-[#FAF6F0] w-full border-b border-slate-200/40">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+                <div className="space-y-4 max-w-3xl text-left">
+                  <span className="text-xs font-extrabold tracking-widest text-emerald-650 uppercase">Kegiatan Kami</span>
+                  <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Aktifitas & Dokumentasi</h2>
+                  <p className="text-base text-slate-600">Dokumentasi portofolio kerja, kesibukan tim cetak, serta event penting yang kami hadiri.</p>
+                </div>
+                {activities.length > 0 && (
+                  <button
+                    onClick={navigateToActivitiesList}
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-slate-200 hover:border-emerald-650 hover:bg-emerald-50/20 text-slate-700 hover:text-emerald-700 font-bold text-sm cursor-pointer transition-all"
+                  >
+                    <span>Lihat Semua Aktifitas</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
+
+              {activities.length > 0 ? (
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {activities.slice(0, 5).map((item, i) => (
+                    <article key={i} className="bg-white border border-slate-100/80 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group text-left">
+                      <div className="relative aspect-[16/10] bg-slate-100 overflow-hidden">
+                        {item.thumbnail ? (
+                          <img
+                            src={getImageUrl(item.thumbnail)}
+                            alt={item.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-slate-400 bg-slate-200 font-bold">No Image</div>
+                        )}
+                      </div>
+                      <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+                        <div className="space-y-2">
+                          <span className="text-[10px] font-bold text-slate-400 block">{new Date(item.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                          <h3 
+                            onClick={() => navigateToActivityDetail(item.slug)}
+                            className="text-lg font-bold text-slate-900 group-hover:text-emerald-600 transition-colors cursor-pointer line-clamp-2 leading-snug"
+                          >
+                            {item.title}
+                          </h3>
+                        </div>
+                        <button
+                          onClick={() => navigateToActivityDetail(item.slug)}
+                          className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 hover:text-emerald-750 group-hover:translate-x-0.5 cursor-pointer transition-all self-start"
+                        >
+                          <span>Lihat Detail</span>
+                          <ChevronRight className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              ) : (
+                <div className="bg-white border border-slate-200/60 border-dashed rounded-3xl p-12 text-center max-w-xl mx-auto space-y-4">
+                  <p className="text-sm text-slate-500 font-semibold">Belum ada aktifitas yang didokumentasikan saat ini.</p>
+                </div>
+              )}
+            </div>
+          </section>
+        )
+
+      case 'contact':
+        return renderContactForm()
+
       default:
         return null
     }
+  }
+
+  const renderContactForm = () => {
+    return (
+      <section id="contact" className="py-24 bg-slate-50 w-full border-t border-slate-200/40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-12 gap-12 items-stretch">
+            {/* Left side: Contact Info Card */}
+            <div className="lg:col-span-5 flex flex-col justify-between bg-emerald-950 text-white rounded-3xl p-8 sm:p-10 shadow-xl relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/20 to-teal-500/10 mix-blend-overlay"></div>
+              
+              <div className="relative z-10 space-y-8">
+                <div className="space-y-3">
+                  <span className="text-xs font-extrabold tracking-widest text-emerald-400 uppercase">Hubungi Kami</span>
+                  <h2 className="text-3xl font-extrabold tracking-tight">{site_config.contact_title || 'Kirimkan Pesan atau Konsultasi Gratis'}</h2>
+                  <p className="text-sm text-emerald-100/80 leading-relaxed font-normal">
+                    {site_config.contact_subtitle || 'Punya pertanyaan mengenai bahan, ukuran cetakan, atau ingin mendiskusikan pesanan khusus (custom)? Isi formulir, tim ahli kami akan segera menghubungi Anda.'}
+                  </p>
+                </div>
+
+                <div className="space-y-6">
+                  {site_config.address && (
+                    <div className="flex gap-4 items-start">
+                      <div className="w-10 h-10 rounded-xl bg-emerald-800/60 border border-emerald-700/50 flex items-center justify-center text-emerald-300 flex-shrink-0">
+                        <MapPin className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-bold text-white">Alamat</h4>
+                        <p className="text-xs text-emerald-100/70 mt-1">{site_config.address}</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {site_config.email && (
+                    <div className="flex gap-4 items-start">
+                      <div className="w-10 h-10 rounded-xl bg-emerald-800/60 border border-emerald-700/50 flex items-center justify-center text-emerald-300 flex-shrink-0">
+                        <Mail className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-bold text-white">Email Kami</h4>
+                        <a href={`mailto:${site_config.email}`} className="text-xs text-emerald-100/70 hover:text-white transition-colors mt-1 block">
+                          {site_config.email}
+                        </a>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="flex gap-4 items-start">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-800/60 border border-emerald-700/50 flex items-center justify-center text-emerald-300 flex-shrink-0">
+                      <Phone className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-bold text-white">WhatsApp Admin</h4>
+                      <a href={getWhatsAppLink("Halo, saya ingin bertanya lebih lanjut...")} target="_blank" rel="noreferrer" className="text-xs text-emerald-100/70 hover:text-white transition-colors mt-1 block">
+                        +{site_config.whatsapp_number}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="relative z-10 pt-8 border-t border-emerald-800/30 mt-8 flex items-center justify-end text-xs text-emerald-300/60">
+                <span className="flex items-center gap-1">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  Online & Realtime
+                </span>
+              </div>
+            </div>
+
+            {/* Right side: Interactive Form Card */}
+            <div className="lg:col-span-7 bg-white border border-slate-200/80 rounded-3xl p-8 sm:p-10 shadow-sm flex flex-col justify-between">
+              <form onSubmit={handleContactSubmit} className="space-y-6">
+                <div className="space-y-2">
+                  <label htmlFor="contact_name" className="text-xs font-bold text-slate-700 uppercase tracking-wider block">
+                    Nama Lengkap <span className="text-rose-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                      <User className="w-4 h-4" />
+                    </div>
+                    <input
+                      type="text"
+                      id="contact_name"
+                      value={contactName}
+                      onChange={(e) => setContactName(e.target.value)}
+                      placeholder="Masukkan nama lengkap Anda"
+                      required
+                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 text-sm transition-all bg-slate-50/50"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="contact_phone" className="text-xs font-bold text-slate-700 uppercase tracking-wider block">
+                    Nomor WhatsApp / Telepon <span className="text-rose-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                      <Phone className="w-4 h-4" />
+                    </div>
+                    <input
+                      type="tel"
+                      id="contact_phone"
+                      value={contactPhone}
+                      onChange={(e) => setContactPhone(e.target.value)}
+                      placeholder="Contoh: 08123456789"
+                      required
+                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 text-sm transition-all bg-slate-50/50"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="contact_message" className="text-xs font-bold text-slate-700 uppercase tracking-wider block">
+                    Pesan Anda <span className="text-rose-500">*</span>
+                  </label>
+                  <textarea
+                    id="contact_message"
+                    value={contactMessage}
+                    onChange={(e) => setContactMessage(e.target.value)}
+                    placeholder="Tuliskan spesifikasi produk cetakan yang ingin ditanyakan (ukuran, jumlah, bahan) atau pesan lainnya..."
+                    rows="4"
+                    required
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 text-sm transition-all bg-slate-50/50 resize-y"
+                  ></textarea>
+                </div>
+
+                {contactError && (
+                  <div className="p-4 rounded-xl bg-rose-50 border border-rose-100 text-rose-800 text-xs font-semibold animate-in fade-in duration-200">
+                    {contactError}
+                  </div>
+                )}
+
+                {contactSuccess && (
+                  <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-800 text-xs font-semibold animate-in fade-in duration-200">
+                    {contactSuccess}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={contactLoading}
+                  className="w-full inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-lg shadow-emerald-600/15 hover:shadow-emerald-600/25 disabled:bg-slate-300 disabled:shadow-none hover:-translate-y-0.5 active:translate-y-0 transition-all cursor-pointer"
+                >
+                  {contactLoading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Mengirim...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4" />
+                      <span>Kirim Pesan Sekarang</span>
+                    </>
+                  )}
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  // Helper to render full News List page
+  const renderNewsList = () => {
+    const filteredNews = newsList.filter(item => 
+      item.title.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-left min-h-[60vh] animate-in fade-in duration-300">
+        <div className="mb-10 space-y-4">
+          <button 
+            onClick={goHome} 
+            className="inline-flex items-center gap-2 text-sm font-semibold text-slate-650 hover:text-emerald-600 transition-colors cursor-pointer"
+          >
+            &larr; Kembali ke Home
+          </button>
+          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Kumpulan Berita & Artikel</h1>
+          <p className="text-sm text-slate-600">Temukan informasi, artikel edukatif, dan tips-tips bermanfaat seputar digital printing.</p>
+          
+          {/* Simple search bar */}
+          <div className="pt-2 max-w-md">
+            <input
+              type="text"
+              placeholder="Cari berita..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 text-sm transition-all"
+            />
+          </div>
+        </div>
+
+        {listLoading ? (
+          <div className="flex justify-center py-20">
+            <Loader2 className="w-8 h-8 text-emerald-600 animate-spin" />
+          </div>
+        ) : filteredNews.length > 0 ? (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredNews.map((item, i) => (
+              <article key={i} className="bg-white border border-slate-100/80 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group">
+                <div className="relative aspect-[16/10] bg-slate-100 overflow-hidden">
+                  {item.thumbnail ? (
+                    <img
+                      src={getImageUrl(item.thumbnail)}
+                      alt={item.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-slate-400 bg-slate-200 font-bold">No Image</div>
+                  )}
+                </div>
+                <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+                  <div className="space-y-2">
+                    <span className="text-[10px] font-bold text-slate-400 block">{new Date(item.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                    <h2 
+                      onClick={() => navigateToNewsDetail(item.slug)}
+                      className="text-lg font-bold text-slate-900 group-hover:text-emerald-600 transition-colors cursor-pointer line-clamp-2 leading-snug"
+                    >
+                      {item.title}
+                    </h2>
+                  </div>
+                  <button
+                    onClick={() => navigateToNewsDetail(item.slug)}
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 hover:text-emerald-750 cursor-pointer transition-all self-start"
+                  >
+                    <span>Baca Selengkapnya</span>
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-20">
+            <p className="text-slate-500 font-medium">Tidak ada berita yang cocok dengan pencarian Anda.</p>
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  // Helper to render full Activities List page
+  const renderActivitiesList = () => {
+    const filteredActivities = activitiesList.filter(item => 
+      item.title.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-left min-h-[60vh] animate-in fade-in duration-300">
+        <div className="mb-10 space-y-4">
+          <button 
+            onClick={goHome} 
+            className="inline-flex items-center gap-2 text-sm font-semibold text-slate-650 hover:text-emerald-600 transition-colors cursor-pointer"
+          >
+            &larr; Kembali ke Home
+          </button>
+          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Dokumentasi & Kegiatan Kami</h1>
+          <p className="text-sm text-slate-600">Simak berbagai aktifitas produksi cetak kami, proses pengerjaan pesanan, serta event internal/eksternal.</p>
+          
+          {/* Simple search bar */}
+          <div className="pt-2 max-w-md">
+            <input
+              type="text"
+              placeholder="Cari aktifitas..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 text-sm transition-all"
+            />
+          </div>
+        </div>
+
+        {listLoading ? (
+          <div className="flex justify-center py-20">
+            <Loader2 className="w-8 h-8 text-emerald-600 animate-spin" />
+          </div>
+        ) : filteredActivities.length > 0 ? (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredActivities.map((item, i) => (
+              <article key={i} className="bg-white border border-slate-100/80 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group">
+                <div className="relative aspect-[16/10] bg-slate-100 overflow-hidden">
+                  {item.thumbnail ? (
+                    <img
+                      src={getImageUrl(item.thumbnail)}
+                      alt={item.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-slate-400 bg-slate-200 font-bold">No Image</div>
+                  )}
+                </div>
+                <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+                  <div className="space-y-2">
+                    <span className="text-[10px] font-bold text-slate-400 block">{new Date(item.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                    <h2 
+                      onClick={() => navigateToActivityDetail(item.slug)}
+                      className="text-lg font-bold text-slate-900 group-hover:text-emerald-600 transition-colors cursor-pointer line-clamp-2 leading-snug"
+                    >
+                      {item.title}
+                    </h2>
+                  </div>
+                  <button
+                    onClick={() => navigateToActivityDetail(item.slug)}
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 hover:text-emerald-750 cursor-pointer transition-all self-start"
+                  >
+                    <span>Lihat Detail</span>
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-20">
+            <p className="text-slate-500 font-medium">Tidak ada dokumentasi kegiatan yang cocok dengan pencarian Anda.</p>
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  // Helper to render Detail View page for news and activities
+  const renderDetail = () => {
+    if (detailLoading) {
+      return (
+        <div className="flex justify-center items-center min-h-[60vh]">
+          <Loader2 className="w-10 h-10 text-emerald-600 animate-spin" />
+        </div>
+      )
+    }
+
+    if (!detailItem) {
+      return (
+        <div className="max-w-3xl mx-auto px-4 py-20 text-center space-y-4">
+          <p className="text-slate-500 text-lg font-semibold">Konten tidak ditemukan atau gagal dimuat.</p>
+          <button onClick={goHome} className="px-6 py-2.5 rounded-xl bg-emerald-605 hover:bg-emerald-700 text-white font-bold text-sm cursor-pointer transition-all shadow-md">
+            Kembali ke Beranda
+          </button>
+        </div>
+      )
+    }
+
+    const isNews = currentPage === 'news-detail'
+    const backAction = isNews ? navigateToNewsList : navigateToActivitiesList
+
+    return (
+      <article className="max-w-4xl mx-auto px-4 sm:px-6 py-12 text-left animate-in fade-in duration-300 break-words">
+        <div className="mb-8 space-y-4">
+          <button 
+            onClick={backAction} 
+            className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-600 hover:text-emerald-750 transition-colors cursor-pointer"
+          >
+            &larr; Kembali ke Daftar
+          </button>
+          
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight break-words">
+            {detailItem.title}
+          </h1>
+
+          <div className="flex items-center gap-2 text-xs text-slate-400 font-bold">
+            <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 uppercase tracking-wide">
+              {isNews ? 'Berita' : 'Aktifitas'}
+            </span>
+            <span>&bull;</span>
+            <span>{new Date(detailItem.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+          </div>
+        </div>
+
+        {detailItem.thumbnail && (
+          <div className="mb-10 rounded-2xl overflow-hidden shadow-lg border border-slate-200/50 bg-slate-100 max-h-[500px]">
+            <img 
+              src={getImageUrl(detailItem.thumbnail)} 
+              alt={detailItem.title}
+              className="w-full h-full object-cover object-center"
+            />
+          </div>
+        )}
+
+        <div className="bg-white border border-slate-200/60 rounded-3xl p-8 sm:p-10 shadow-sm mb-12 overflow-hidden">
+          <div 
+            className="html-content break-words"
+            dangerouslySetInnerHTML={{ __html: detailItem.description }} 
+          />
+        </div>
+
+        <div className="border-t border-slate-200 pt-8 flex items-center justify-between">
+          <button 
+            onClick={backAction} 
+            className="px-6 py-3 rounded-xl border border-slate-200 hover:border-emerald-600 hover:bg-slate-50 text-slate-700 font-bold text-sm cursor-pointer transition-all"
+          >
+            &larr; Kembali ke Daftar
+          </button>
+          
+          <a
+            href={getWhatsAppLink(`Halo, saya membaca artikel "${detailItem.title}" di website Anda dan ingin bertanya mengenai hal ini...`)}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold shadow-md hover:scale-[1.01] transition-all"
+          >
+            <MessageSquare className="w-4 h-4 fill-white" />
+            <span>Tanya Admin via WA</span>
+          </a>
+        </div>
+      </article>
+    )
   }
 
   return (
@@ -843,7 +1596,7 @@ function App() {
       <header className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-slate-100 shadow-sm transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           {/* Logo Brand */}
-          <a href="#" className="flex items-center gap-3 group">
+          <a href="#" onClick={goHome} className="flex items-center gap-3 group">
             {getImageUrl(site_config.logo) ? (
               <img src={getImageUrl(site_config.logo)} alt={site_config.site_name} className="h-10 w-auto object-contain" />
             ) : (
@@ -858,12 +1611,15 @@ function App() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
-            <a href="#" className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Home</a>
-            {isSectionActive('services') && <a href="#services" className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Layanan</a>}
-            {isSectionActive('benefits') && <a href="#benefits" className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Keunggulan</a>}
-            {isSectionActive('portfolio') && <a href="#portfolio" className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Portofolio</a>}
-            {isSectionActive('timeline') && <a href="#timeline" className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Cara Pesan</a>}
-            {isSectionActive('testimonials') && <a href="#testimonials" className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Testimoni</a>}
+            <a href="#" onClick={goHome} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Home</a>
+            {isSectionActive('services') && <a href="#services" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Layanan</a>}
+            {isSectionActive('benefits') && <a href="#benefits" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('benefits')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Keunggulan</a>}
+            {isSectionActive('portfolio') && <a href="#portfolio" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Portofolio</a>}
+            {isSectionActive('timeline') && <a href="#timeline" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('timeline')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Cara Pesan</a>}
+             {isSectionActive('testimonials') && <a href="#testimonials" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('testimonials')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Testimoni</a>}
+            {isSectionActive('news') && <a href="#news" onClick={(e) => { e.preventDefault(); navigateToNewsList(); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Berita</a>}
+            {isSectionActive('activities') && <a href="#activities" onClick={(e) => { e.preventDefault(); navigateToActivitiesList(); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Aktifitas</a>}
+            <a href="#contact" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Kontak</a>
           </nav>
 
           {/* WhatsApp Header Button */}
@@ -896,7 +1652,7 @@ function App() {
           <div className="md:hidden border-t border-slate-100 bg-white/95 backdrop-blur-md px-4 pt-2 pb-6 space-y-2 flex flex-col shadow-inner animate-in fade-in duration-200">
             <a
               href="#"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={goHome}
               className="px-3 py-2 rounded-lg text-base font-semibold text-slate-700 hover:bg-slate-50 hover:text-emerald-600"
             >
               Home
@@ -904,7 +1660,7 @@ function App() {
             {isSectionActive('services') && (
               <a
                 href="#services"
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => { setMobileMenuOpen(false); setCurrentPage('landing'); setTimeout(() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' }), 50); }}
                 className="px-3 py-2 rounded-lg text-base font-semibold text-slate-700 hover:bg-slate-50 hover:text-emerald-600"
               >
                 Layanan
@@ -913,7 +1669,7 @@ function App() {
             {isSectionActive('benefits') && (
               <a
                 href="#benefits"
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => { setMobileMenuOpen(false); setCurrentPage('landing'); setTimeout(() => document.getElementById('benefits')?.scrollIntoView({ behavior: 'smooth' }), 50); }}
                 className="px-3 py-2 rounded-lg text-base font-semibold text-slate-700 hover:bg-slate-50 hover:text-emerald-600"
               >
                 Keunggulan
@@ -922,7 +1678,7 @@ function App() {
             {isSectionActive('portfolio') && (
               <a
                 href="#portfolio"
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => { setMobileMenuOpen(false); setCurrentPage('landing'); setTimeout(() => document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' }), 50); }}
                 className="px-3 py-2 rounded-lg text-base font-semibold text-slate-700 hover:bg-slate-50 hover:text-emerald-600"
               >
                 Portofolio
@@ -931,7 +1687,7 @@ function App() {
             {isSectionActive('timeline') && (
               <a
                 href="#timeline"
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => { setMobileMenuOpen(false); setCurrentPage('landing'); setTimeout(() => document.getElementById('timeline')?.scrollIntoView({ behavior: 'smooth' }), 50); }}
                 className="px-3 py-2 rounded-lg text-base font-semibold text-slate-700 hover:bg-slate-50 hover:text-emerald-600"
               >
                 Cara Pesan
@@ -940,12 +1696,37 @@ function App() {
             {isSectionActive('testimonials') && (
               <a
                 href="#testimonials"
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => { setMobileMenuOpen(false); setCurrentPage('landing'); setTimeout(() => document.getElementById('testimonials')?.scrollIntoView({ behavior: 'smooth' }), 50); }}
                 className="px-3 py-2 rounded-lg text-base font-semibold text-slate-700 hover:bg-slate-50 hover:text-emerald-600"
               >
                 Testimoni
               </a>
             )}
+            {isSectionActive('news') && (
+              <a
+                href="#"
+                onClick={(e) => { e.preventDefault(); navigateToNewsList(); }}
+                className="px-3 py-2 rounded-lg text-base font-semibold text-slate-700 hover:bg-slate-50 hover:text-emerald-600"
+              >
+                Berita
+              </a>
+            )}
+            {isSectionActive('activities') && (
+              <a
+                href="#"
+                onClick={(e) => { e.preventDefault(); navigateToActivitiesList(); }}
+                className="px-3 py-2 rounded-lg text-base font-semibold text-slate-700 hover:bg-slate-50 hover:text-emerald-600"
+              >
+                Aktifitas
+              </a>
+            )}
+            <a
+              href="#contact"
+              onClick={() => { setMobileMenuOpen(false); setCurrentPage('landing'); setTimeout(() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }), 50); }}
+              className="px-3 py-2 rounded-lg text-base font-semibold text-slate-700 hover:bg-slate-50 hover:text-emerald-600"
+            >
+              Hubungi Kami
+            </a>
             <a
               href={getWhatsAppLink("Halo PrintHub, saya ingin melakukan pemesanan...")}
               target="_blank"
@@ -959,7 +1740,15 @@ function App() {
         )}
       </header>
 
-      {sections.map((sec) => sec.is_active && renderSectionByKey(sec.section_key))}
+      {currentPage === 'landing' ? (
+        sections.map((sec) => sec.is_active && renderSectionByKey(sec.section_key))
+      ) : currentPage === 'news-list' ? (
+        renderNewsList()
+      ) : currentPage === 'activity-list' ? (
+        renderActivitiesList()
+      ) : (currentPage === 'news-detail' || currentPage === 'activity-detail') ? (
+        renderDetail()
+      ) : null}
 
       {/* 9. WhatsApp Sticky Floating Button with Pulse Animation */}
       <a
