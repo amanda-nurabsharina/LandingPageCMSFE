@@ -1050,8 +1050,12 @@ function App() {
               <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
                 <div className="space-y-4 max-w-3xl text-left">
                   <span className="text-xs font-extrabold tracking-widest text-emerald-650 uppercase">Kabar Terbaru</span>
-                  <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Berita & Informasi Terkini</h2>
-                  <p className="text-base text-slate-600">Ikuti perkembangan terbaru mengenai layanan, promo, dan tips seputar percetakan digital kami.</p>
+                  <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+                    {site_config.news_title || 'Berita & Informasi Terkini'}
+                  </h2>
+                  <p className="text-base text-slate-600">
+                    {site_config.news_subtitle || 'Ikuti perkembangan terbaru mengenai layanan, promo, dan tips seputar percetakan digital kami.'}
+                  </p>
                 </div>
                 {news.length > 0 && (
                   <button
@@ -1116,8 +1120,12 @@ function App() {
               <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
                 <div className="space-y-4 max-w-3xl text-left">
                   <span className="text-xs font-extrabold tracking-widest text-emerald-650 uppercase">Kegiatan Kami</span>
-                  <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Aktifitas & Dokumentasi</h2>
-                  <p className="text-base text-slate-600">Dokumentasi portofolio kerja, kesibukan tim cetak, serta event penting yang kami hadiri.</p>
+                  <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+                    {site_config.activities_title || 'Aktifitas & Dokumentasi'}
+                  </h2>
+                  <p className="text-base text-slate-600">
+                    {site_config.activities_subtitle || 'Dokumentasi portofolio kerja, kesibukan tim cetak, serta event penting yang kami hadiri.'}
+                  </p>
                 </div>
                 {activities.length > 0 && (
                   <button
