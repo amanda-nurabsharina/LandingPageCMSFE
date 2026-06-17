@@ -661,10 +661,10 @@ function App() {
               <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
                 <span className="text-xs font-extrabold tracking-widest text-emerald-700 uppercase">Layanan Kami</span>
                 <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                  Solusi Percetakan Cetak Custom Lengkap
+                  {renderFormattedText(site_config.services_title || 'Solusi Percetakan Cetak Custom Lengkap', true)}
                 </h2>
                 <p className="text-base text-slate-600">
-                  Kami siap mencetak berbagai produk kebutuhan branding, promosi, dan bisnis Anda dengan mesin berteknologi canggih.
+                  {renderFormattedText(site_config.services_subtitle || 'Kami siap mencetak berbagai produk kebutuhan branding, promosi, dan bisnis Anda dengan mesin berteknologi canggih.', false)}
                 </p>
               </div>
 
@@ -808,10 +808,10 @@ function App() {
               <div className="text-center max-w-3xl mx-auto space-y-4 mb-12">
                 <span className="text-xs font-extrabold tracking-widest text-emerald-600 uppercase">Portofolio</span>
                 <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                  Hasil Cetakan Terbaik Kami
+                  {renderFormattedText(site_config.portfolio_title || 'Hasil Cetakan Terbaik Kami', true)}
                 </h2>
                 <p className="text-base text-slate-600">
-                  Berikut adalah beberapa galeri foto produk cetakan yang telah diselesaikan untuk klien-klien kami yang puas.
+                  {renderFormattedText(site_config.portfolio_subtitle || 'Berikut adalah beberapa galeri foto produk cetakan yang telah diselesaikan untuk klien-klien kami yang puas.', false)}
                 </p>
               </div>
 
@@ -897,10 +897,10 @@ function App() {
               <div className="text-center max-w-3xl mx-auto space-y-4 mb-20">
                 <span className="text-xs font-extrabold tracking-widest text-emerald-650 uppercase">Proses Kerja</span>
                 <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                  Cara Pemesanan Sangat Mudah
+                  {renderFormattedText(site_config.order_steps_title || 'Cara Pemesanan Sangat Mudah', true)}
                 </h2>
                 <p className="text-base text-slate-600">
-                  Cukup selesaikan 4 langkah mudah berikut untuk mewujudkan ide Anda dalam hasil cetak siap pakai.
+                  {renderFormattedText(site_config.order_steps_subtitle || 'Cukup selesaikan 4 langkah mudah berikut untuk mewujudkan ide Anda dalam hasil cetak siap pakai.', false)}
                 </p>
               </div>
 
@@ -959,10 +959,10 @@ function App() {
               <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
                 <span className="text-xs font-extrabold tracking-widest text-emerald-650 uppercase">Testimoni</span>
                 <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                  Apa Kata Pelanggan Setia Kami
+                  {renderFormattedText(site_config.testimonials_title || 'Apa Kata Pelanggan Setia Kami', true)}
                 </h2>
                 <p className="text-base text-slate-600">
-                  Kelegaan dan kepuasan pelanggan adalah komitmen utama kami. Simak penilaian langsung mereka.
+                  {renderFormattedText(site_config.testimonials_subtitle || 'Kelegaan dan kepuasan pelanggan adalah komitmen utama kami. Simak penilaian langsung mereka.', false)}
                 </p>
               </div>
 
