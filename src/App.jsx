@@ -1776,11 +1776,15 @@ function App() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-12 gap-12 pb-12 border-b border-slate-800">
             {/* Brand block */}
             <div className="lg:col-span-5 space-y-4">
-              <a href="#" className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white font-extrabold text-xl shadow-md">
-                  ND
-                </div>
-                <span className="text-xl font-bold tracking-tight text-white">
+              <a href="#" onClick={goHome} className="flex items-center gap-3 group">
+                {getImageUrl(site_config.logo) ? (
+                  <img src={getImageUrl(site_config.logo)} alt={site_config.site_name} className="h-10 w-auto object-contain" />
+                ) : (
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white font-extrabold text-xl shadow-md group-hover:scale-105 transition-transform">
+                    ND
+                  </div>
+                )}
+                <span className="text-xl font-bold tracking-tight text-white group-hover:text-emerald-500 transition-colors">
                   {site_config.site_name}
                 </span>
               </a>
