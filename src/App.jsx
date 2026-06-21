@@ -1789,7 +1789,7 @@ function App() {
                 </span>
               </a>
               <p className="text-sm text-slate-400 max-w-sm leading-relaxed">
-                Menyediakan layanan cetak banner, stiker kemasan, brosur, kartu nama, dan aneka merchandise digital berkualitas tinggi dengan pengerjaan kilat.
+                {site_config?.footer_description || "Menyediakan layanan cetak banner, stiker kemasan, brosur, kartu nama, dan aneka merchandise digital berkualitas tinggi dengan pengerjaan kilat."}
               </p>
               
               {/* Social links */}
