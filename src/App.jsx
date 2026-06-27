@@ -64,16 +64,32 @@ const getApiBaseUrl = () => {
     }
     return 'http://127.0.0.1:8000'
   }
-  // In production, automatically fallback to the 'api.' subdomain of the current domain
+  // In production, automatically fallback to the appropriate 'api' subdomain
   const protocol = window.location.protocol
-  const parts = hostname.split('.')
-  let baseDomain = hostname
-  if (parts.length >= 2) {
-    if (parts[0] === 'www') {
-      baseDomain = parts.slice(1).join('.')
-    }
+  
+  if (/^[0-9.]+$/.test(hostname)) {
+    return window.location.origin
   }
-  return `${protocol}//api.${baseDomain}`
+
+  let cleanHostname = hostname
+  const rawParts = hostname.split('.')
+  if (rawParts.length >= 2 && rawParts[0] === 'www') {
+    cleanHostname = rawParts.slice(1).join('.')
+  }
+
+  const parts = cleanHostname.split('.')
+  if (parts.length > 2) {
+    if (parts[0].startsWith('api')) {
+      return window.location.origin
+    }
+    // E.g. landingpage.fourplusone.my.id -> apilandingpage.fourplusone.my.id
+    const apiSubdomain = 'api' + parts[0]
+    const rest = parts.slice(1).join('.')
+    return `${protocol}//${apiSubdomain}.${rest}`
+  } else {
+    // E.g. clientdomain.com -> api.clientdomain.com
+    return `${protocol}//api.${cleanHostname}`
+  }
 }
 
 const API_BASE_URL = getApiBaseUrl()
