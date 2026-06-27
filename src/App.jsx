@@ -64,8 +64,16 @@ const getApiBaseUrl = () => {
     }
     return 'http://127.0.0.1:8000'
   }
-  // In production, automatically fallback to the current server origin domain
-  return window.location.origin
+  // In production, automatically fallback to the 'api.' subdomain of the current domain
+  const protocol = window.location.protocol
+  const parts = hostname.split('.')
+  let baseDomain = hostname
+  if (parts.length >= 2) {
+    if (parts[0] === 'www') {
+      baseDomain = parts.slice(1).join('.')
+    }
+  }
+  return `${protocol}//api.${baseDomain}`
 }
 
 const API_BASE_URL = getApiBaseUrl()
