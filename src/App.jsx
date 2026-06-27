@@ -71,25 +71,31 @@ const getApiBaseUrl = () => {
     return window.location.origin
   }
 
+  // 1. Special handling for the main domain (fourplusone.my.id)
+  if (hostname.endsWith('fourplusone.my.id')) {
+    if (hostname === 'fourplusone.my.id') {
+      return `${protocol}//apilandingpage.fourplusone.my.id`
+    }
+    const parts = hostname.split('.')
+    // E.g. landingpage.fourplusone.my.id -> apilandingpage.fourplusone.my.id
+    if (parts[0] !== 'api' && !parts[0].startsWith('api')) {
+      return `${protocol}//api${parts[0]}.fourplusone.my.id`
+    }
+    return window.location.origin
+  }
+
+  // 2. Generic handling for other custom client domains
   let cleanHostname = hostname
   const rawParts = hostname.split('.')
   if (rawParts.length >= 2 && rawParts[0] === 'www') {
     cleanHostname = rawParts.slice(1).join('.')
   }
 
-  const parts = cleanHostname.split('.')
-  if (parts.length > 2) {
-    if (parts[0].startsWith('api')) {
-      return window.location.origin
-    }
-    // E.g. landingpage.fourplusone.my.id -> apilandingpage.fourplusone.my.id
-    const apiSubdomain = 'api' + parts[0]
-    const rest = parts.slice(1).join('.')
-    return `${protocol}//${apiSubdomain}.${rest}`
-  } else {
-    // E.g. clientdomain.com -> api.clientdomain.com
-    return `${protocol}//api.${cleanHostname}`
+  if (cleanHostname.startsWith('api.')) {
+    return window.location.origin
   }
+
+  return `${protocol}//api.${cleanHostname}`
 }
 
 const API_BASE_URL = getApiBaseUrl()
