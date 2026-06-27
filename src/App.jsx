@@ -13,6 +13,7 @@ import {
   MessageSquare,
   Edit,
   ChevronRight,
+  ChevronLeft,
   Star,
   Menu,
   X,
@@ -116,63 +117,536 @@ const renderIcon = (iconName, className = "w-6 h-6") => {
   return icons[iconName] || <Printer className={className} />
 }
 
-// Helper to render text with bracket markup [...] using dynamic colors
-const renderFormattedText = (text, isTitle = false) => {
-  if (!text) return null
+// Translations dictionary for premium multilingual experience
+const translations = {
+  id: {
+    // Nav & General
+    home: "Home",
+    services: "Layanan",
+    benefits: "Keunggulan",
+    portfolio: "Portofolio",
+    timeline: "Cara Pesan",
+    work_steps: "Cara Kerja",
+    testimonials: "Testimoni",
+    news: "Berita",
+    activities: "Aktifitas",
+    contact: "Kontak",
+    contact_us: "Hubungi Kami",
+    contact_wa: "Hubungi via WhatsApp",
+    back_to_home: "Kembali ke Home",
+    back_to_home_main: "Kembali ke Beranda",
+    back_to_list: "Kembali ke Daftar",
+    
+    // Headers & Subtitles / Fallbacks
+    services_badge: "Layanan Kami",
+    services_title: "Solusi Percetakan Cetak Custom Lengkap",
+    services_subtitle: "Kami siap mencetak berbagai produk kebutuhan branding, promosi, dan bisnis Anda dengan mesin berteknologi canggih.",
+    order_now: "Pesan Sekarang",
+    
+    no_premium_services: "Belum ada layanan premium yang tersedia saat ini.",
+    no_work_steps: "Belum ada langkah cara kerja yang ditambahkan saat ini.",
+    about_badge: "Tentang Kami",
+    no_about_content: "Belum ada konten Tentang Kami saat ini.",
+    benefits_badge: "Keunggulan",
+    portfolio_badge: "Portofolio",
+    portfolio_title: "Hasil Cetakan Terbaik Kami",
+    portfolio_subtitle: "Berikut adalah beberapa galeri foto produk cetakan yang telah diselesaikan untuk klien-klien kami yang puas.",
+    portfolio_updating_title: "Portofolio Sedang Diperbarui",
+    portfolio_updating_desc: "Kami sedang memperbarui galeri cetakan digital terbaru kami. Hubungi admin kami untuk melihat katalog foto sampel cetakan stiker, brosur, atau banner lengkap!",
+    request_sample: "Minta Katalog Sampel",
+    
+    timeline_badge: "Proses Kerja",
+    timeline_title: "Cara Pemesanan Sangat Mudah",
+    timeline_subtitle: "Cukup selesaikan 4 langkah mudah berikut untuk mewujudkan ide Anda dalam hasil cetak siap pakai.",
+    contact_wa_btn: "Hubungi WhatsApp",
+    
+    testimonials_badge: "Testimoni",
+    testimonials_title: "Apa Kata Pelanggan Setia Kami",
+    testimonials_subtitle: "Kelegaan dan kepuasan pelanggan adalah komitmen utama kami. Simak penilaian langsung mereka.",
+    
+    ready_to_print_title: "Siap Mencetak Ide Anda?",
+    ready_to_print_subtitle: "Yuk, mulai konsultasi gratis dengan tim ahli kami untuk mendapatkan hasil terbaik untuk bisnismu!",
+    view_services: "Lihat Layanan",
+    
+    news_badge: "Kabar Terbaru",
+    news_title: "Berita & Informasi Terkini",
+    news_subtitle: "Ikuti perkembangan terbaru mengenai layanan, promo, dan tips seputar percetakan digital kami.",
+    view_all_news: "Lihat Semua Berita",
+    read_more: "Baca Selengkapnya",
+    no_news: "Belum ada berita yang diterbitkan saat ini.",
+    
+    activities_badge: "Kegiatan Kami",
+    activities_title: "Aktifitas & Dokumentasi",
+    activities_subtitle: "Dokumentasi portofolio kerja, kesibukan tim cetak, serta event penting yang kami hadiri.",
+    view_all_activities: "Lihat Semua Aktifitas",
+    view_details: "Lihat Detail",
+    no_activities: "Belum ada aktifitas yang didokumentasikan saat ini.",
+    
+    contact_title: "Kirimkan Pesan atau Konsultasi Gratis",
+    contact_subtitle: "Punya pertanyaan mengenai bahan, ukuran cetakan, atau ingin mendiskusikan pesanan khusus (custom)? Isi formulir, tim ahli kami akan segera menghubungi Anda.",
+    address: "Alamat",
+    our_email: "Email Kami",
+    wa_admin: "WhatsApp Admin",
+    online_realtime: "Online & Realtime",
+    full_name: "Nama Lengkap",
+    enter_full_name: "Masukkan nama lengkap Anda",
+    wa_phone_number: "Nomor WhatsApp / Telepon",
+    example_phone: "Contoh: 08123456789",
+    your_message: "Pesan Anda",
+    message_placeholder: "Tuliskan spesifikasi produk cetakan yang ingin ditanyakan (ukuran, jumlah, bahan) atau pesan lainnya...",
+    sending: "Mengirim...",
+    send_message_now: "Kirim Pesan Sekarang",
+    
+    news_articles_title: "Kumpulan Berita & Artikel",
+    news_articles_subtitle: "Temukan informasi, artikel edukatif, dan tips-tips bermanfaat seputar digital printing.",
+    search_news: "Cari berita...",
+    no_news_match: "Tidak ada berita yang cocok dengan pencarian Anda.",
+    
+    doc_activities_title: "Dokumentasi & Kegiatan Kami",
+    doc_activities_subtitle: "Simak berbagai aktifitas produksi cetak kami, proses pengerjaan pesanan, serta event internal/eksternal.",
+    search_activities: "Cari aktifitas...",
+    no_activities_match: "Tidak ada dokumentasi kegiatan yang cocok dengan pencarian Anda.",
+    content_not_found: "Konten tidak ditemukan atau gagal dimuat.",
+    
+    ask_admin_wa: "Tanya Admin via WA",
+    instant_wa: "Pesan Instant via WhatsApp",
+    navigation: "Navigasi",
+    printing_services: "Layanan Cetak",
+    our_advantages: "Keunggulan Kami",
+    Semua: "Semua",
+    
+    // Statistics & Fallback Items translations (optional but good to have)
+    clients_satisfied: "Klien Puas",
+    products_delivered: "Produk Terkirim",
+    experience: "Pengalaman",
+    years: "Tahun",
+    client_rating: "Rating Klien",
+    
+    hero_badge: "Percetakan Digital",
+    hero_title: "Wujudkan Ide Anda Dalam Cetakan",
+    hero_subtitle: "Temukan solusi percetakan digital berkualitas terbaik untuk spanduk, brosur, stiker, dan kemasan Anda.",
+    why_choose_title: "Mengapa Memilih Kami?",
+    why_choose_subtitle: "Prioritas utama kami adalah memberikan hasil cetak dengan kualitas premium, pengerjaan cepat, dan pelayanan terbaik untuk Anda.",
+    why_choose_feat1: "Kualitas cetak tajam & presisi",
+    why_choose_feat2: "Tim desainer profesional",
+    why_choose_feat3: "Pengerjaan cepat & tepat waktu",
+    why_choose_feat4: "Harga terjangkau & kompetitif",
+    
+    order_step_1_title: "Konsultasi",
+    order_step_1_desc: "Hubungi kami via WhatsApp untuk konsultasi bahan, ukuran, dan jumlah cetak.",
+    order_step_2_title: "Desain",
+    order_step_2_desc: "Kirim file desain Anda atau gunakan jasa tim desainer kami untuk hasil maksimal.",
+    order_step_3_title: "Cetak",
+    order_step_3_desc: "Proses cetak cepat menggunakan mesin digital printing berteknologi modern.",
+    order_step_4_title: "Selesai",
+    order_step_4_desc: "Hasil cetakan siap diambil atau dikirim langsung ke alamat Anda dengan aman.",
+    connecting_to_db: "Menghubungkan ke database...",
+    failed_send_lead: "Gagal mengirim pesan. Silakan coba beberapa saat lagi.",
+    success_send_lead: "Pesan Anda berhasil terkirim!",
+    all_fields_required: "Semua kolom wajib diisi."
+  },
+  en: {
+    // Nav & General
+    home: "Home",
+    services: "Services",
+    benefits: "Advantages",
+    portfolio: "Portfolio",
+    timeline: "How to Order",
+    work_steps: "How it Works",
+    testimonials: "Testimonials",
+    news: "News",
+    activities: "Activities",
+    contact: "Contact",
+    contact_us: "Contact Us",
+    contact_wa: "Contact via WhatsApp",
+    back_to_home: "Back to Home",
+    back_to_home_main: "Back to Home",
+    back_to_list: "Back to List",
+    
+    // Headers & Subtitles / Fallbacks
+    services_badge: "Our Services",
+    services_title: "Complete Custom Printing Solutions",
+    services_subtitle: "We are ready to print various products for your branding, promotional, and business needs with state-of-the-art machinery.",
+    order_now: "Order Now",
+    
+    no_premium_services: "No premium services available at this time.",
+    no_work_steps: "No work steps added at this time.",
+    about_badge: "About Us",
+    no_about_content: "No About Us content available at this time.",
+    benefits_badge: "Advantages",
+    portfolio_badge: "Portfolio",
+    portfolio_title: "Our Best Printed Products",
+    portfolio_subtitle: "Here are some galleries of printed products completed for our satisfied clients.",
+    portfolio_updating_title: "Portfolio is Being Updated",
+    portfolio_updating_desc: "We are updating our latest digital print gallery. Contact our admin to see the full catalog of stickers, brochures, or banners!",
+    request_sample: "Request Sample Catalog",
+    
+    timeline_badge: "Work Process",
+    timeline_title: "Very Easy Ordering Process",
+    timeline_subtitle: "Simply complete the following 4 easy steps to bring your ideas to life in ready-to-use print.",
+    contact_wa_btn: "Contact WhatsApp",
+    
+    testimonials_badge: "Testimonials",
+    testimonials_title: "What Our Loyal Customers Say",
+    testimonials_subtitle: "Customer satisfaction is our main commitment. Hear directly from them.",
+    
+    ready_to_print_title: "Ready to Print Your Ideas?",
+    ready_to_print_subtitle: "Let's start a free consultation with our expert team to get the best results for your business!",
+    view_services: "View Services",
+    
+    news_badge: "Latest News",
+    news_title: "Latest News & Information",
+    news_subtitle: "Follow the latest developments about services, promos, and tips about our digital printing.",
+    view_all_news: "View All News",
+    read_more: "Read More",
+    no_news: "No news published at this time.",
+    
+    activities_badge: "Our Activities",
+    activities_title: "Activities & Documentation",
+    activities_subtitle: "Documentation of work portfolio, printing team operations, and important events we attend.",
+    view_all_activities: "View All Activities",
+    view_details: "View Details",
+    no_activities: "No activities documented at this time.",
+    
+    contact_title: "Send a Message or Free Consultation",
+    contact_subtitle: "Have questions about materials, print sizes, or want to discuss a custom order? Fill out the form, our expert team will contact you shortly.",
+    address: "Address",
+    our_email: "Our Email",
+    wa_admin: "WhatsApp Admin",
+    online_realtime: "Online & Realtime",
+    full_name: "Full Name",
+    enter_full_name: "Enter your full name",
+    wa_phone_number: "WhatsApp / Phone Number",
+    example_phone: "Example: 08123456789",
+    your_message: "Your Message",
+    message_placeholder: "Write down print specifications (size, quantity, material) or other questions...",
+    sending: "Sending...",
+    send_message_now: "Send Message Now",
+    
+    news_articles_title: "News & Articles Collection",
+    news_articles_subtitle: "Find information, educational articles, and useful tips about digital printing.",
+    search_news: "Search news...",
+    no_news_match: "No news matches your search.",
+    
+    doc_activities_title: "Our Documentation & Activities",
+    doc_activities_subtitle: "Follow our printing production activities, order processes, and internal/external events.",
+    search_activities: "Search activities...",
+    no_activities_match: "No activity documentation matches your search.",
+    content_not_found: "Content not found or failed to load.",
+    
+    ask_admin_wa: "Ask Admin via WA",
+    instant_wa: "Instant Order via WhatsApp",
+    navigation: "Navigation",
+    printing_services: "Printing Services",
+    our_advantages: "Our Advantages",
+    Semua: "All",
+    
+    // Statistics & Fallback Items translations (optional but good to have)
+    clients_satisfied: "Satisfied Clients",
+    products_delivered: "Products Delivered",
+    experience: "Experience",
+    years: "Years",
+    client_rating: "Client Rating",
+    
+    hero_badge: "Digital Printing",
+    hero_title: "Bring Your Ideas to Life in Print",
+    hero_subtitle: "Find the best quality digital printing solutions for your banners, brochures, stickers, and packaging.",
+    why_choose_title: "Why Choose Us?",
+    why_choose_subtitle: "Our main priority is to deliver premium quality print, fast turnaround, and the best service for you.",
+    why_choose_feat1: "Sharp & precise print quality",
+    why_choose_feat2: "Professional designer team",
+    why_choose_feat3: "Fast & on-time delivery",
+    why_choose_feat4: "Affordable & competitive pricing",
+    
+    order_step_1_title: "Consultation",
+    order_step_1_desc: "Contact us via WhatsApp for consultation on materials, size, and print quantity.",
+    order_step_2_title: "Design",
+    order_step_2_desc: "Send your design file or use our designer team services for best results.",
+    order_step_3_title: "Print",
+    order_step_3_desc: "Fast printing process using digital printing machinery with modern technology.",
+    order_step_4_title: "Done",
+    order_step_4_desc: "Printed results are ready to be picked up or shipped directly to your address safely.",
+    connecting_to_db: "Connecting to database...",
+    failed_send_lead: "Failed to send message. Please try again later.",
+    success_send_lead: "Your message has been successfully sent!",
+    all_fields_required: "All fields are required."
+  }
+};
 
-  const hasBrackets = text.includes('[') && text.includes(']')
+const translateText = (text, lang) => {
+  if (lang !== 'en') return text;
+  if (!text || typeof text !== 'string') return text;
+  
+  const textMap = {
+    'Home': 'Home',
+    'Layanan': 'Services',
+    'Keunggulan': 'Advantages',
+    'Portofolio': 'Portfolio',
+    'Cara Pesan': 'How to Order',
+    'Cara Kerja': 'How it Works',
+    'Testimoni': 'Testimonials',
+    'Berita': 'News',
+    'Aktifitas': 'Activities',
+    'Kontak': 'Contact',
+    'Hubungi Kami': 'Contact Us',
+    'Hubungi via WhatsApp': 'Contact via WhatsApp',
+    
+    'Layanan Kami': 'Our Services',
+    'Solusi Percetakan Cetak Custom Lengkap': 'Complete Custom Printing Solutions',
+    'Kami siap mencetak berbagai produk kebutuhan branding, promosi, dan bisnis Anda dengan mesin berteknologi canggih.': 'We are ready to print various products for your branding, promotional, and business needs with state-of-the-art machinery.',
+    'Pesan Sekarang': 'Order Now',
+    
+    'Belum ada layanan premium yang tersedia saat ini.': 'No premium services available at this time.',
+    'Belum ada langkah cara kerja yang ditambahkan saat ini.': 'No work steps added at this time.',
+    'Tentang Kami': 'About Us',
+    'Belum ada konten Tentang Kami saat ini.': 'No About Us content available at this time.',
+    'Hasil Cetakan Terbaik Kami': 'Our Best Printed Products',
+    'Berikut adalah beberapa galeri foto produk cetakan yang telah diselesaikan untuk klien-klien kami yang puas.': 'Here are some galleries of printed products completed for our satisfied clients.',
+    'Portofolio Sedang Diperbarui': 'Portfolio is Being Updated',
+    'Kami sedang memperbarui galeri cetakan digital terbaru kami. Hubungi admin kami untuk melihat katalog foto sampel cetakan stiker, brosur, atau banner lengkap!': 'We are updating our latest digital print gallery. Contact our admin to see the full catalog of stickers, brochures, or banners!',
+    'Minta Katalog Sampel': 'Request Sample Catalog',
+    
+    'Proses Kerja': 'Work Process',
+    'Cara Pemesanan Sangat Mudah': 'Very Easy Ordering Process',
+    'Cukup selesaikan 4 langkah mudah berikut untuk mewujudkan ide Anda dalam hasil cetak siap pakai.': 'Simply complete the following 4 easy steps to bring your ideas to life in ready-to-use print.',
+    'Hubungi WhatsApp': 'Contact WhatsApp',
+    
+    'Apa Kata Pelanggan Setia Kami': 'What Our Loyal Customers Say',
+    'Kelegaan dan kepuasan pelanggan adalah komitmen utama kami. Simak penilaian langsung mereka.': 'Customer satisfaction is our main commitment. Hear directly from them.',
+    
+    'Siap Mencetak Ide Anda?': 'Ready to Print Your Ideas?',
+    'Yuk, mulai konsultasi gratis dengan tim ahli kami untuk mendapatkan hasil terbaik untuk bisnismu!': 'Let\'s start a free consultation with our expert team to get the best results for your business!',
+    'Lihat Layanan': 'View Services',
+    
+    'Kabar Terbaru': 'Latest News',
+    'Berita & Informasi Terkini': 'Latest News & Information',
+    'Ikuti perkembangan terbaru mengenai layanan, promo, dan tips seputar percetakan digital kami.': 'Follow the latest developments about services, promos, and tips about our digital printing.',
+    'Lihat Semua Berita': 'View All News',
+    'Baca Selengkapnya': 'Read More',
+    'Belum ada berita yang diterbitkan saat ini.': 'No news published at this time.',
+    
+    'Kegiatan Kami': 'Our Activities',
+    'Aktifitas & Dokumentasi': 'Activities & Documentation',
+    'Dokumentasi portofolio kerja, kesibukan tim cetak, serta event penting yang kami hadiri.': 'Documentation of work portfolio, printing team operations, and important events we attend.',
+    'Lihat Semua Aktifitas': 'View All Activities',
+    'Lihat Detail': 'View Details',
+    'Belum ada aktifitas yang didokumentasikan saat ini.': 'No activities documented at this time.',
+    
+    'Kirimkan Pesan atau Konsultasi Gratis': 'Send a Message or Free Consultation',
+    'Punya pertanyaan mengenai bahan, ukuran cetakan, atau ingin mendiskusikan pesanan khusus (custom)? Isi formulir, tim ahli kami akan segera menghubungi Anda.': 'Have questions about materials, print sizes, or want to discuss a custom order? Fill out the form, our expert team will contact you shortly.',
+    'Alamat': 'Address',
+    'Email Kami': 'Our Email',
+    'WhatsApp Admin': 'WhatsApp Admin',
+    'Online & Realtime': 'Online & Realtime',
+    'Nama Lengkap': 'Full Name',
+    'Masukkan nama lengkap Anda': 'Enter your full name',
+    'Nomor WhatsApp / Telepon': 'WhatsApp / Phone Number',
+    'Contoh: 08123456789': 'Example: 08123456789',
+    'Pesan Anda': 'Your Message',
+    'Tuliskan spesifikasi produk cetakan yang ingin ditanyakan (ukuran, jumlah, bahan) atau pesan lainnya...': 'Write down print specifications (size, quantity, material) or other questions...',
+    'Mengirim...': 'Sending...',
+    'Kirim Pesan Sekarang': 'Send Message Now',
+    
+    'Kembali ke Home': 'Back to Home',
+    'Kumpulan Berita & Artikel': 'News & Articles Collection',
+    'Temukan informasi, artikel edukatif, dan tips-tips bermanfaat seputar digital printing.': 'Find information, educational articles, and useful tips about digital printing.',
+    'Cari berita...': 'Search news...',
+    'Tidak ada berita yang cocok dengan pencarian Anda.': 'No news matches your search.',
+    
+    'Dokumentasi & Kegiatan Kami': 'Our Documentation & Activities',
+    'Simak berbagai aktifitas produksi cetak kami, proses pengerjaan pesanan, serta event internal/eksternal.': 'Follow our printing production activities, order processes, and internal/external events.',
+    'Cari aktifitas...': 'Search activities...',
+    'Tidak ada dokumentasi kegiatan yang cocok dengan pencarian Anda.': 'No activity documentation matches your search.',
+    'Konten tidak ditemukan atau gagal dimuat.': 'Content not found or failed to load.',
+    'Kembali ke Beranda': 'Back to Home',
+    'Kembali ke Daftar': 'Back to List',
+    'Tanya Admin via WA': 'Ask Admin via WA',
+    'Pesan Instant via WhatsApp': 'Instant Order via WhatsApp',
+    'Navigasi': 'Navigation',
+    'Layanan Cetak': 'Printing Services',
+    'Keunggulan Kami': 'Our Advantages',
+    'Semua': 'All',
+    
+    'Klien Puas': 'Satisfied Clients',
+    'Produk Terkirim': 'Products Delivered',
+    'Pengalaman': 'Experience',
+    '5 Tahun': '5 Years',
+    'Tahun': 'Years',
+    'Rating Klien': 'Client Rating',
+    
+    'Percetakan Digital': 'Digital Printing',
+    'Wujudkan Ide Anda Dalam Cetakan': 'Bring Your Ideas to Life in Print',
+    'Temukan solusi percetakan digital berkualitas terbaik untuk spanduk, brosur, stiker, dan kemasan Anda.': 'Find the best quality digital printing solutions for your banners, brochures, stickers, and packaging.',
+    'Mengapa Memilih Kami?': 'Why Choose Us?',
+    'Prioritas utama kami adalah memberikan hasil cetak dengan kualitas premium, pengerjaan cepat, dan pelayanan terbaik untuk Anda.': 'Our main priority is to deliver premium quality print, fast turnaround, and the best service for you.',
+    'Kualitas cetak tajam & presisi': 'Sharp & precise print quality',
+    'Tim desainer profesional': 'Professional designer team',
+    'Pengerjaan cepat & tepat waktu': 'Fast & on-time delivery',
+    'Harga terjangkau & kompetitif': 'Affordable & competitive pricing',
+    
+    'Konsultasi': 'Consultation',
+    'Hubungi kami via WhatsApp untuk konsultasi bahan, ukuran, dan jumlah cetak.': 'Contact us via WhatsApp for consultation on materials, size, and print quantity.',
+    'Desain': 'Design',
+    'Kirim file desain Anda atau gunakan jasa tim desainer kami untuk hasil maksimal.': 'Send your design file or use our designer team services for best results.',
+    'Cetak': 'Print',
+    'Proses cetak cepat menggunakan mesin digital printing berteknologi modern.': 'Fast printing process using digital printing machinery with modern technology.',
+    'Selesai': 'Done',
+    'Hasil cetakan siap diambil atau dikirim langsung ke alamat Anda dengan aman.': 'Printed results are ready to be picked up or shipped directly to your address safely.',
+    
+    'Cetak Kualitas HD': 'HD Quality Printing',
+    'Warna cemerlang & akurat 99%.': 'Brilliant & 99% accurate colors.',
+    'Express Delivery': 'Express Delivery',
+    'Pengerjaan tepat waktu sesuai deadline.': 'On-time completion according to deadline.',
+    'Layanan Terbaik': 'Best Service',
+    'Gratis revisi setup file cetak.': 'Free print file setup revision.',
+    'Customer': 'Customer',
+    'Belum ada layanan premium yang tersedia.': 'No premium services available.',
+    'Belum ada langkah cara kerja yang tersedia saat ini.': 'No work steps available at this time.',
+    
+    'Sangat puas dengan cetakan stiker kemasan cup kopi saya. Warnanya tajam, tidak luntur bila terkena air, dan pengerjaannya sangat cepat!': 'Very satisfied with the sticker prints for my coffee cups. The colors are sharp, water-resistant, and the service was extremely fast!',
+    'Pemilik Kedai Kopi': 'Coffee Shop Owner',
+    
+    // Services We Provide and work steps
+    'Services We Provide': 'Services We Provide',
+    'Tailored solutions for every need—whether scaling an enterprise or celebrating a milestone.': 'Tailored solutions for every need—whether scaling an enterprise or celebrating a milestone.',
+    'How We Work': 'How We Work',
+    'A seamless process designed to save you time and ensure top-quality results': 'A seamless process designed to save you time and ensure top-quality results',
+    'Innovation meets precision.': 'Innovation meets precision.',
+    'Welcome to Fourplusone. We are a premier IT Software House dedicated to bridging the gap between complex business needs and elegant digital experiences': 'Welcome to Fourplusone. We are a premier IT Software House dedicated to bridging the gap between complex business needs and elegant digital experiences',
+    
+    'Innovation at Our Core': 'Innovation at Our Core',
+    'We design and develop cutting-edge software solutions tailored to your business needs, ensuring high scalability and modern performance.': 'We design and develop cutting-edge software solutions tailored to your business needs, ensuring high scalability and modern performance.',
+    'Precision & Performance': 'Precision & Performance',
+    'Our engineering processes guarantee bug-free, high-performance applications built with clean, maintainable architecture.': 'Our engineering processes guarantee bug-free, high-performance applications built with clean, maintainable architecture.',
+    'Seamless Integration': 'Seamless Integration',
+    'Connect your systems, APIs, and workflows seamlessly with robust security and zero friction.': 'Connect your systems, APIs, and workflows seamlessly with robust security and zero friction.',
+    
+    'Mobile Development': 'Mobile Development',
+    'iOS & Android native and hybrid applications designed for exceptional user experiences': 'iOS & Android native and hybrid applications designed for exceptional user experiences',
+    'Website Development': 'Website Development',
+    'High-performance landing pages, corporate websites, and modern web applications.': 'High-performance landing pages, corporate websites, and modern web applications.',
+    'Custom Dashboards': 'Custom Dashboards',
+    'Data management, ERP, and CRM solutions tailored to streamline your business operations.': 'Data management, ERP, and CRM solutions tailored to streamline your business operations.',
+    'Wedding Templates': 'Wedding Templates',
+    'Aesthetic, interactive digital invitations to make your special day unforgettable.': 'Aesthetic, interactive digital invitations to make your special day unforgettable.',
+    
+    'Consultation': 'Consultation',
+    'Share your vision, requirements, and business goals with our expert team.': 'Share your vision, requirements, and business goals with our expert team.',
+    'Design & Planning': 'Design & Planning',
+    'We map out the UX flow and visual architecture tailored perfectly to your brand.': 'We map out the UX flow and visual architecture tailored perfectly to your brand.',
+    'Launch & Support': 'Launch & Support',
+    'Seamless deployment and ongoing maintenance to keep your product running perfectly.': 'Seamless deployment and ongoing maintenance to keep your product running perfectly.',
+    'Fast Delivery': 'Fast Delivery',
+    'Rapid development with regular updates and continuous feedback loops.': 'Rapid development with regular updates and continuous feedback loops.',
+    
+    'Menyediakan layanan cetak banner, stiker kemasan, brosur, kartu nama, dan aneka merchandise digital berkualitas tinggi dengan pengerjaan kilat.': 'Providing high-quality banner printing, packaging stickers, brochures, business cards, and digital merchandise with express delivery.',
+    'Layanan Cetak': 'Printing Services',
+    'Keunggulan Kami': 'Our Advantages',
+    'Managed by Four Plus One': 'Managed by Four Plus One',
+    'Design Premium': 'Premium Design'
+  };
+
+  const trimmed = text.trim();
+  if (textMap[trimmed]) {
+    return textMap[trimmed];
+  }
+
+  let translatedText = text;
+  Object.keys(textMap).forEach((key) => {
+    if (translatedText.includes(key)) {
+      translatedText = translatedText.replaceAll(key, textMap[key]);
+    }
+  });
+
+  return translatedText;
+};
+
+// Helper to render text with bracket markup [...] using dynamic colors
+const renderFormattedText = (text, isTitle = false, lang = 'id') => {
+  if (!text) return null;
+
+  // Translate text if English language is active
+  const processedText = translateText(text, lang);
+
+  const hasBrackets = processedText.includes('[') && processedText.includes(']');
 
   if (!hasBrackets) {
     if (isTitle) {
-      return text.split(' ').map((word, i) => {
+      return processedText.split(' ').map((word, i) => {
         if (i >= 3) {
           return (
             <span key={i} className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500 block sm:inline">
               {word}{' '}
             </span>
-          )
+          );
         }
-        return word + ' '
-      })
+        return word + ' ';
+      });
     }
-    return text
+    return processedText;
   }
 
-  const parts = text.split(/(\[[^\]]+\])/g)
+  const parts = processedText.split(/(\[[^\]]+\])/g);
 
   return parts.map((part, i) => {
     if (part.startsWith('[') && part.endsWith(']')) {
-      const cleanText = part.slice(1, -1)
+      const cleanText = part.slice(1, -1);
       if (isTitle) {
         return (
           <span key={i} className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500 block sm:inline">
             {cleanText}
           </span>
-        )
+        );
       } else {
         return (
           <span key={i} className="text-emerald-600 font-semibold">
             {cleanText}
           </span>
-        )
+        );
       }
     }
-    return part
-  })
-}
-
+    return part;
+  });
+};
 function App() {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [activePortfolioTab, setActivePortfolioTab] = useState('Semua')
+  const [lang, setLang] = useState(() => localStorage.getItem('site_lang') || 'id')
+  const [activePortfolioTab, setActivePortfolioTab] = useState(lang === 'en' ? 'All' : 'Semua')
   const [currentPage, setCurrentPage] = useState('landing') // landing, news-list, activity-list, news-detail, activity-detail
   const [newsList, setNewsList] = useState([])
   const [activitiesList, setActivitiesList] = useState([])
   const [listLoading, setListLoading] = useState(false)
   const [detailItem, setDetailItem] = useState(null)
   const [detailLoading, setDetailLoading] = useState(false)
+  
+  // Slider state and responsive boundaries
+  const [newsStartIndex, setNewsStartIndex] = useState(0)
+  const [activitiesStartIndex, setActivitiesStartIndex] = useState(0)
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+
+  const itemsPerView = windowWidth >= 1024 ? 3 : (windowWidth >= 768 ? 2 : 1);
+
+  useEffect(() => {
+    localStorage.setItem('site_lang', lang)
+  }, [lang])
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  const t = (key, fallbackText) => {
+    if (translations[lang] && translations[lang][key]) {
+      return translations[lang][key];
+    }
+    const val = fallbackText || key;
+    return translateText(val, lang);
+  }
+
   const [searchTerm, setSearchTerm] = useState('')
   const [contactName, setContactName] = useState('')
   const [contactPhone, setContactPhone] = useState('')
@@ -180,6 +654,7 @@ function App() {
   const [contactLoading, setContactLoading] = useState(false)
   const [contactSuccess, setContactSuccess] = useState('')
   const [contactError, setContactError] = useState('')
+  const [carouselIndex, setCarouselIndex] = useState(0)
 
   // Get or create persistent session_id for unique visitor tracking
   const getSessionId = () => {
@@ -314,7 +789,7 @@ function App() {
     e.preventDefault()
     
     if (!contactName.trim() || !contactPhone.trim() || !contactMessage.trim()) {
-      setContactError('Semua kolom wajib diisi.')
+      setContactError('all_fields_required')
       return
     }
 
@@ -336,18 +811,18 @@ function App() {
     })
     .then(res => {
       if (!res.ok) {
-        throw new Error('Gagal mengirim pesan. Silakan coba beberapa saat lagi.')
+        throw new Error('failed_send_lead')
       }
       return res.json()
     })
     .then(resData => {
       if (resData.status === 'success') {
-        setContactSuccess(resData.message || 'Pesan Anda berhasil terkirim!')
+        setContactSuccess(resData.message || 'success_send_lead')
         setContactName('')
         setContactPhone('')
         setContactMessage('')
       } else {
-        throw new Error(resData.message || 'Terjadi kesalahan.')
+        throw new Error(resData.message || 'failed_send_lead')
       }
     })
     .catch(err => {
@@ -401,11 +876,24 @@ function App() {
     }
   }, [data])
 
+  // Auto-slide effect for the Hero Carousel (placed before early return to satisfy Rules of Hooks)
+  useEffect(() => {
+    const heroCarousel = data?.hero_carousel;
+    const imagesCount = heroCarousel?.carousel_images?.length || 0;
+    if (imagesCount <= 1) return;
+
+    const timer = setInterval(() => {
+      setCarouselIndex((prevIndex) => (prevIndex + 1) % imagesCount);
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, [data]);
+
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-slate-50 text-slate-800">
         <Loader2 className="w-12 h-12 text-emerald-600 animate-spin mb-4" />
-        <p className="text-lg font-medium animate-pulse">Menghubungkan ke database...</p>
+        <p className="text-lg font-medium animate-pulse">{t('connecting_to_db', 'Menghubungkan ke database...')}</p>
       </div>
     )
   }
@@ -422,6 +910,12 @@ function App() {
       twitter_url: '#',
       contact_title: 'Kirimkan Pesan atau Konsultasi Gratis',
       contact_subtitle: 'Punya pertanyaan mengenai bahan, ukuran cetakan, atau ingin mendiskusikan pesanan khusus (custom)? Isi formulir, tim ahli kami akan segera menghubungi Anda.',
+      about_title: 'Innovation meets precision.',
+      about_subtitle: 'Welcome to Fourplusone. We are a premier IT Software House dedicated to bridging the gap between complex business needs and elegant digital experiences',
+      service_premium_title: 'Services We Provide',
+      service_premium_subtitle: 'Tailored solutions for every need—whether scaling an enterprise or celebrating a milestone.',
+      work_steps_title: 'How We Work',
+      work_steps_subtitle: 'A seamless process designed to save you time and ensure top-quality results',
     },
     hero_section: {
       badge: 'Percetakan Digital',
@@ -457,7 +951,7 @@ function App() {
       { step_number: 1, title: 'Konsultasi', description: 'Hubungi kami via WhatsApp untuk konsultasi bahan, ukuran, dan jumlah cetak.', icon: 'message-square' },
       { step_number: 2, title: 'Desain', description: 'Kirim file desain Anda atau gunakan jasa tim desainer kami untuk hasil maksimal.', icon: 'edit' },
       { step_number: 3, title: 'Cetak', description: 'Proses cetak cepat menggunakan mesin digital printing berteknologi modern.', icon: 'printer' },
-      { step_number: 4, title: 'Selesai', description: 'Hasil cetakan siap diambil atau dikirim langsung ke alamat Anda dengan aman.', icon: 'check' }
+      { step_number: 4, title: 'Selesai', description: 'Hasil cetakan siap diambil atau dikirim langsung to alamat Anda dengan aman.', icon: 'check' }
     ],
     portfolios: [],
     testimonials: [
@@ -465,23 +959,67 @@ function App() {
     ],
     news: [],
     activities: [],
+    about_items: [
+      { title: 'Innovation at Our Core', description: 'We design and develop cutting-edge software solutions tailored to your business needs, ensuring high scalability and modern performance.' },
+      { title: 'Precision & Performance', description: 'Our engineering processes guarantee bug-free, high-performance applications built with clean, maintainable architecture.' },
+      { title: 'Seamless Integration', description: 'Connect your systems, APIs, and workflows seamlessly with robust security and zero friction.' }
+    ],
+    service_premiums: [
+      { title: 'Mobile Development', description: 'iOS & Android native and hybrid applications designed for exceptional user experiences', button_text: 'Start Project', button_url: 'whatsapp' },
+      { title: 'Website Development', description: 'High-performance landing pages, corporate websites, and modern web applications.', button_text: 'Start Project', button_url: 'whatsapp' },
+      { title: 'Custom Dashboards', description: 'Data management, ERP, and CRM solutions tailored to streamline your business operations.', button_text: 'Start Project', button_url: 'whatsapp' },
+      { title: 'Wedding Templates', description: 'Aesthetic, interactive digital invitations to make your special day unforgettable.', button_text: 'Start Project', button_url: 'whatsapp' }
+    ],
+    work_steps: [
+      { title: 'Consultation', description: 'Share your vision, requirements, and business goals with our expert team.' },
+      { title: 'Design & Planning', description: 'We map out the UX flow and visual architecture tailored perfectly to your brand.' },
+      { title: 'Launch & Support', description: 'Seamless deployment and ongoing maintenance to keep your product running perfectly.' },
+      { title: 'Fast Delivery', description: 'Rapid development with regular updates and continuous feedback loops.' }
+    ],
     cta_section: {
       title: 'Siap Mencetak Ide Anda?',
       subtitle: 'Yuk, mulai konsultasi gratis dengan tim ahli kami untuk mendapatkan hasil terbaik untuk bisnismu!',
       btn_text: 'Pesan Sekarang',
       btn_url: 'whatsapp',
     },
+    hero_background: {
+      badge: 'Bisnis Digital',
+      title: 'Wujudkan Ide Anda Dalam Cetakan',
+      subtitle: 'Temukan solusi percetakan digital berkualitas terbaik untuk spanduk, brosur, stiker, dan kemasan Anda.',
+      primary_btn_text: 'Pesan Sekarang',
+      primary_btn_url: '#order',
+      secondary_btn_text: 'Layanan Kami',
+      secondary_btn_url: '#services',
+    },
+    hero_carousel: {
+      badge: 'Promo Unggulan',
+      title: 'Wujudkan Ide Anda Dalam Cetakan',
+      subtitle: 'Temukan solusi percetakan digital berkualitas terbaik untuk spanduk, brosur, stiker, dan kemasan Anda.',
+      primary_btn_text: 'Pesan Sekarang',
+      primary_btn_url: '#order',
+      secondary_btn_text: 'Layanan Kami',
+      secondary_btn_url: '#services',
+      carousel_images: [],
+    },
   }
 
-  const { site_config, hero_section, why_choose_us, cta_section, statistics, services, order_steps, portfolios, testimonials, sections: rawSections, news: rawNews, activities: rawActivities } = landingData
+  const { site_config, hero_section, hero_background, hero_carousel, why_choose_us, cta_section, statistics, services, order_steps, portfolios, testimonials, sections: rawSections, news: rawNews, activities: rawActivities, about_items: rawAboutItems, service_premiums: rawServicePremiums, work_steps: rawWorkSteps } = landingData
 
   const news = rawNews || []
   const activities = rawActivities || []
+  const about_items = rawAboutItems || []
+  const service_premiums = rawServicePremiums || []
+  const work_steps = rawWorkSteps || []
 
   const sections = rawSections || [
     { section_key: 'hero', is_active: true },
+    { section_key: 'hero_background', is_active: false },
+    { section_key: 'hero_carousel', is_active: false },
+    { section_key: 'about', is_active: true },
     { section_key: 'statistics', is_active: true },
     { section_key: 'services', is_active: true },
+    { section_key: 'services_premium', is_active: true },
+    { section_key: 'work_steps', is_active: true },
     { section_key: 'benefits', is_active: true },
     { section_key: 'portfolio', is_active: true },
     { section_key: 'timeline', is_active: true },
@@ -546,18 +1084,18 @@ function App() {
                   {hero_section.badge && (
                     <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100/60 border border-emerald-200/50 text-emerald-800 text-xs font-extrabold tracking-wide uppercase">
                       <Sparkles className="w-3.5 h-3.5 text-emerald-600 fill-emerald-600 animate-pulse" />
-                      <span>{hero_section.badge}</span>
+                      <span>{t(hero_section.badge)}</span>
                     </div>
                   )}
                   
                   <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight">
-                    {renderFormattedText(hero_section.title, true)}
+                    {renderFormattedText(hero_section.title, true, lang)}
                   </h1>
-
+ 
                   <p className="text-lg text-slate-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
-                    {renderFormattedText(hero_section.subtitle, false)}
+                    {renderFormattedText(hero_section.subtitle, false, lang)}
                   </p>
-
+ 
                   <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
                     <a
                       href={resolveButtonUrl(hero_section.primary_btn_url, 'whatsapp')}
@@ -565,16 +1103,16 @@ function App() {
                       rel={getButtonRel(hero_section.primary_btn_url)}
                       className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-base font-bold shadow-lg shadow-emerald-600/20 hover:shadow-emerald-600/30 hover:-translate-y-0.5 active:translate-y-0 transition-all"
                     >
-                      <span>{hero_section.primary_btn_text || 'Pesan Sekarang'}</span>
+                      <span>{t(hero_section.primary_btn_text) || t('Pesan Sekarang')}</span>
                       <ArrowRight className="w-5 h-5" />
                     </a>
                     <a
                       href={resolveButtonUrl(hero_section.secondary_btn_url, '#services')}
                       target={getButtonTarget(hero_section.secondary_btn_url)}
                       rel={getButtonRel(hero_section.secondary_btn_url)}
-                      className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-xl border-2 border-slate-200 hover:border-emerald-600 hover:bg-emerald-50/30 text-slate-700 hover:text-emerald-700 text-base font-bold hover:-translate-y-0.5 active:translate-y-0 transition-all"
+                      className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-xl border-2 border-slate-200 hover:border-emerald-650 hover:bg-emerald-50/30 text-slate-700 hover:text-emerald-700 text-base font-bold hover:-translate-y-0.5 active:translate-y-0 transition-all"
                     >
-                      {hero_section.secondary_btn_text || 'Layanan Kami'}
+                      {t(hero_section.secondary_btn_text) || t('Layanan Kami')}
                     </a>
                   </div>
                 </div>
@@ -636,6 +1174,168 @@ function App() {
           </section>
         )
 
+      case 'hero_background':
+        return (
+          <section
+            key="hero_background"
+            className="relative min-h-[550px] lg:min-h-[650px] flex items-center bg-cover bg-center bg-no-repeat py-20 lg:py-32 overflow-hidden"
+            style={{
+              backgroundImage: hero_background.image_path
+                ? `url(${getImageUrl(hero_background.image_path)})`
+                : 'none',
+            }}
+          >
+            {/* Elegant gradient overlay that ensures text readability */}
+            <div className="absolute inset-0 bg-gradient-to-r from-white via-white/95 sm:from-white sm:via-white/90 to-white/20 -z-10"></div>
+            
+            {/* If no background image, show a default background gradient */}
+            {!hero_background.image_path && (
+              <div className="absolute inset-0 bg-gradient-to-tr from-emerald-50/50 via-white to-slate-100 -z-20"></div>
+            )}
+            
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
+              <div className="max-w-2xl space-y-6 text-left">
+                {hero_background.badge && (
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100/60 border border-emerald-200/50 text-emerald-800 text-xs font-extrabold tracking-wide uppercase">
+                    <Sparkles className="w-3.5 h-3.5 text-emerald-600 fill-emerald-600 animate-pulse" />
+                    <span>{t(hero_background.badge)}</span>
+                  </div>
+                )}
+                
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                  {renderFormattedText(hero_background.title, true, lang)}
+                </h1>
+
+                <p className="text-lg text-slate-650 leading-relaxed font-normal">
+                  {renderFormattedText(hero_background.subtitle, false, lang)}
+                </p>
+
+                <div className="flex flex-col sm:flex-row items-center justify-start gap-4 pt-4">
+                  <a
+                    href={resolveButtonUrl(hero_background.primary_btn_url, 'whatsapp')}
+                    target={getButtonTarget(hero_background.primary_btn_url)}
+                    rel={getButtonRel(hero_background.primary_btn_url)}
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-base font-bold shadow-lg shadow-emerald-600/20 hover:shadow-emerald-600/30 hover:-translate-y-0.5 active:translate-y-0 transition-all"
+                  >
+                    <span>{t(hero_background.primary_btn_text) || t('Pesan Sekarang')}</span>
+                    <ArrowRight className="w-5 h-5" />
+                  </a>
+                  <a
+                    href={resolveButtonUrl(hero_background.secondary_btn_url, '#services')}
+                    target={getButtonTarget(hero_background.secondary_btn_url)}
+                    rel={getButtonRel(hero_background.secondary_btn_url)}
+                    className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-xl border-2 border-slate-200 hover:border-emerald-650 hover:bg-emerald-50/30 text-slate-700 hover:text-emerald-700 text-base font-bold hover:-translate-y-0.5 active:translate-y-0 transition-all"
+                  >
+                    {t(hero_background.secondary_btn_text) || t('Layanan Kami')}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+        )
+
+      case 'hero_carousel':
+        return (
+          <section
+            key="hero_carousel"
+            className="relative min-h-[550px] lg:min-h-[650px] flex items-center py-20 lg:py-32 overflow-hidden bg-slate-900"
+          >
+            {/* Carousel Images Background */}
+            {hero_carousel.carousel_images && hero_carousel.carousel_images.length > 0 ? (
+              hero_carousel.carousel_images.map((img, i) => (
+                <div
+                  key={i}
+                  className={`absolute inset-0 bg-cover bg-center transition-all duration-1000 ease-in-out -z-20 ${
+                    i === carouselIndex ? 'opacity-60 scale-100' : 'opacity-0 scale-105 pointer-events-none'
+                  }`}
+                  style={{ backgroundImage: `url(${getImageUrl(img)})` }}
+                ></div>
+              ))
+            ) : (
+              /* Fallback if no images uploaded */
+              <div className="absolute inset-0 bg-gradient-to-tr from-emerald-950 via-slate-900 to-emerald-900 -z-20"></div>
+            )}
+            
+            {/* Dark Gradient Overlay for cinematic look and high text contrast */}
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent -z-10"></div>
+            
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
+              <div className="max-w-2xl space-y-6 text-left">
+                {hero_carousel.badge && (
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-xs font-extrabold tracking-wide uppercase">
+                    <Sparkles className="w-3.5 h-3.5 text-emerald-400 fill-emerald-400 animate-pulse" />
+                    <span>{t(hero_carousel.badge)}</span>
+                  </div>
+                )}
+                
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight">
+                  {renderFormattedText(hero_carousel.title, true, lang)}
+                </h1>
+
+                <p className="text-lg text-slate-350 leading-relaxed font-normal">
+                  {renderFormattedText(hero_carousel.subtitle, false, lang)}
+                </p>
+
+                <div className="flex flex-col sm:flex-row items-center justify-start gap-4 pt-4">
+                  <a
+                    href={resolveButtonUrl(hero_carousel.primary_btn_url, 'whatsapp')}
+                    target={getButtonTarget(hero_carousel.primary_btn_url)}
+                    rel={getButtonRel(hero_carousel.primary_btn_url)}
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-base font-bold shadow-lg shadow-emerald-600/20 hover:shadow-emerald-600/30 hover:-translate-y-0.5 active:translate-y-0 transition-all"
+                  >
+                    <span>{t(hero_carousel.primary_btn_text) || t('Pesan Sekarang')}</span>
+                    <ArrowRight className="w-5 h-5" />
+                  </a>
+                  <a
+                    href={resolveButtonUrl(hero_carousel.secondary_btn_url, '#services')}
+                    target={getButtonTarget(hero_carousel.secondary_btn_url)}
+                    rel={getButtonRel(hero_carousel.secondary_btn_url)}
+                    className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-xl border-2 border-white/20 hover:border-white hover:bg-white/10 text-white text-base font-bold hover:-translate-y-0.5 active:translate-y-0 transition-all"
+                  >
+                    {t(hero_carousel.secondary_btn_text) || t('Layanan Kami')}
+                  </a>
+                </div>
+              </div>
+            </div>
+            
+            {/* Carousel Navigation Indicators (Dots) */}
+            {hero_carousel.carousel_images && hero_carousel.carousel_images.length > 1 && (
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 z-20 bg-slate-950/40 px-3 py-1.5 rounded-full backdrop-blur-sm">
+                {hero_carousel.carousel_images.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setCarouselIndex(i)}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      i === carouselIndex ? 'bg-emerald-500 w-4' : 'bg-white/40 hover:bg-white/60'
+                    }`}
+                    aria-label={`Go to slide ${i + 1}`}
+                  ></button>
+                ))}
+              </div>
+            )}
+            
+            {/* Carousel Side Buttons (Arrows) */}
+            {hero_carousel.carousel_images && hero_carousel.carousel_images.length > 1 && (
+              <>
+                <button
+                  onClick={() => setCarouselIndex((prev) => (prev - 1 + hero_carousel.carousel_images.length) % hero_carousel.carousel_images.length)}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-950/30 hover:bg-slate-950/60 border border-white/10 flex items-center justify-center text-white backdrop-blur-sm transition-colors z-20"
+                  aria-label="Previous slide"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => setCarouselIndex((prev) => (prev + 1) % hero_carousel.carousel_images.length)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-950/30 hover:bg-slate-950/60 border border-white/10 flex items-center justify-center text-white backdrop-blur-sm transition-colors z-20"
+                  aria-label="Next slide"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </>
+            )}
+          </section>
+        )
+
       case 'statistics':
         return (
           <section key="statistics" className="relative z-10 -mt-10 w-full bg-emerald-800 py-10 shadow-lg">
@@ -643,10 +1343,10 @@ function App() {
               {statistics.map((stat, i) => (
                 <div key={i} className="text-center px-4 space-y-1 py-2 sm:py-0">
                   <span className="block text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-                    {stat.value}
+                    {t(stat.value)}
                   </span>
                   <span className="block text-xs font-bold text-emerald-100/90 uppercase tracking-widest">
-                    {stat.label}
+                    {t(stat.label)}
                   </span>
                 </div>
               ))}
@@ -659,12 +1359,12 @@ function App() {
           <section key="services" id="services" className="py-24 bg-emerald-50 w-full border-b border-emerald-600/10">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
-                <span className="text-xs font-extrabold tracking-widest text-emerald-700 uppercase">Layanan Kami</span>
+                <span className="text-xs font-extrabold tracking-widest text-emerald-700 uppercase">{t('Layanan Kami')}</span>
                 <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                  {renderFormattedText(site_config.services_title || 'Solusi Percetakan Cetak Custom Lengkap', true)}
+                  {renderFormattedText(site_config.services_title || 'Solusi Percetakan Cetak Custom Lengkap', true, lang)}
                 </h2>
                 <p className="text-base text-slate-600">
-                  {renderFormattedText(site_config.services_subtitle || 'Kami siap mencetak berbagai produk kebutuhan branding, promosi, dan bisnis Anda dengan mesin berteknologi canggih.', false)}
+                  {renderFormattedText(site_config.services_subtitle || 'Kami siap mencetak berbagai produk kebutuhan branding, promosi, dan bisnis Anda dengan mesin berteknologi canggih.', false, lang)}
                 </p>
               </div>
 
@@ -689,21 +1389,21 @@ function App() {
                           {renderIcon(service.icon, "w-6 h-6")}
                         </div>
                         <h3 className={`text-lg font-bold ${isFirst ? 'text-white' : 'text-slate-900 group-hover:text-emerald-700'}`}>
-                          {service.title}
+                          {t(service.title)}
                         </h3>
                         <p className={`text-sm leading-relaxed font-normal ${isFirst ? 'text-emerald-100/90' : 'text-slate-600'}`}>
-                          {service.description}
+                          {t(service.description)}
                         </p>
                       </div>
 
                       <div className={`pt-6 border-t mt-6 flex items-center justify-between ${isFirst ? 'border-emerald-500/30' : 'border-slate-50'}`}>
                         <a
-                          href={getWhatsAppLink(`Halo PrintHub, saya ingin berkonsultasi tentang cetak custom ${service.title}.`)}
+                          href={getWhatsAppLink(t(`Halo PrintHub, saya ingin berkonsultasi tentang cetak custom ${service.title}.`))}
                           target="_blank"
                           rel="noreferrer"
                           className={`inline-flex items-center gap-1 text-xs font-bold ${isFirst ? 'text-white hover:text-emerald-100' : 'text-emerald-600 group-hover:text-emerald-700'}`}
                         >
-                          <span>Pesan Sekarang</span>
+                          <span>{t('Pesan Sekarang')}</span>
                           <ChevronRight className="w-4 h-4" />
                         </a>
                         <span className={`text-xs font-bold ${isFirst ? 'text-emerald-200/50' : 'text-slate-300 group-hover:text-emerald-300'}`}>0{i+1}</span>
@@ -712,6 +1412,268 @@ function App() {
                   );
                 })}
               </div>
+            </div>
+          </section>
+        )
+
+      case 'services_premium':
+        return (
+          <section key="services_premium" id="services_premium" className="py-24 bg-white w-full border-b border-slate-200/40">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              {/* Split Header: Title on Left, Subtitle on Right */}
+              <div className="grid md:grid-cols-12 gap-8 items-start md:items-end mb-16">
+                <div className="md:col-span-7 space-y-4 text-left">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-emerald-100/60 border border-emerald-200/50 text-emerald-800 text-xs font-extrabold tracking-wide uppercase">
+                    {t('Services')}
+                  </span>
+                  <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                    {renderFormattedText(site_config.service_premium_title || 'Services We Provide', true, lang)}
+                  </h2>
+                </div>
+                <div className="md:col-span-5 text-left md:text-right pb-1">
+                  <p className="text-base text-slate-650 leading-relaxed font-normal">
+                    {renderFormattedText(site_config.service_premium_subtitle || 'Tailored solutions for every need—whether scaling an enterprise or celebrating a milestone.', false, lang)}
+                  </p>
+                </div>
+              </div>
+
+              {/* 2x2 Grid of Blueprint Cards */}
+              {service_premiums.length > 0 ? (
+                <div className="grid md:grid-cols-2 gap-8">
+                  {service_premiums.map((item, i) => (
+                    <div
+                      key={i}
+                      className="group bg-white border border-emerald-600/10 rounded-3xl p-8 flex flex-col justify-between overflow-hidden relative shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 gap-6 min-h-[300px]"
+                      style={{
+                        backgroundImage: 'linear-gradient(#10b98109 1px, transparent 1px), linear-gradient(90deg, #10b98109 1px, transparent 1px)',
+                        backgroundSize: '24px 24px'
+                      }}
+                    >
+                      {/* Left Info Column */}
+                      <div className="w-full sm:w-[55%] flex-1 flex flex-col justify-between text-left z-10 space-y-6">
+                        <div className="space-y-3">
+                          <h3 className="text-xl sm:text-2xl font-bold text-slate-900 group-hover:text-emerald-700 transition-colors">
+                            {t(item.title)}
+                          </h3>
+                          <p className="text-sm text-slate-500 leading-relaxed font-normal">
+                            {t(item.description)}
+                          </p>
+                        </div>
+
+                        <div>
+                          <a
+                            href={resolveButtonUrl(item.button_url, 'whatsapp')}
+                            target={getButtonTarget(item.button_url)}
+                            rel={getButtonRel(item.button_url)}
+                            className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl border border-emerald-600/25 hover:border-emerald-650 bg-white hover:bg-emerald-600 text-emerald-700 hover:text-white text-sm font-bold shadow-sm transition-all"
+                          >
+                            <span>{t(item.button_text) || t('Start Project')}</span>
+                            <ArrowRight className="w-4 h-4" />
+                          </a>
+                        </div>
+                      </div>
+
+                      {/* Right Illustration Column - Positioned Absolute & Scaled for Figma Style Bleed */}
+                      {getImageUrl(item.image_path) ? (
+                        <div className="absolute bottom-0 right-0 w-[55%] h-[115%] z-0 flex items-end justify-end pointer-events-none">
+                          <img
+                            src={getImageUrl(item.image_path)}
+                            alt={item.title}
+                            className="w-full h-full object-contain object-right-bottom translate-x-[8%] translate-y-[8%] scale-[1.7] origin-bottom-right transition-transform duration-500 group-hover:scale-[1.75] group-hover:translate-x-[6%] group-hover:translate-y-[6%]"
+                          />
+                        </div>
+                      ) : (
+                        /* Fallback outline graphic helper based on indices */
+                        <div className="absolute bottom-4 right-4 w-28 h-28 z-0 text-emerald-600/25 group-hover:text-emerald-600/50 group-hover:scale-105 transition-all duration-500 flex items-end justify-end pointer-events-none">
+                          {i % 4 === 0 && <Cpu className="w-full h-full stroke-[1.25]" />}
+                          {i % 4 === 1 && <Globe className="w-full h-full stroke-[1.25]" />}
+                          {i % 4 === 2 && <Smile className="w-full h-full stroke-[1.25]" />}
+                          {i % 4 === 3 && <Sparkles className="w-full h-full stroke-[1.25]" />}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="bg-slate-50 border border-slate-200/60 border-dashed rounded-3xl p-12 text-center max-w-xl mx-auto space-y-4">
+                  <p className="text-sm text-slate-500 font-semibold">{t('Belum ada layanan premium yang tersedia saat ini.')}</p>
+                </div>
+              )}
+            </div>
+          </section>
+        )
+
+      case 'work_steps':
+        return (
+          <section key="work_steps" id="work_steps" className="py-24 bg-white w-full border-b border-slate-200/40">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              {/* Centered Header */}
+              <div className="text-center max-w-3xl mx-auto space-y-4 mb-20">
+                <span className="inline-flex items-center px-3 py-1 rounded-full bg-emerald-100/60 border border-emerald-200/50 text-emerald-800 text-xs font-extrabold tracking-wide uppercase">
+                  {t('Cara Kerja')}
+                </span>
+                <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                  {renderFormattedText(site_config.work_steps_title || 'How We Work', true, lang)}
+                </h2>
+                <p className="text-base text-slate-600 leading-relaxed font-normal max-w-2xl mx-auto">
+                  {renderFormattedText(site_config.work_steps_subtitle || 'A seamless process designed to save you time and ensure top-quality results', false, lang)}
+                </p>
+              </div>
+
+              {/* 2x2 Grid of Work Steps Cards with internal borders */}
+              {work_steps.length > 0 ? (
+                <div className="grid md:grid-cols-2 border border-slate-200/60 rounded-3xl overflow-hidden max-w-5xl mx-auto bg-white shadow-sm divide-y md:divide-y-0">
+                  {work_steps.map((step, i) => {
+                    // Border classes mapping for clean grid borders
+                    let borderClasses = "border-slate-200/60 flex flex-col group ";
+                    if (i > 0) {
+                      borderClasses += "border-t ";
+                    }
+                    if (i % 2 !== 0) {
+                      borderClasses += "md:border-l ";
+                    }
+                    if (i >= 2) {
+                      borderClasses += "md:border-t ";
+                    } else {
+                      borderClasses += "md:border-t-0 ";
+                    }
+
+                    return (
+                      <div
+                        key={i}
+                        className={borderClasses}
+                      >
+                        {/* Top Half: Illustration Area with light background */}
+                        <div className="bg-slate-50/40 py-12 px-8 flex items-center justify-center min-h-[240px]">
+                          {getImageUrl(step.image_path) ? (
+                            <div className="relative w-48 h-48 rounded-full bg-white border border-slate-100 shadow-sm flex items-center justify-center overflow-hidden shadow-inner">
+                              <img
+                                src={getImageUrl(step.image_path)}
+                                alt={step.title}
+                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                              />
+                            </div>
+                          ) : (
+                            <div className="relative w-48 h-48 flex items-center justify-center scale-95 md:scale-100">
+                              {/* Outer dashed orbit circle */}
+                              <div className="absolute inset-4 rounded-full border border-dashed border-emerald-600/10 animate-[spin_80s_linear_infinite]"></div>
+                              {/* Inner orbit circle */}
+                              <div className="absolute inset-10 rounded-full border border-emerald-600/10"></div>
+                              
+                              {/* Central green circle */}
+                              <div className="relative w-20 h-20 rounded-full bg-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-600/15 z-10 transition-transform duration-500 group-hover:scale-105">
+                                {i === 0 && <User className="w-9 h-9 text-white stroke-[1.75]" />}
+                                {i === 1 && <Layout className="w-9 h-9 text-white stroke-[1.75]" />}
+                                {i === 2 && <Shield className="w-9 h-9 text-white stroke-[1.75]" />}
+                                {i === 3 && <Cpu className="w-9 h-9 text-white stroke-[1.75]" />}
+                                {i > 3 && <Sparkles className="w-9 h-9 text-white stroke-[1.75]" />}
+                              </div>
+
+                              {/* Satellite Orbit Box 1 (Top Left) */}
+                              <div className="absolute top-2 left-2 p-2.5 bg-white border border-slate-100 rounded-xl shadow-sm z-20 transition-transform duration-500 group-hover:-translate-x-1 group-hover:-translate-y-1">
+                                {i === 0 && <Calendar className="w-5 h-5 text-emerald-650 stroke-[1.5]" />}
+                                {i === 1 && <Layers className="w-5 h-5 text-emerald-650 stroke-[1.5]" />}
+                                {i === 2 && <Phone className="w-5 h-5 text-emerald-650 stroke-[1.5]" />}
+                                {i === 3 && <Briefcase className="w-5 h-5 text-emerald-650 stroke-[1.5]" />}
+                                {i > 3 && <Check className="w-5 h-5 text-emerald-650 stroke-[1.5]" />}
+                              </div>
+
+                              {/* Satellite Orbit Box 2 (Top Right) */}
+                              <div className="absolute top-4 right-4 p-2.5 bg-white border border-slate-100 rounded-xl shadow-sm z-20 transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1">
+                                {i === 0 && <MessageSquare className="w-5 h-5 text-emerald-650 stroke-[1.5]" />}
+                                {i === 1 && <Cpu className="w-5 h-5 text-emerald-650 stroke-[1.5]" />}
+                                {i === 2 && <Mail className="w-5 h-5 text-emerald-650 stroke-[1.5]" />}
+                                {i === 3 && <Zap className="w-5 h-5 text-emerald-650 stroke-[1.5]" />}
+                                {i > 3 && <Settings className="w-5 h-5 text-emerald-650 stroke-[1.5]" />}
+                              </div>
+
+                              {/* Satellite Orbit Box 3 (Bottom Right/Left) */}
+                              <div className="absolute bottom-2 right-6 p-2.5 bg-white border border-slate-100 rounded-xl shadow-sm z-20 transition-transform duration-500 group-hover:translate-x-1 group-hover:translate-y-1">
+                                {i === 0 && <Check className="w-5 h-5 text-emerald-650 stroke-[1.5]" />}
+                                {i === 1 && <MousePointer className="w-5 h-5 text-emerald-650 stroke-[1.5]" />}
+                                {i === 2 && <Clock className="w-5 h-5 text-emerald-650 stroke-[1.5]" />}
+                                {i === 3 && <Send className="w-5 h-5 text-emerald-650 stroke-[1.5]" />}
+                                {i > 3 && <Award className="w-5 h-5 text-emerald-650 stroke-[1.5]" />}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Bottom Half: Left-Aligned Text Content */}
+                        <div className="bg-white p-8 sm:p-10 space-y-3 text-left flex-1 border-t border-slate-100">
+                          <h3 className="text-xl sm:text-2xl font-bold text-slate-900 group-hover:text-emerald-700 transition-colors">
+                            {t(step.title)}
+                          </h3>
+                          <p className="text-sm sm:text-base text-slate-500 leading-relaxed font-normal">
+                            {t(step.description)}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="bg-slate-50 border border-slate-200/60 border-dashed rounded-3xl p-12 text-center max-w-xl mx-auto space-y-4">
+                  <p className="text-sm text-slate-500 font-semibold">{t('Belum ada langkah cara kerja yang ditambahkan saat ini.')}</p>
+                </div>
+              )}
+            </div>
+          </section>
+        )
+
+      case 'about':
+        return (
+          <section key="about" id="about" className="py-24 bg-white w-full border-b border-slate-200/40">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
+                <span className="text-xs font-extrabold tracking-widest text-emerald-600 uppercase">{t('Tentang Kami')}</span>
+                <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                  {renderFormattedText(site_config.about_title || 'Innovation meets precision.', true, lang)}
+                </h2>
+                <p className="text-base text-slate-600 leading-relaxed font-normal">
+                  {renderFormattedText(site_config.about_subtitle || 'Welcome to Fourplusone. We are a premier IT Software House dedicated to bridging the gap between complex business needs and elegant digital experiences.', false, lang)}
+                </p>
+              </div>
+
+              {about_items.length > 0 ? (
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {about_items.map((item, i) => (
+                    <div
+                      key={i}
+                      className="group bg-slate-50 border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full text-left"
+                    >
+                      {getImageUrl(item.image_path) ? (
+                        <div className="relative aspect-[16/10] overflow-hidden bg-slate-200">
+                          <img
+                            src={getImageUrl(item.image_path)}
+                            alt={item.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                        </div>
+                      ) : (
+                        /* Default mock vector graphic illustration */
+                        <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-tr from-emerald-600/10 to-teal-500/10 flex items-center justify-center text-emerald-600 group-hover:scale-105 transition-all duration-500">
+                          <Award className="w-12 h-12" />
+                        </div>
+                      )}
+                      <div className="p-6 flex-1 flex flex-col justify-between space-y-2">
+                        <div className="space-y-1">
+                          <h3 className="text-lg font-bold text-slate-900 group-hover:text-emerald-700 transition-colors">
+                            {t(item.title)}
+                          </h3>
+                          <p className="text-sm text-slate-500 leading-relaxed font-normal">
+                            {t(item.description)}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="bg-white border border-slate-200/60 border-dashed rounded-3xl p-12 text-center max-w-xl mx-auto space-y-4">
+                  <p className="text-sm text-slate-500 font-semibold">{t('Belum ada konten Tentang Kami saat ini.')}</p>
+                </div>
+              )}
             </div>
           </section>
         )
@@ -743,8 +1705,8 @@ function App() {
                               <Award className="w-5 h-5" />
                             </div>
                             <div>
-                              <h4 className="text-sm font-bold text-slate-800">Cetak Kualitas HD</h4>
-                              <p className="text-xs text-slate-500">Warna cemerlang & akurat 99%.</p>
+                              <h4 className="text-sm font-bold text-slate-800">{t('Cetak Kualitas HD')}</h4>
+                              <p className="text-xs text-slate-500">{t('Warna cemerlang & akurat 99%.')}</p>
                             </div>
                           </div>
                           <div className="flex gap-4 items-start">
@@ -752,8 +1714,8 @@ function App() {
                               <Clock className="w-5 h-5" />
                             </div>
                             <div>
-                              <h4 className="text-sm font-bold text-slate-800">Express Delivery</h4>
-                              <p className="text-xs text-slate-500">Pengerjaan tepat waktu sesuai deadline.</p>
+                              <h4 className="text-sm font-bold text-slate-800">{t('Express Delivery')}</h4>
+                              <p className="text-xs text-slate-500">{t('Pengerjaan tepat waktu sesuai deadline.')}</p>
                             </div>
                           </div>
                           <div className="flex gap-4 items-start">
@@ -761,8 +1723,8 @@ function App() {
                               <ThumbsUp className="w-5 h-5" />
                             </div>
                             <div>
-                              <h4 className="text-sm font-bold text-slate-800">Layanan Terbaik</h4>
-                              <p className="text-xs text-slate-500">Gratis revisi setup file cetak.</p>
+                              <h4 className="text-sm font-bold text-slate-800">{t('Layanan Terbaik')}</h4>
+                              <p className="text-xs text-slate-500">{t('Gratis revisi setup file cetak.')}</p>
                             </div>
                           </div>
                         </div>
@@ -777,12 +1739,12 @@ function App() {
 
                 {/* Right Side: Features Checklist */}
                 <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-                  <span className="text-xs font-extrabold tracking-widest text-emerald-600 uppercase">Keunggulan</span>
+                  <span className="text-xs font-extrabold tracking-widest text-emerald-600 uppercase">{t('Keunggulan')}</span>
                   <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                    {why_choose_us.title}
+                    {t(why_choose_us.title)}
                   </h2>
                   <p className="text-base text-slate-600 leading-relaxed font-normal">
-                    {why_choose_us.subtitle}
+                    {t(why_choose_us.subtitle)}
                   </p>
 
                   <div className="space-y-4 pt-4">
@@ -791,7 +1753,7 @@ function App() {
                         <div className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0">
                           <Check className="w-4 h-4 stroke-[3]" />
                         </div>
-                        <span className="text-sm font-extrabold text-slate-900">{feature}</span>
+                        <span className="text-sm font-extrabold text-slate-900">{t(feature)}</span>
                       </div>
                     ))}
                   </div>
@@ -806,12 +1768,12 @@ function App() {
           <section key="portfolio" id="portfolio" className="py-24 bg-[#FCFAF7] border-b border-slate-200/40">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center max-w-3xl mx-auto space-y-4 mb-12">
-                <span className="text-xs font-extrabold tracking-widest text-emerald-600 uppercase">Portofolio</span>
+                <span className="text-xs font-extrabold tracking-widest text-emerald-600 uppercase">{t('Portofolio')}</span>
                 <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                  {renderFormattedText(site_config.portfolio_title || 'Hasil Cetakan Terbaik Kami', true)}
+                  {renderFormattedText(site_config.portfolio_title || 'Hasil Cetakan Terbaik Kami', true, lang)}
                 </h2>
                 <p className="text-base text-slate-600">
-                  {renderFormattedText(site_config.portfolio_subtitle || 'Berikut adalah beberapa galeri foto produk cetakan yang telah diselesaikan untuk klien-klien kami yang puas.', false)}
+                  {renderFormattedText(site_config.portfolio_subtitle || 'Berikut adalah beberapa galeri foto produk cetakan yang telah diselesaikan untuk klien-klien kami yang puas.', false, lang)}
                 </p>
               </div>
 
@@ -828,7 +1790,7 @@ function App() {
                           : "bg-white border-slate-200 text-slate-600 hover:border-emerald-600 hover:text-emerald-600"
                       }`}
                     >
-                      {cat}
+                      {t(cat)}
                     </button>
                   ))}
                 </div>
@@ -848,16 +1810,16 @@ function App() {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                       <div className="absolute inset-0 bg-slate-950/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 space-y-2">
-                        <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">{portfolio.category}</span>
-                        <h3 className="text-white text-base font-extrabold tracking-tight">{portfolio.title}</h3>
+                        <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">{t(portfolio.category)}</span>
+                        <h3 className="text-white text-base font-extrabold tracking-tight">{t(portfolio.title)}</h3>
                         <div className="pt-2">
                           <a
-                            href={getWhatsAppLink(`Halo PrintHub, saya tertarik dengan hasil cetakan portofolio "${portfolio.title}". Bisakah saya cetak custom yang mirip?`)}
+                            href={getWhatsAppLink(t(`Halo PrintHub, saya tertarik dengan hasil cetakan portofolio "${portfolio.title}". Bisakah saya cetak custom yang mirip?`))}
                             target="_blank"
                             rel="noreferrer"
                             className="px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md tracking-wider uppercase inline-flex items-center gap-1.5"
                           >
-                            <span>Tanya Cetak</span>
+                            <span>{t('Tanya Cetak')}</span>
                             <ChevronRight className="w-4 h-4" />
                           </a>
                         </div>
@@ -871,18 +1833,18 @@ function App() {
                   <div className="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto shadow-sm">
                     <Printer className="w-8 h-8" />
                   </div>
-                  <h3 className="text-lg font-bold text-slate-800">Portofolio Sedang Diperbarui</h3>
+                  <h3 className="text-lg font-bold text-slate-800">{t('Portofolio Sedang Diperbarui')}</h3>
                   <p className="text-sm text-slate-500 leading-relaxed font-normal">
-                    Kami sedang memperbarui galeri cetakan digital terbaru kami. Hubungi admin kami untuk melihat katalog foto sampel cetakan stiker, brosur, atau banner lengkap!
+                    {t('Kami sedang memperbarui galeri cetakan digital terbaru kami. Hubungi admin kami untuk melihat katalog foto sampel cetakan stiker, brosur, atau banner lengkap!')}
                   </p>
                   <a
-                    href={getWhatsAppLink("Halo PrintHub, saya ingin meminta katalog foto hasil cetakan sampel stiker & brosur.")}
+                    href={getWhatsAppLink(t("Halo PrintHub, saya ingin meminta katalog foto hasil cetakan sampel stiker & brosur."))}
                     target="_blank"
                     rel="noreferrer"
                     className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md tracking-wider uppercase"
                   >
                     <Phone className="w-4 h-4 fill-white" />
-                    <span>Minta Katalog Sampel</span>
+                    <span>{t('Minta Katalog Sampel')}</span>
                   </a>
                 </div>
               )}
@@ -895,12 +1857,12 @@ function App() {
           <section key="timeline" id="timeline" className="py-24 bg-[#FAF6F0] border-y border-slate-200/40">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center max-w-3xl mx-auto space-y-4 mb-20">
-                <span className="text-xs font-extrabold tracking-widest text-emerald-650 uppercase">Proses Kerja</span>
+                <span className="text-xs font-extrabold tracking-widest text-emerald-650 uppercase">{t('Proses Kerja')}</span>
                 <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                  {renderFormattedText(site_config.order_steps_title || 'Cara Pemesanan Sangat Mudah', true)}
+                  {renderFormattedText(site_config.order_steps_title || 'Cara Pemesanan Sangat Mudah', true, lang)}
                 </h2>
                 <p className="text-base text-slate-600">
-                  {renderFormattedText(site_config.order_steps_subtitle || 'Cukup selesaikan 4 langkah mudah berikut untuk mewujudkan ide Anda dalam hasil cetak siap pakai.', false)}
+                  {renderFormattedText(site_config.order_steps_subtitle || 'Cukup selesaikan 4 langkah mudah berikut untuk mewujudkan ide Anda dalam hasil cetak siap pakai.', false, lang)}
                 </p>
               </div>
 
@@ -923,22 +1885,22 @@ function App() {
                       <div className="space-y-3 flex-1 flex flex-col justify-between w-full">
                         <div className="space-y-2">
                           <h3 className="text-base font-extrabold text-slate-900 group-hover:text-emerald-600 transition-colors">
-                            {step.title}
+                            {t(step.title)}
                           </h3>
                           <p className="text-xs text-slate-500 leading-relaxed font-normal">
-                            {step.description}
+                            {t(step.description)}
                           </p>
                         </div>
 
                         {step.step_number === 1 && (
                           <div className="pt-4 border-t border-slate-100 mt-4 w-full">
                             <a
-                              href={getWhatsAppLink("Halo PrintHub, saya ingin melakukan konsultasi cetak custom.")}
+                              href={getWhatsAppLink(t("Halo PrintHub, saya ingin melakukan konsultasi cetak custom."))}
                               target="_blank"
                               rel="noreferrer"
                               className="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 hover:text-emerald-700 justify-center w-full"
                             >
-                              <span>Hubungi WhatsApp</span>
+                              <span>{t('Hubungi WhatsApp')}</span>
                               <ChevronRight className="w-4 h-4" />
                             </a>
                           </div>
@@ -957,12 +1919,12 @@ function App() {
           <section key="testimonials" id="testimonials" className="py-24 bg-[#FCFAF7] border-b border-slate-200/40">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
-                <span className="text-xs font-extrabold tracking-widest text-emerald-650 uppercase">Testimoni</span>
+                <span className="text-xs font-extrabold tracking-widest text-emerald-650 uppercase">{t('Testimoni')}</span>
                 <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                  {renderFormattedText(site_config.testimonials_title || 'Apa Kata Pelanggan Setia Kami', true)}
+                  {renderFormattedText(site_config.testimonials_title || 'Apa Kata Pelanggan Setia Kami', true, lang)}
                 </h2>
                 <p className="text-base text-slate-600">
-                  {renderFormattedText(site_config.testimonials_subtitle || 'Kelegaan dan kepuasan pelanggan adalah komitmen utama kami. Simak penilaian langsung mereka.', false)}
+                  {renderFormattedText(site_config.testimonials_subtitle || 'Kelegaan dan kepuasan pelanggan adalah komitmen utama kami. Simak penilaian langsung mereka.', false, lang)}
                 </p>
               </div>
 
@@ -984,13 +1946,13 @@ function App() {
                       </div>
                       
                       <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                        {test.content}
+                        {t(test.content)}
                       </p>
                     </div>
 
                     <div className="pt-4 mt-4">
-                      <h4 className="text-sm font-extrabold text-slate-950">{test.client_name}</h4>
-                      <p className="text-xs font-semibold text-slate-500">{test.client_role || 'Customer'}</p>
+                      <h4 className="text-sm font-extrabold text-slate-950">{t(test.client_name)}</h4>
+                      <p className="text-xs font-semibold text-slate-500">{t(test.client_role) || t('Customer')}</p>
                     </div>
                   </div>
                 ))}
@@ -1014,10 +1976,10 @@ function App() {
               
               <div className="relative z-10 max-w-3xl mx-auto space-y-6">
                 <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
-                  {cta_section.title || 'Siap Mencetak Ide Anda?'}
+                  {t(cta_section.title) || t('Siap Mencetak Ide Anda?')}
                 </h2>
                 <p className="text-emerald-100 text-sm sm:text-base leading-relaxed max-w-xl mx-auto font-normal">
-                  {cta_section.subtitle || 'Yuk, mulai konsultasi gratis dengan tim ahli kami untuk mendapatkan hasil terbaik untuk bisnismu!'}
+                  {t(cta_section.subtitle) || t('Yuk, mulai konsultasi gratis dengan tim ahli kami untuk mendapatkan hasil terbaik untuk bisnismu!')}
                 </p>
                 
                 <div className="flex flex-wrap justify-center gap-4 pt-4">
@@ -1027,14 +1989,14 @@ function App() {
                     rel={getButtonRel(cta_section.btn_url)}
                     className="px-8 py-3.5 rounded-xl bg-white hover:bg-emerald-50 text-emerald-950 font-extrabold text-sm shadow-md tracking-wider uppercase transition-all hover:scale-105 active:scale-95"
                   >
-                    {cta_section.btn_text || 'Pesan Sekarang'}
+                    {t(cta_section.btn_text) || t('Pesan Sekarang')}
                   </a>
                   {isSectionActive('services') && (
                     <a
                       href="#services"
                       className="px-8 py-3.5 rounded-xl bg-transparent border-2 border-white hover:bg-white/10 text-white font-extrabold text-sm tracking-wider uppercase transition-all"
                     >
-                      Lihat Layanan
+                      {t('Lihat Layanan')}
                     </a>
                   )}
                 </div>
@@ -1049,64 +2011,97 @@ function App() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
                 <div className="space-y-4 max-w-3xl text-left">
-                  <span className="text-xs font-extrabold tracking-widest text-emerald-650 uppercase">Kabar Terbaru</span>
+                  <span className="text-xs font-extrabold tracking-widest text-emerald-650 uppercase">{t('Kabar Terbaru')}</span>
                   <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                    {site_config.news_title || 'Berita & Informasi Terkini'}
+                    {t(site_config.news_title) || t('Berita & Informasi Terkini')}
                   </h2>
                   <p className="text-base text-slate-600">
-                    {site_config.news_subtitle || 'Ikuti perkembangan terbaru mengenai layanan, promo, dan tips seputar percetakan digital kami.'}
+                    {t(site_config.news_subtitle) || t('Ikuti perkembangan terbaru mengenai layanan, promo, and tips seputar percetakan digital kami.')}
                   </p>
                 </div>
                 {news.length > 0 && (
                   <button
                     onClick={navigateToNewsList}
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-slate-200 hover:border-emerald-600 hover:bg-emerald-50/20 text-slate-700 hover:text-emerald-700 font-bold text-sm cursor-pointer transition-all"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-slate-200 hover:border-emerald-600 hover:bg-emerald-50/20 text-slate-700 hover:text-emerald-700 font-bold text-sm cursor-pointer transition-all h-11 bg-white shadow-sm self-start md:self-end"
                   >
-                    <span>Lihat Semua Berita</span>
+                    <span>{t('Lihat Semua Berita')}</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
                 )}
               </div>
 
               {news.length > 0 ? (
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {news.slice(0, 5).map((item, i) => (
-                    <article key={i} className="bg-white border border-slate-100/80 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group text-left">
-                      <div className="relative aspect-[16/10] bg-slate-100 overflow-hidden">
-                        {item.thumbnail ? (
-                          <img
-                            src={getImageUrl(item.thumbnail)}
-                            alt={item.title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-slate-400 bg-slate-200 font-bold">No Image</div>
-                        )}
-                      </div>
-                      <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
-                        <div className="space-y-2">
-                          <span className="text-[10px] font-bold text-slate-400 block">{new Date(item.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
-                          <h3 
-                            onClick={() => navigateToNewsDetail(item.slug)}
-                            className="text-lg font-bold text-slate-900 group-hover:text-emerald-600 transition-colors cursor-pointer line-clamp-2 leading-snug"
-                          >
-                            {item.title}
-                          </h3>
+                <div className="relative group">
+                  {/* Left Floating Chevron */}
+                  {news.length > itemsPerView && (
+                    <button
+                      onClick={() => setNewsStartIndex(prev => Math.max(0, prev - 1))}
+                      disabled={newsStartIndex === 0}
+                      className="absolute -left-2 lg:-left-6 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white/85 backdrop-blur-md border border-slate-200/60 shadow-lg flex items-center justify-center text-slate-700 hover:text-emerald-600 hover:bg-white disabled:opacity-0 disabled:pointer-events-none transition-all duration-300 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 cursor-pointer"
+                      aria-label="Previous Slide"
+                    >
+                      <ChevronLeft className="w-6 h-6" />
+                    </button>
+                  )}
+
+                  {/* Right Floating Chevron */}
+                  {news.length > itemsPerView && (
+                    <button
+                      onClick={() => setNewsStartIndex(prev => Math.min(news.length - itemsPerView, prev + 1))}
+                      disabled={newsStartIndex >= news.length - itemsPerView}
+                      className="absolute -right-2 lg:-right-6 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white/85 backdrop-blur-md border border-slate-200/60 shadow-lg flex items-center justify-center text-slate-700 hover:text-emerald-600 hover:bg-white disabled:opacity-0 disabled:pointer-events-none transition-all duration-300 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 cursor-pointer"
+                      aria-label="Next Slide"
+                    >
+                      <ChevronRight className="w-6 h-6" />
+                    </button>
+                  )}
+
+                  <div className="overflow-hidden -mx-3 px-3 py-2">
+                    <div 
+                      className="flex flex-nowrap -mx-3 transition-transform duration-500 ease-in-out"
+                      style={{ transform: `translate3d(-${newsStartIndex * (100 / itemsPerView)}%, 0, 0)` }}
+                    >
+                      {news.map((item, i) => (
+                        <div key={i} className="w-full md:w-1/2 lg:w-1/3 px-3 flex-shrink-0">
+                          <article className="bg-white border border-slate-100/80 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full group text-left">
+                            <div className="relative aspect-[16/10] bg-slate-100 overflow-hidden">
+                              {item.thumbnail ? (
+                                <img
+                                  src={getImageUrl(item.thumbnail)}
+                                  alt={item.title}
+                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                />
+                              ) : (
+                                <div className="w-full h-full flex items-center justify-center text-slate-400 bg-slate-200 font-bold">{t('No Image')}</div>
+                              )}
+                            </div>
+                            <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+                              <div className="space-y-2">
+                                <span className="text-[10px] font-bold text-slate-400 block">{new Date(item.created_at).toLocaleDateString(lang === 'en' ? 'en-US' : 'id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                                <h3 
+                                  onClick={() => navigateToNewsDetail(item.slug)}
+                                  className="text-lg font-bold text-slate-900 group-hover:text-emerald-600 transition-colors cursor-pointer line-clamp-2 leading-snug"
+                                >
+                                  {t(item.title)}
+                                </h3>
+                              </div>
+                              <button
+                                onClick={() => navigateToNewsDetail(item.slug)}
+                                className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 hover:text-emerald-750 group-hover:translate-x-0.5 cursor-pointer transition-all self-start"
+                              >
+                                <span>{t('Baca Selengkapnya')}</span>
+                                <ChevronRight className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </article>
                         </div>
-                        <button
-                          onClick={() => navigateToNewsDetail(item.slug)}
-                          className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 hover:text-emerald-750 group-hover:translate-x-0.5 cursor-pointer transition-all self-start"
-                        >
-                          <span>Baca Selengkapnya</span>
-                          <ChevronRight className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </article>
-                  ))}
+                      ))}
+                    </div>
+                  </div>
                 </div>
               ) : (
                 <div className="bg-white border border-slate-200/60 border-dashed rounded-3xl p-12 text-center max-w-xl mx-auto space-y-4">
-                  <p className="text-sm text-slate-500 font-semibold">Belum ada berita yang diterbitkan saat ini.</p>
+                  <p className="text-sm text-slate-500 font-semibold">{t('Belum ada berita yang diterbitkan saat ini.')}</p>
                 </div>
               )}
             </div>
@@ -1119,64 +2114,97 @@ function App() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
                 <div className="space-y-4 max-w-3xl text-left">
-                  <span className="text-xs font-extrabold tracking-widest text-emerald-650 uppercase">Kegiatan Kami</span>
+                  <span className="text-xs font-extrabold tracking-widest text-emerald-650 uppercase">{t('Kegiatan Kami')}</span>
                   <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                    {site_config.activities_title || 'Aktifitas & Dokumentasi'}
+                    {t(site_config.activities_title) || t('Aktifitas & Dokumentasi')}
                   </h2>
                   <p className="text-base text-slate-600">
-                    {site_config.activities_subtitle || 'Dokumentasi portofolio kerja, kesibukan tim cetak, serta event penting yang kami hadiri.'}
+                    {t(site_config.activities_subtitle) || t('Dokumentasi portofolio kerja, kesibukan tim cetak, serta event penting yang kami hadiri.')}
                   </p>
                 </div>
                 {activities.length > 0 && (
                   <button
                     onClick={navigateToActivitiesList}
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-slate-200 hover:border-emerald-650 hover:bg-emerald-50/20 text-slate-700 hover:text-emerald-700 font-bold text-sm cursor-pointer transition-all"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-slate-200 hover:border-emerald-650 hover:bg-emerald-50/20 text-slate-700 hover:text-emerald-700 font-bold text-sm cursor-pointer transition-all h-11 bg-white shadow-sm self-start md:self-end"
                   >
-                    <span>Lihat Semua Aktifitas</span>
+                    <span>{t('Lihat Semua Aktifitas')}</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
                 )}
               </div>
 
               {activities.length > 0 ? (
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {activities.slice(0, 5).map((item, i) => (
-                    <article key={i} className="bg-white border border-slate-100/80 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group text-left">
-                      <div className="relative aspect-[16/10] bg-slate-100 overflow-hidden">
-                        {item.thumbnail ? (
-                          <img
-                            src={getImageUrl(item.thumbnail)}
-                            alt={item.title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-slate-400 bg-slate-200 font-bold">No Image</div>
-                        )}
-                      </div>
-                      <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
-                        <div className="space-y-2">
-                          <span className="text-[10px] font-bold text-slate-400 block">{new Date(item.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
-                          <h3 
-                            onClick={() => navigateToActivityDetail(item.slug)}
-                            className="text-lg font-bold text-slate-900 group-hover:text-emerald-600 transition-colors cursor-pointer line-clamp-2 leading-snug"
-                          >
-                            {item.title}
-                          </h3>
+                <div className="relative group">
+                  {/* Left Floating Chevron */}
+                  {activities.length > itemsPerView && (
+                    <button
+                      onClick={() => setActivitiesStartIndex(prev => Math.max(0, prev - 1))}
+                      disabled={activitiesStartIndex === 0}
+                      className="absolute -left-2 lg:-left-6 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white/85 backdrop-blur-md border border-slate-200/60 shadow-lg flex items-center justify-center text-slate-700 hover:text-emerald-600 hover:bg-white disabled:opacity-0 disabled:pointer-events-none transition-all duration-300 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 cursor-pointer"
+                      aria-label="Previous Slide"
+                    >
+                      <ChevronLeft className="w-6 h-6" />
+                    </button>
+                  )}
+
+                  {/* Right Floating Chevron */}
+                  {activities.length > itemsPerView && (
+                    <button
+                      onClick={() => setActivitiesStartIndex(prev => Math.min(activities.length - itemsPerView, prev + 1))}
+                      disabled={activitiesStartIndex >= activities.length - itemsPerView}
+                      className="absolute -right-2 lg:-right-6 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white/85 backdrop-blur-md border border-slate-200/60 shadow-lg flex items-center justify-center text-slate-700 hover:text-emerald-600 hover:bg-white disabled:opacity-0 disabled:pointer-events-none transition-all duration-300 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 cursor-pointer"
+                      aria-label="Next Slide"
+                    >
+                      <ChevronRight className="w-6 h-6" />
+                    </button>
+                  )}
+
+                  <div className="overflow-hidden -mx-3 px-3 py-2">
+                    <div 
+                      className="flex flex-nowrap -mx-3 transition-transform duration-500 ease-in-out"
+                      style={{ transform: `translate3d(-${activitiesStartIndex * (100 / itemsPerView)}%, 0, 0)` }}
+                    >
+                      {activities.map((item, i) => (
+                        <div key={i} className="w-full md:w-1/2 lg:w-1/3 px-3 flex-shrink-0">
+                          <article className="bg-white border border-slate-100/80 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full group text-left">
+                            <div className="relative aspect-[16/10] bg-slate-100 overflow-hidden">
+                              {item.thumbnail ? (
+                                <img
+                                  src={getImageUrl(item.thumbnail)}
+                                  alt={item.title}
+                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                />
+                              ) : (
+                                <div className="w-full h-full flex items-center justify-center text-slate-400 bg-slate-200 font-bold">{t('No Image')}</div>
+                              )}
+                            </div>
+                            <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+                              <div className="space-y-2">
+                                <span className="text-[10px] font-bold text-slate-400 block">{new Date(item.created_at).toLocaleDateString(lang === 'en' ? 'en-US' : 'id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                                <h3 
+                                  onClick={() => navigateToActivityDetail(item.slug)}
+                                  className="text-lg font-bold text-slate-900 group-hover:text-emerald-600 transition-colors cursor-pointer line-clamp-2 leading-snug"
+                                >
+                                  {t(item.title)}
+                                </h3>
+                              </div>
+                              <button
+                                onClick={() => navigateToActivityDetail(item.slug)}
+                                className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 hover:text-emerald-750 group-hover:translate-x-0.5 cursor-pointer transition-all self-start"
+                              >
+                                <span>{t('Lihat Detail')}</span>
+                                <ChevronRight className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </article>
                         </div>
-                        <button
-                          onClick={() => navigateToActivityDetail(item.slug)}
-                          className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 hover:text-emerald-750 group-hover:translate-x-0.5 cursor-pointer transition-all self-start"
-                        >
-                          <span>Lihat Detail</span>
-                          <ChevronRight className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </article>
-                  ))}
+                      ))}
+                    </div>
+                  </div>
                 </div>
               ) : (
                 <div className="bg-white border border-slate-200/60 border-dashed rounded-3xl p-12 text-center max-w-xl mx-auto space-y-4">
-                  <p className="text-sm text-slate-500 font-semibold">Belum ada aktifitas yang didokumentasikan saat ini.</p>
+                  <p className="text-sm text-slate-500 font-semibold">{t('Belum ada aktifitas yang didokumentasikan saat ini.')}</p>
                 </div>
               )}
             </div>
@@ -1202,10 +2230,10 @@ function App() {
               
               <div className="relative z-10 space-y-8">
                 <div className="space-y-3">
-                  <span className="text-xs font-extrabold tracking-widest text-emerald-400 uppercase">Hubungi Kami</span>
-                  <h2 className="text-3xl font-extrabold tracking-tight">{site_config.contact_title || 'Kirimkan Pesan atau Konsultasi Gratis'}</h2>
+                  <span className="text-xs font-extrabold tracking-widest text-emerald-400 uppercase">{t('contact_us')}</span>
+                  <h2 className="text-3xl font-extrabold tracking-tight">{t(site_config.contact_title) || t('Kirimkan Pesan atau Konsultasi Gratis')}</h2>
                   <p className="text-sm text-emerald-100/80 leading-relaxed font-normal">
-                    {site_config.contact_subtitle || 'Punya pertanyaan mengenai bahan, ukuran cetakan, atau ingin mendiskusikan pesanan khusus (custom)? Isi formulir, tim ahli kami akan segera menghubungi Anda.'}
+                    {t(site_config.contact_subtitle) || t('Punya pertanyaan mengenai bahan, ukuran cetakan, atau ingin mendiskusikan pesanan khusus (custom)? Isi formulir, tim ahli kami akan segera menghubungi Anda.')}
                   </p>
                 </div>
 
@@ -1216,8 +2244,8 @@ function App() {
                         <MapPin className="w-5 h-5" />
                       </div>
                       <div>
-                        <h4 className="text-sm font-bold text-white">Alamat</h4>
-                        <p className="text-xs text-emerald-100/70 mt-1">{site_config.address}</p>
+                        <h4 className="text-sm font-bold text-white">{t('address')}</h4>
+                        <p className="text-xs text-emerald-100/70 mt-1">{t(site_config.address)}</p>
                       </div>
                     </div>
                   )}
@@ -1228,7 +2256,7 @@ function App() {
                         <Mail className="w-5 h-5" />
                       </div>
                       <div>
-                        <h4 className="text-sm font-bold text-white">Email Kami</h4>
+                        <h4 className="text-sm font-bold text-white">{t('our_email')}</h4>
                         <a href={`mailto:${site_config.email}`} className="text-xs text-emerald-100/70 hover:text-white transition-colors mt-1 block">
                           {site_config.email}
                         </a>
@@ -1241,7 +2269,7 @@ function App() {
                       <Phone className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="text-sm font-bold text-white">WhatsApp Admin</h4>
+                      <h4 className="text-sm font-bold text-white">{t('wa_admin')}</h4>
                       <a href={getWhatsAppLink("Halo, saya ingin bertanya lebih lanjut...")} target="_blank" rel="noreferrer" className="text-xs text-emerald-100/70 hover:text-white transition-colors mt-1 block">
                         +{site_config.whatsapp_number}
                       </a>
@@ -1253,7 +2281,7 @@ function App() {
               <div className="relative z-10 pt-8 border-t border-emerald-800/30 mt-8 flex items-center justify-end text-xs text-emerald-300/60">
                 <span className="flex items-center gap-1">
                   <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                  Online & Realtime
+                  {t('online_realtime')}
                 </span>
               </div>
             </div>
@@ -1263,7 +2291,7 @@ function App() {
               <form onSubmit={handleContactSubmit} className="space-y-6">
                 <div className="space-y-2">
                   <label htmlFor="contact_name" className="text-xs font-bold text-slate-700 uppercase tracking-wider block">
-                    Nama Lengkap <span className="text-rose-500">*</span>
+                    {t('full_name')} <span className="text-rose-500">*</span>
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
@@ -1274,7 +2302,7 @@ function App() {
                       id="contact_name"
                       value={contactName}
                       onChange={(e) => setContactName(e.target.value)}
-                      placeholder="Masukkan nama lengkap Anda"
+                      placeholder={t('enter_full_name')}
                       required
                       className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 text-sm transition-all bg-slate-50/50"
                     />
@@ -1283,7 +2311,7 @@ function App() {
 
                 <div className="space-y-2">
                   <label htmlFor="contact_phone" className="text-xs font-bold text-slate-700 uppercase tracking-wider block">
-                    Nomor WhatsApp / Telepon <span className="text-rose-500">*</span>
+                    {t('wa_phone_number')} <span className="text-rose-500">*</span>
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
@@ -1294,7 +2322,7 @@ function App() {
                       id="contact_phone"
                       value={contactPhone}
                       onChange={(e) => setContactPhone(e.target.value)}
-                      placeholder="Contoh: 08123456789"
+                      placeholder={t('example_phone')}
                       required
                       className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 text-sm transition-all bg-slate-50/50"
                     />
@@ -1303,13 +2331,13 @@ function App() {
 
                 <div className="space-y-2">
                   <label htmlFor="contact_message" className="text-xs font-bold text-slate-700 uppercase tracking-wider block">
-                    Pesan Anda <span className="text-rose-500">*</span>
+                    {t('your_message')} <span className="text-rose-500">*</span>
                   </label>
                   <textarea
                     id="contact_message"
                     value={contactMessage}
                     onChange={(e) => setContactMessage(e.target.value)}
-                    placeholder="Tuliskan spesifikasi produk cetakan yang ingin ditanyakan (ukuran, jumlah, bahan) atau pesan lainnya..."
+                    placeholder={t('message_placeholder')}
                     rows="4"
                     required
                     className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 text-sm transition-all bg-slate-50/50 resize-y"
@@ -1318,13 +2346,13 @@ function App() {
 
                 {contactError && (
                   <div className="p-4 rounded-xl bg-rose-50 border border-rose-100 text-rose-800 text-xs font-semibold animate-in fade-in duration-200">
-                    {contactError}
+                    {t(contactError)}
                   </div>
                 )}
 
                 {contactSuccess && (
                   <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-800 text-xs font-semibold animate-in fade-in duration-200">
-                    {contactSuccess}
+                    {t(contactSuccess)}
                   </div>
                 )}
 
@@ -1336,12 +2364,12 @@ function App() {
                   {contactLoading ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Mengirim...</span>
+                      <span>{t('sending')}</span>
                     </>
                   ) : (
                     <>
                       <Send className="w-4 h-4" />
-                      <span>Kirim Pesan Sekarang</span>
+                      <span>{t('send_message_now')}</span>
                     </>
                   )}
                 </button>
@@ -1366,16 +2394,16 @@ function App() {
             onClick={goHome} 
             className="inline-flex items-center gap-2 text-sm font-semibold text-slate-650 hover:text-emerald-600 transition-colors cursor-pointer"
           >
-            &larr; Kembali ke Home
+            &larr; {t('back_to_home')}
           </button>
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Kumpulan Berita & Artikel</h1>
-          <p className="text-sm text-slate-600">Temukan informasi, artikel edukatif, dan tips-tips bermanfaat seputar digital printing.</p>
+          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">{t('news_articles_title')}</h1>
+          <p className="text-sm text-slate-600">{t('news_articles_subtitle')}</p>
           
           {/* Simple search bar */}
           <div className="pt-2 max-w-md">
             <input
               type="text"
-              placeholder="Cari berita..."
+              placeholder={t('search_news')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 text-sm transition-all"
@@ -1404,19 +2432,19 @@ function App() {
                 </div>
                 <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                   <div className="space-y-2">
-                    <span className="text-[10px] font-bold text-slate-400 block">{new Date(item.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                    <span className="text-[10px] font-bold text-slate-400 block">{new Date(item.created_at).toLocaleDateString(lang === 'en' ? 'en-US' : 'id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                     <h2 
                       onClick={() => navigateToNewsDetail(item.slug)}
                       className="text-lg font-bold text-slate-900 group-hover:text-emerald-600 transition-colors cursor-pointer line-clamp-2 leading-snug"
                     >
-                      {item.title}
+                      {t(item.title)}
                     </h2>
                   </div>
                   <button
                     onClick={() => navigateToNewsDetail(item.slug)}
                     className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 hover:text-emerald-750 cursor-pointer transition-all self-start"
                   >
-                    <span>Baca Selengkapnya</span>
+                    <span>{t('read_more')}</span>
                     <ChevronRight className="w-4 h-4" />
                   </button>
                 </div>
@@ -1425,7 +2453,7 @@ function App() {
           </div>
         ) : (
           <div className="text-center py-20">
-            <p className="text-slate-500 font-medium">Tidak ada berita yang cocok dengan pencarian Anda.</p>
+            <p className="text-slate-500 font-medium">{t('no_news_match')}</p>
           </div>
         )}
       </div>
@@ -1445,16 +2473,16 @@ function App() {
             onClick={goHome} 
             className="inline-flex items-center gap-2 text-sm font-semibold text-slate-650 hover:text-emerald-600 transition-colors cursor-pointer"
           >
-            &larr; Kembali ke Home
+            &larr; {t('back_to_home')}
           </button>
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Dokumentasi & Kegiatan Kami</h1>
-          <p className="text-sm text-slate-600">Simak berbagai aktifitas produksi cetak kami, proses pengerjaan pesanan, serta event internal/eksternal.</p>
+          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">{t('doc_activities_title')}</h1>
+          <p className="text-sm text-slate-600">{t('doc_activities_subtitle')}</p>
           
           {/* Simple search bar */}
           <div className="pt-2 max-w-md">
             <input
               type="text"
-              placeholder="Cari aktifitas..."
+              placeholder={t('search_activities')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 text-sm transition-all"
@@ -1483,19 +2511,19 @@ function App() {
                 </div>
                 <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                   <div className="space-y-2">
-                    <span className="text-[10px] font-bold text-slate-400 block">{new Date(item.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                    <span className="text-[10px] font-bold text-slate-400 block">{new Date(item.created_at).toLocaleDateString(lang === 'en' ? 'en-US' : 'id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                     <h2 
                       onClick={() => navigateToActivityDetail(item.slug)}
                       className="text-lg font-bold text-slate-900 group-hover:text-emerald-600 transition-colors cursor-pointer line-clamp-2 leading-snug"
                     >
-                      {item.title}
+                      {t(item.title)}
                     </h2>
                   </div>
                   <button
                     onClick={() => navigateToActivityDetail(item.slug)}
                     className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 hover:text-emerald-750 cursor-pointer transition-all self-start"
                   >
-                    <span>Lihat Detail</span>
+                    <span>{t('view_details')}</span>
                     <ChevronRight className="w-4 h-4" />
                   </button>
                 </div>
@@ -1504,7 +2532,7 @@ function App() {
           </div>
         ) : (
           <div className="text-center py-20">
-            <p className="text-slate-500 font-medium">Tidak ada dokumentasi kegiatan yang cocok dengan pencarian Anda.</p>
+            <p className="text-slate-500 font-medium">{t('no_activities_match')}</p>
           </div>
         )}
       </div>
@@ -1524,9 +2552,9 @@ function App() {
     if (!detailItem) {
       return (
         <div className="max-w-3xl mx-auto px-4 py-20 text-center space-y-4">
-          <p className="text-slate-500 text-lg font-semibold">Konten tidak ditemukan atau gagal dimuat.</p>
+          <p className="text-slate-500 text-lg font-semibold">{t('content_not_found')}</p>
           <button onClick={goHome} className="px-6 py-2.5 rounded-xl bg-emerald-605 hover:bg-emerald-700 text-white font-bold text-sm cursor-pointer transition-all shadow-md">
-            Kembali ke Beranda
+            {t('back_to_home_main')}
           </button>
         </div>
       )
@@ -1542,19 +2570,19 @@ function App() {
             onClick={backAction} 
             className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-600 hover:text-emerald-750 transition-colors cursor-pointer"
           >
-            &larr; Kembali ke Daftar
+            &larr; {t('back_to_list')}
           </button>
           
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight break-words">
-            {detailItem.title}
+            {t(detailItem.title)}
           </h1>
 
           <div className="flex items-center gap-2 text-xs text-slate-400 font-bold">
             <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 uppercase tracking-wide">
-              {isNews ? 'Berita' : 'Aktifitas'}
+              {isNews ? t('news') : t('activities')}
             </span>
             <span>&bull;</span>
-            <span>{new Date(detailItem.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+            <span>{new Date(detailItem.created_at).toLocaleDateString(lang === 'en' ? 'en-US' : 'id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
           </div>
         </div>
 
@@ -1571,7 +2599,7 @@ function App() {
         <div className="bg-white border border-slate-200/60 rounded-3xl p-8 sm:p-10 shadow-sm mb-12 overflow-hidden">
           <div 
             className="html-content break-words"
-            dangerouslySetInnerHTML={{ __html: detailItem.description }} 
+            dangerouslySetInnerHTML={{ __html: translateText(detailItem.description, lang) }} 
           />
         </div>
 
@@ -1580,17 +2608,17 @@ function App() {
             onClick={backAction} 
             className="px-6 py-3 rounded-xl border border-slate-200 hover:border-emerald-600 hover:bg-slate-50 text-slate-700 font-bold text-sm cursor-pointer transition-all"
           >
-            &larr; Kembali ke Daftar
+            &larr; {t('back_to_list')}
           </button>
           
           <a
-            href={getWhatsAppLink(`Halo, saya membaca artikel "${detailItem.title}" di website Anda dan ingin bertanya mengenai hal ini...`)}
+            href={getWhatsAppLink(t(`Halo, saya membaca artikel "${detailItem.title}" di website Anda dan ingin bertanya mengenai hal ini...`))}
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold shadow-md hover:scale-[1.01] transition-all"
           >
             <MessageSquare className="w-4 h-4 fill-white" />
-            <span>Tanya Admin via WA</span>
+            <span>{t('ask_admin_wa')}</span>
           </a>
         </div>
       </article>
@@ -1619,19 +2647,33 @@ function App() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
-            <a href="#" onClick={goHome} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Home</a>
-            {isSectionActive('services') && <a href="#services" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Layanan</a>}
-            {isSectionActive('benefits') && <a href="#benefits" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('benefits')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Keunggulan</a>}
-            {isSectionActive('portfolio') && <a href="#portfolio" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Portofolio</a>}
-            {isSectionActive('timeline') && <a href="#timeline" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('timeline')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Cara Pesan</a>}
-             {isSectionActive('testimonials') && <a href="#testimonials" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('testimonials')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Testimoni</a>}
-            {isSectionActive('news') && <a href="#news" onClick={(e) => { e.preventDefault(); navigateToNewsList(); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Berita</a>}
-            {isSectionActive('activities') && <a href="#activities" onClick={(e) => { e.preventDefault(); navigateToActivitiesList(); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Aktifitas</a>}
-            <a href="#contact" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Kontak</a>
+            <a href="#" onClick={goHome} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">{t('home')}</a>
+            {isSectionActive('services') && <a href="#services" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">{t('services')}</a>}
+            {isSectionActive('benefits') && <a href="#benefits" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('benefits')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">{t('benefits')}</a>}
+            {isSectionActive('portfolio') && <a href="#portfolio" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">{t('portfolio')}</a>}
+            {isSectionActive('timeline') && <a href="#timeline" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('timeline')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">{t('timeline')}</a>}
+            {isSectionActive('work_steps') && <a href="#work_steps" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('work_steps')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">{t('work_steps')}</a>}
+            {isSectionActive('testimonials') && <a href="#testimonials" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('testimonials')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">{t('testimonials')}</a>}
+            {isSectionActive('news') && <a href="#news" onClick={(e) => { e.preventDefault(); navigateToNewsList(); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">{t('news')}</a>}
+            {isSectionActive('activities') && <a href="#activities" onClick={(e) => { e.preventDefault(); navigateToActivitiesList(); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">{t('activities')}</a>}
+            <a href="#contact" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">{t('contact')}</a>
           </nav>
 
-          {/* WhatsApp Header Button */}
-          <div className="hidden md:flex items-center">
+          {/* WhatsApp Header Button & Language Toggle */}
+          <div className="hidden md:flex items-center gap-4">
+            <button
+              onClick={() => {
+                const nextLang = lang === 'id' ? 'en' : 'id';
+                setLang(nextLang);
+                if (activePortfolioTab === 'Semua' || activePortfolioTab === 'All') {
+                  setActivePortfolioTab(nextLang === 'en' ? 'All' : 'Semua');
+                }
+              }}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-full border border-slate-200 hover:border-emerald-600 text-xs font-bold text-slate-700 hover:text-emerald-700 transition-all shadow-sm active:scale-95 cursor-pointer bg-white"
+            >
+              <Globe className="w-4 h-4 text-slate-500 hover:text-emerald-600" />
+              <span>{lang === 'id' ? 'ID' : 'EN'}</span>
+            </button>
             <a
               href={getWhatsAppLink("Halo PrintHub, saya ingin melakukan pemesanan...")}
               target="_blank"
@@ -1639,7 +2681,7 @@ function App() {
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold shadow-md shadow-emerald-600/10 hover:shadow-emerald-600/20 active:scale-95 transition-all"
             >
               <Phone className="w-4 h-4 fill-white" />
-              <span>Hubungi Kami</span>
+              <span>{t('contact_us')}</span>
             </a>
           </div>
 
@@ -1663,7 +2705,7 @@ function App() {
               onClick={goHome}
               className="px-3 py-2 rounded-lg text-base font-semibold text-slate-700 hover:bg-slate-50 hover:text-emerald-600"
             >
-              Home
+              {t('home')}
             </a>
             {isSectionActive('services') && (
               <a
@@ -1671,7 +2713,7 @@ function App() {
                 onClick={() => { setMobileMenuOpen(false); setCurrentPage('landing'); setTimeout(() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' }), 50); }}
                 className="px-3 py-2 rounded-lg text-base font-semibold text-slate-700 hover:bg-slate-50 hover:text-emerald-600"
               >
-                Layanan
+                {t('services')}
               </a>
             )}
             {isSectionActive('benefits') && (
@@ -1680,7 +2722,7 @@ function App() {
                 onClick={() => { setMobileMenuOpen(false); setCurrentPage('landing'); setTimeout(() => document.getElementById('benefits')?.scrollIntoView({ behavior: 'smooth' }), 50); }}
                 className="px-3 py-2 rounded-lg text-base font-semibold text-slate-700 hover:bg-slate-50 hover:text-emerald-600"
               >
-                Keunggulan
+                {t('benefits')}
               </a>
             )}
             {isSectionActive('portfolio') && (
@@ -1689,7 +2731,7 @@ function App() {
                 onClick={() => { setMobileMenuOpen(false); setCurrentPage('landing'); setTimeout(() => document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' }), 50); }}
                 className="px-3 py-2 rounded-lg text-base font-semibold text-slate-700 hover:bg-slate-50 hover:text-emerald-600"
               >
-                Portofolio
+                {t('portfolio')}
               </a>
             )}
             {isSectionActive('timeline') && (
@@ -1698,7 +2740,16 @@ function App() {
                 onClick={() => { setMobileMenuOpen(false); setCurrentPage('landing'); setTimeout(() => document.getElementById('timeline')?.scrollIntoView({ behavior: 'smooth' }), 50); }}
                 className="px-3 py-2 rounded-lg text-base font-semibold text-slate-700 hover:bg-slate-50 hover:text-emerald-600"
               >
-                Cara Pesan
+                {t('timeline')}
+              </a>
+            )}
+            {isSectionActive('work_steps') && (
+              <a
+                href="#work_steps"
+                onClick={() => { setMobileMenuOpen(false); setCurrentPage('landing'); setTimeout(() => document.getElementById('work_steps')?.scrollIntoView({ behavior: 'smooth' }), 50); }}
+                className="px-3 py-2 rounded-lg text-base font-semibold text-slate-700 hover:bg-slate-50 hover:text-emerald-600"
+              >
+                {t('work_steps')}
               </a>
             )}
             {isSectionActive('testimonials') && (
@@ -1707,7 +2758,7 @@ function App() {
                 onClick={() => { setMobileMenuOpen(false); setCurrentPage('landing'); setTimeout(() => document.getElementById('testimonials')?.scrollIntoView({ behavior: 'smooth' }), 50); }}
                 className="px-3 py-2 rounded-lg text-base font-semibold text-slate-700 hover:bg-slate-50 hover:text-emerald-600"
               >
-                Testimoni
+                {t('testimonials')}
               </a>
             )}
             {isSectionActive('news') && (
@@ -1716,7 +2767,7 @@ function App() {
                 onClick={(e) => { e.preventDefault(); navigateToNewsList(); }}
                 className="px-3 py-2 rounded-lg text-base font-semibold text-slate-700 hover:bg-slate-50 hover:text-emerald-600"
               >
-                Berita
+                {t('news')}
               </a>
             )}
             {isSectionActive('activities') && (
@@ -1725,7 +2776,7 @@ function App() {
                 onClick={(e) => { e.preventDefault(); navigateToActivitiesList(); }}
                 className="px-3 py-2 rounded-lg text-base font-semibold text-slate-700 hover:bg-slate-50 hover:text-emerald-600"
               >
-                Aktifitas
+                {t('activities')}
               </a>
             )}
             <a
@@ -1733,8 +2784,27 @@ function App() {
               onClick={() => { setMobileMenuOpen(false); setCurrentPage('landing'); setTimeout(() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }), 50); }}
               className="px-3 py-2 rounded-lg text-base font-semibold text-slate-700 hover:bg-slate-50 hover:text-emerald-600"
             >
-              Hubungi Kami
+              {t('contact')}
             </a>
+            
+            {/* Language Selector for Mobile */}
+            <div className="flex items-center justify-between px-3 py-2 border-t border-slate-100 mt-2">
+              <span className="text-sm font-semibold text-slate-500">Language / Bahasa</span>
+              <button
+                onClick={() => {
+                  const nextLang = lang === 'id' ? 'en' : 'id';
+                  setLang(nextLang);
+                  if (activePortfolioTab === 'Semua' || activePortfolioTab === 'All') {
+                    setActivePortfolioTab(nextLang === 'en' ? 'All' : 'Semua');
+                  }
+                }}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 text-xs font-bold text-slate-700 bg-white"
+              >
+                <Globe className="w-4 h-4 text-slate-500" />
+                <span>{lang === 'id' ? 'ID' : 'EN'}</span>
+              </button>
+            </div>
+
             <a
               href={getWhatsAppLink("Halo PrintHub, saya ingin melakukan pemesanan...")}
               target="_blank"
@@ -1742,7 +2812,7 @@ function App() {
               className="mt-4 flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold shadow-md"
             >
               <Phone className="w-5 h-5 fill-white" />
-              <span>Hubungi via WhatsApp</span>
+              <span>{t('contact_wa')}</span>
             </a>
           </div>
         )}
@@ -1789,7 +2859,7 @@ function App() {
                 </span>
               </a>
               <p className="text-sm text-slate-400 max-w-sm leading-relaxed">
-                {site_config?.footer_description || "Menyediakan layanan cetak banner, stiker kemasan, brosur, kartu nama, dan aneka merchandise digital berkualitas tinggi dengan pengerjaan kilat."}
+                {t(site_config?.footer_description || "Menyediakan layanan cetak banner, stiker kemasan, brosur, kartu nama, dan aneka merchandise digital berkualitas tinggi dengan pengerjaan kilat.")}
               </p>
               
               {/* Social links */}
@@ -1822,23 +2892,23 @@ function App() {
 
             {/* Quick Links Block */}
             <div className="lg:col-span-3 space-y-4">
-              <h4 className="text-sm font-bold text-white uppercase tracking-wider">Navigasi</h4>
+              <h4 className="text-sm font-bold text-white uppercase tracking-wider">{t('navigation')}</h4>
               <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-emerald-500 transition-colors">Home</a></li>
-                <li><a href="#services" className="hover:text-emerald-500 transition-colors">Layanan Cetak</a></li>
-                <li><a href="#benefits" className="hover:text-emerald-500 transition-colors">Keunggulan Kami</a></li>
-                <li><a href="#portfolio" className="hover:text-emerald-500 transition-colors">Portofolio</a></li>
+                <li><a href="#" onClick={goHome} className="hover:text-emerald-500 transition-colors">{t('home')}</a></li>
+                {isSectionActive('services') && <li><a href="#services" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="hover:text-emerald-500 transition-colors">{t('printing_services')}</a></li>}
+                {isSectionActive('benefits') && <li><a href="#benefits" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('benefits')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="hover:text-emerald-500 transition-colors">{t('our_advantages')}</a></li>}
+                {isSectionActive('portfolio') && <li><a href="#portfolio" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="hover:text-emerald-500 transition-colors">{t('portfolio')}</a></li>}
               </ul>
             </div>
 
             {/* Contact info block */}
             <div className="lg:col-span-4 space-y-4">
-              <h4 className="text-sm font-bold text-white uppercase tracking-wider">Hubungi Kami</h4>
+              <h4 className="text-sm font-bold text-white uppercase tracking-wider">{t('contact_us')}</h4>
               <ul className="space-y-3 text-sm text-slate-400">
                 {site_config.address && (
                   <li className="flex gap-3 items-start">
                     <MapPin className="w-5 h-5 text-emerald-500 flex-shrink-0" />
-                    <span>{site_config.address}</span>
+                    <span>{t(site_config.address)}</span>
                   </li>
                 )}
                 {site_config.email && (
@@ -1849,7 +2919,7 @@ function App() {
                 )}
                 <li className="flex gap-3 items-center">
                   <Phone className="w-5 h-5 text-emerald-500 flex-shrink-0" />
-                  <a href={getWhatsAppLink("Halo PrintHub, saya ingin memesan cetakan.")} target="_blank" rel="noreferrer" className="hover:text-emerald-500 transition-colors">
+                  <a href={getWhatsAppLink(t("Halo PrintHub, saya ingin memesan cetakan."))} target="_blank" rel="noreferrer" className="hover:text-emerald-500 transition-colors">
                     +{site_config.whatsapp_number}
                   </a>
                 </li>
@@ -1861,9 +2931,9 @@ function App() {
           <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
             <span>&copy; {new Date().getFullYear()} {site_config.site_name}. All rights reserved.</span>
             <div className="flex gap-4">
-              <span>Managed by Four Plus One</span>
+              <span>{t('Managed by Four Plus One')}</span>
               <span>&bull;</span>
-              <span>Design Premium</span>
+              <span>{t('Design Premium')}</span>
             </div>
           </div>
         </div>
