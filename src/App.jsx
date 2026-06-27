@@ -152,6 +152,7 @@ const translations = {
   id: {
     // Nav & General
     home: "Home",
+    about: "Tentang Kami",
     services: "Layanan",
     benefits: "Keunggulan",
     portfolio: "Portofolio",
@@ -278,6 +279,7 @@ const translations = {
   en: {
     // Nav & General
     home: "Home",
+    about: "About Us",
     services: "Services",
     benefits: "Advantages",
     portfolio: "Portfolio",
@@ -2678,6 +2680,7 @@ function App() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
             <a href="#" onClick={goHome} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">{t('home')}</a>
+            {isSectionActive('about') && <a href="#about" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">{t('about')}</a>}
             {isSectionActive('services') && <a href="#services" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">{t('services')}</a>}
             {isSectionActive('benefits') && <a href="#benefits" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('benefits')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">{t('benefits')}</a>}
             {isSectionActive('portfolio') && <a href="#portfolio" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">{t('portfolio')}</a>}
@@ -2737,6 +2740,15 @@ function App() {
             >
               {t('home')}
             </a>
+            {isSectionActive('about') && (
+              <a
+                href="#about"
+                onClick={() => { setMobileMenuOpen(false); setCurrentPage('landing'); setTimeout(() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }), 50); }}
+                className="px-3 py-2 rounded-lg text-base font-semibold text-slate-700 hover:bg-slate-50 hover:text-emerald-600"
+              >
+                {t('about')}
+              </a>
+            )}
             {isSectionActive('services') && (
               <a
                 href="#services"
