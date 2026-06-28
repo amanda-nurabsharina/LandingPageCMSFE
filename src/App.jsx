@@ -501,6 +501,10 @@ const translateText = (text, lang) => {
     'Lihat di Peta': 'View on Map',
     'Aktif': 'Active',
     'Cabang': 'Branches',
+    'Mitra Bisnis': 'Our Clients',
+    'Klien Kami': 'Our Clients',
+    'Telah dipercaya oleh berbagai perusahaan dan institusi di Indonesia untuk solusi percetakan berkualitas.': 'Trusted by various companies and institutions in Indonesia for quality printing solutions.',
+    'Klien': 'Clients',
     'Pesan Instant via WhatsApp': 'Instant Order via WhatsApp',
     'Navigasi': 'Navigation',
     'Layanan Cetak': 'Printing Services',
@@ -665,6 +669,7 @@ function App() {
   // Slider state and responsive boundaries
   const [newsStartIndex, setNewsStartIndex] = useState(0)
   const [activitiesStartIndex, setActivitiesStartIndex] = useState(0)
+  const [clientsStartIndex, setClientsStartIndex] = useState(0)
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
   const [activeBranchId, setActiveBranchId] = useState(null)
 
@@ -1049,9 +1054,10 @@ function App() {
       carousel_images: [],
     },
     branches: [],
+    clients: [],
   }
 
-  const { site_config, hero_section, hero_background, hero_carousel, why_choose_us, cta_section, statistics, services, order_steps, portfolios, testimonials, sections: rawSections, news: rawNews, activities: rawActivities, about_items: rawAboutItems, service_premiums: rawServicePremiums, work_steps: rawWorkSteps, branches: rawBranches } = landingData
+  const { site_config, hero_section, hero_background, hero_carousel, why_choose_us, cta_section, statistics, services, order_steps, portfolios, testimonials, sections: rawSections, news: rawNews, activities: rawActivities, about_items: rawAboutItems, service_premiums: rawServicePremiums, work_steps: rawWorkSteps, branches: rawBranches, clients: rawClients } = landingData
 
   const news = rawNews || []
   const activities = rawActivities || []
@@ -1059,6 +1065,7 @@ function App() {
   const service_premiums = rawServicePremiums || []
   const work_steps = rawWorkSteps || []
   const branches = rawBranches || []
+  const clients = rawClients || []
 
   const sections = rawSections || [
     { section_key: 'hero', is_active: true },
@@ -1078,6 +1085,7 @@ function App() {
     { section_key: 'cta', is_active: true },
     { section_key: 'contact', is_active: true },
     { section_key: 'branches', is_active: true },
+    { section_key: 'clients', is_active: true },
   ]
 
   const isSectionActive = (key) => {
@@ -2327,6 +2335,9 @@ function App() {
       case 'branches':
         return renderBranchesSection()
 
+      case 'clients':
+        return renderClientsSection()
+
       default:
         return null
     }
@@ -2617,6 +2628,95 @@ function App() {
     )
   }
 
+  const renderClientsSection = () => {
+    if (clients.length === 0) return null
+
+    return (
+      <section id="clients" className="py-20 bg-white w-full border-t border-slate-200/40 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 font-sans">
+          
+          {/* Header */}
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <span className="text-xs font-extrabold tracking-widest text-emerald-650 uppercase bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100">
+              {t('Mitra Bisnis', 'Our Clients')}
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+              {t(site_config.clients_title) || t('Klien Kami', 'Our Clients')}
+            </h2>
+            <div className="w-16 h-1 bg-emerald-600 mx-auto mt-4 rounded-full"></div>
+            <p className="text-base text-slate-600 pt-2">
+              {t(site_config.clients_subtitle) || t('Telah dipercaya oleh berbagai perusahaan dan institusi di Indonesia untuk solusi percetakan berkualitas.', 'Trusted by various companies and institutions in Indonesia for quality printing solutions.')}
+            </p>
+          </div>
+
+          {/* Slider Container */}
+          <div className="relative group">
+            {/* Left Floating Chevron */}
+            {clients.length > itemsPerView && (
+              <button
+                onClick={() => setClientsStartIndex(prev => Math.max(0, prev - 1))}
+                disabled={clientsStartIndex === 0}
+                className="absolute -left-2 lg:-left-6 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white/85 backdrop-blur-md border border-slate-200/60 shadow-lg flex items-center justify-center text-slate-700 hover:text-emerald-600 hover:bg-white disabled:opacity-0 disabled:pointer-events-none transition-all duration-300 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 cursor-pointer"
+                aria-label="Previous Slide"
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </button>
+            )}
+
+            {/* Right Floating Chevron */}
+            {clients.length > itemsPerView && (
+              <button
+                onClick={() => setClientsStartIndex(prev => Math.min(clients.length - itemsPerView, prev + 1))}
+                disabled={clientsStartIndex >= clients.length - itemsPerView}
+                className="absolute -right-2 lg:-right-6 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white/85 backdrop-blur-md border border-slate-200/60 shadow-lg flex items-center justify-center text-slate-700 hover:text-emerald-600 hover:bg-white disabled:opacity-0 disabled:pointer-events-none transition-all duration-300 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 cursor-pointer"
+                aria-label="Next Slide"
+              >
+                <ChevronRight className="w-6 h-6" />
+              </button>
+            )}
+
+            <div className="overflow-hidden -mx-3 px-3 py-4">
+              <div 
+                className="flex flex-nowrap -mx-3 transition-transform duration-500 ease-in-out"
+                style={{ transform: `translate3d(-${clientsStartIndex * (100 / itemsPerView)}%, 0, 0)` }}
+              >
+                {clients.map((client, i) => {
+                  const content = (
+                    <div className="bg-slate-50 hover:bg-white border border-slate-100/70 hover:border-emerald-600/30 rounded-2xl p-6 flex flex-col items-center justify-center h-36 shadow-sm hover:shadow-md transition-all duration-300 group cursor-pointer">
+                      {getImageUrl(client.logo) ? (
+                        <img
+                          src={getImageUrl(client.logo)}
+                          alt={client.name}
+                          className="max-h-20 max-w-full object-contain filter grayscale group-hover:grayscale-0 opacity-70 group-hover:opacity-100 transition-all duration-300"
+                        />
+                      ) : (
+                        <div className="text-slate-400 font-bold text-sm">{client.name}</div>
+                      )}
+                    </div>
+                  )
+
+                  return (
+                    <div key={i} className="w-full md:w-1/2 lg:w-1/3 px-3 flex-shrink-0">
+                      {client.website_url ? (
+                        <a href={client.website_url} target="_blank" rel="noreferrer" className="block">
+                          {content}
+                        </a>
+                      ) : (
+                        content
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+    )
+  }
+
   // Helper to render full News List page
   const renderNewsList = () => {
     const filteredNews = newsList.filter(item => 
@@ -2894,6 +2994,7 @@ function App() {
             {isSectionActive('news') && <a href="#news" onClick={(e) => { e.preventDefault(); navigateToNewsList(); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">{t('news')}</a>}
             {isSectionActive('activities') && <a href="#activities" onClick={(e) => { e.preventDefault(); navigateToActivitiesList(); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">{t('activities')}</a>}
             {isSectionActive('branches') && <a href="#branches" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('branches')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">{t('Cabang', 'Branches')}</a>}
+            {isSectionActive('clients') && <a href="#clients" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('clients')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">{t('Klien', 'Clients')}</a>}
             <a href="#contact" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">{t('contact')}</a>
           </nav>
 
@@ -3035,6 +3136,15 @@ function App() {
                 {t('Cabang', 'Branches')}
               </a>
             )}
+            {isSectionActive('clients') && (
+              <a
+                href="#clients"
+                onClick={() => { setMobileMenuOpen(false); setCurrentPage('landing'); setTimeout(() => document.getElementById('clients')?.scrollIntoView({ behavior: 'smooth' }), 50); }}
+                className="px-3 py-2 rounded-lg text-base font-semibold text-slate-700 hover:bg-slate-50 hover:text-emerald-600"
+              >
+                {t('Klien', 'Clients')}
+              </a>
+            )}
             <a
               href="#contact"
               onClick={() => { setMobileMenuOpen(false); setCurrentPage('landing'); setTimeout(() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }), 50); }}
@@ -3157,6 +3267,7 @@ function App() {
                 {isSectionActive('portfolio') && <li><a href="#portfolio" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="hover:text-emerald-500 transition-colors">{t('portfolio')}</a></li>}
                 {isSectionActive('timeline') && <li><a href="#timeline" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('timeline')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="hover:text-emerald-500 transition-colors">{t('timeline')}</a></li>}
                 {isSectionActive('branches') && <li><a href="#branches" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('branches')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="hover:text-emerald-500 transition-colors">{t('Cabang', 'Branches')}</a></li>}
+                {isSectionActive('clients') && <li><a href="#clients" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('clients')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="hover:text-emerald-500 transition-colors">{t('Klien', 'Clients')}</a></li>}
                 {isSectionActive('news') && <li><a href="#" onClick={(e) => { e.preventDefault(); navigateToNewsList(); }} className="hover:text-emerald-500 transition-colors">{t('news')}</a></li>}
                 {isSectionActive('activities') && <li><a href="#" onClick={(e) => { e.preventDefault(); navigateToActivitiesList(); }} className="hover:text-emerald-500 transition-colors">{t('activities')}</a></li>}
                 <li><a href="#contact" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="hover:text-emerald-500 transition-colors">{t('contact')}</a></li>
