@@ -495,6 +495,12 @@ const translateText = (text, lang) => {
     'Tanya Admin via WA': 'Ask Admin via WA',
     'Tanya via WA': 'Ask via WA',
     'Hubungi Kami': 'Contact Us',
+    'Lokasi Cabang': 'Our Branch Locations',
+    'Temukan Cabang Terdekat Kami': 'Find Our Nearest Branch',
+    'Kunjungi gerai fisik kami untuk berkonsultasi langsung atau mengambil pesanan Anda.': 'Visit our physical stores to consult directly or pick up your orders.',
+    'Lihat di Peta': 'View on Map',
+    'Aktif': 'Active',
+    'Cabang': 'Branches',
     'Pesan Instant via WhatsApp': 'Instant Order via WhatsApp',
     'Navigasi': 'Navigation',
     'Layanan Cetak': 'Printing Services',
@@ -660,6 +666,7 @@ function App() {
   const [newsStartIndex, setNewsStartIndex] = useState(0)
   const [activitiesStartIndex, setActivitiesStartIndex] = useState(0)
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+  const [activeBranchId, setActiveBranchId] = useState(null)
 
   const itemsPerView = windowWidth >= 1024 ? 3 : (windowWidth >= 768 ? 2 : 1);
 
@@ -672,6 +679,12 @@ function App() {
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
+
+  useEffect(() => {
+    if (data?.branches && data.branches.length > 0 && activeBranchId === null) {
+      setActiveBranchId(data.branches[0].id)
+    }
+  }, [data, activeBranchId])
 
   const t = (key, fallbackText) => {
     if (translations[lang] && translations[lang][key]) {
@@ -1035,15 +1048,17 @@ function App() {
       secondary_btn_url: '#services',
       carousel_images: [],
     },
+    branches: [],
   }
 
-  const { site_config, hero_section, hero_background, hero_carousel, why_choose_us, cta_section, statistics, services, order_steps, portfolios, testimonials, sections: rawSections, news: rawNews, activities: rawActivities, about_items: rawAboutItems, service_premiums: rawServicePremiums, work_steps: rawWorkSteps } = landingData
+  const { site_config, hero_section, hero_background, hero_carousel, why_choose_us, cta_section, statistics, services, order_steps, portfolios, testimonials, sections: rawSections, news: rawNews, activities: rawActivities, about_items: rawAboutItems, service_premiums: rawServicePremiums, work_steps: rawWorkSteps, branches: rawBranches } = landingData
 
   const news = rawNews || []
   const activities = rawActivities || []
   const about_items = rawAboutItems || []
   const service_premiums = rawServicePremiums || []
   const work_steps = rawWorkSteps || []
+  const branches = rawBranches || []
 
   const sections = rawSections || [
     { section_key: 'hero', is_active: true },
@@ -1062,6 +1077,7 @@ function App() {
     { section_key: 'activities', is_active: true },
     { section_key: 'cta', is_active: true },
     { section_key: 'contact', is_active: true },
+    { section_key: 'branches', is_active: true },
   ]
 
   const isSectionActive = (key) => {
@@ -2308,6 +2324,9 @@ function App() {
       case 'contact':
         return renderContactForm()
 
+      case 'branches':
+        return renderBranchesSection()
+
       default:
         return null
     }
@@ -2470,6 +2489,129 @@ function App() {
               </form>
             </div>
           </div>
+        </div>
+      </section>
+    )
+  }
+
+  const renderBranchesSection = () => {
+    if (branches.length === 0) return null
+    const selectedBranch = branches.find(b => b.id === activeBranchId) || branches[0]
+
+    return (
+      <section id="branches" className="py-24 bg-slate-50 w-full border-t border-slate-200/40 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 font-sans">
+          
+          {/* Header */}
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <span className="text-xs font-extrabold tracking-widest text-emerald-600 uppercase bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100">
+              {t(site_config.branches_badge) || t('Lokasi Cabang', 'Our Branch Locations')}
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+              {t(site_config.branches_title) || t('Temukan Cabang Terdekat Kami', 'Find Our Nearest Branch')}
+            </h2>
+            <div className="w-16 h-1 bg-emerald-600 mx-auto mt-4 rounded-full"></div>
+            <p className="text-base text-slate-600 pt-2">
+              {t(site_config.branches_subtitle) || t('Kunjungi gerai fisik kami untuk berkonsultasi langsung atau mengambil pesanan Anda.', 'Visit our physical stores to consult directly or pick up your orders.')}
+            </p>
+          </div>
+
+          {/* Grid layout */}
+          <div className="grid lg:grid-cols-12 gap-8 items-stretch text-left">
+            
+            {/* Left Column: Branch selector */}
+            <div className="lg:col-span-5 flex flex-col gap-4 max-h-[500px] overflow-y-auto pr-2 scrollbar-thin">
+              {branches.map((branch) => {
+                const isActive = branch.id === selectedBranch?.id
+                return (
+                  <div
+                    key={branch.id}
+                    onClick={() => setActiveBranchId(branch.id)}
+                    className={`p-6 rounded-3xl border transition-all duration-300 cursor-pointer flex flex-col justify-between ${
+                      isActive
+                        ? 'bg-white border-emerald-600 shadow-xl ring-1 ring-emerald-600'
+                        : 'bg-white border-slate-200 hover:border-slate-350 hover:shadow-md'
+                    }`}
+                  >
+                    <div className="space-y-4">
+                      <div className="flex items-start justify-between gap-2">
+                        <h3 className="font-extrabold text-slate-900 text-lg">
+                          {t(branch.name)}
+                        </h3>
+                        {isActive && (
+                          <span className="px-2 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-[10px] text-emerald-700 font-extrabold uppercase">
+                            {t('Aktif', 'Active')}
+                          </span>
+                        )}
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <p className="text-sm text-slate-600 leading-relaxed flex gap-2">
+                          <MapPin className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                          <span>{t(branch.address)}</span>
+                        </p>
+
+                        {branch.phone && (
+                          <p className="text-sm text-slate-600 flex items-center gap-2">
+                            <Phone className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                            <span>{branch.phone}</span>
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Action buttons */}
+                    <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setActiveBranchId(branch.id)
+                        }}
+                        className={`text-xs font-black transition-colors ${
+                          isActive ? 'text-emerald-750' : 'text-slate-500 hover:text-emerald-600'
+                        }`}
+                      >
+                        {t('Lihat di Peta', 'View on Map')}
+                      </button>
+                      
+                      {branch.phone && (
+                        <a
+                          href={`https://wa.me/${branch.phone.replace(/\D/g, '')}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="inline-flex items-center gap-1.5 text-xs font-black text-emerald-600 hover:text-emerald-755 hover:underline"
+                        >
+                          <Phone className="w-3.5 h-3.5 fill-emerald-600" />
+                          <span>WhatsApp</span>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+
+            {/* Right Column: Google Maps Iframe */}
+            <div className="lg:col-span-7 h-[400px] lg:h-[500px] rounded-3xl overflow-hidden shadow-lg border border-slate-200 relative bg-slate-100 flex items-center justify-center">
+              {selectedBranch ? (
+                <iframe
+                  title={`Peta ${selectedBranch.name}`}
+                  src={`https://maps.google.com/maps?q=${selectedBranch.latitude},${selectedBranch.longitude}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
+                  className="w-full h-full border-0 absolute inset-0"
+                  allowFullScreen=""
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                ></iframe>
+              ) : (
+                <div className="text-slate-400 text-sm font-semibold">
+                  {t('Memuat Peta...', 'Loading Map...')}
+                </div>
+              )}
+            </div>
+
+          </div>
+
         </div>
       </section>
     )
@@ -2751,6 +2893,7 @@ function App() {
             {isSectionActive('testimonials') && <a href="#testimonials" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('testimonials')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">{t('testimonials')}</a>}
             {isSectionActive('news') && <a href="#news" onClick={(e) => { e.preventDefault(); navigateToNewsList(); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">{t('news')}</a>}
             {isSectionActive('activities') && <a href="#activities" onClick={(e) => { e.preventDefault(); navigateToActivitiesList(); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">{t('activities')}</a>}
+            {isSectionActive('branches') && <a href="#branches" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('branches')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">{t('Cabang', 'Branches')}</a>}
             <a href="#contact" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors">{t('contact')}</a>
           </nav>
 
@@ -2883,6 +3026,15 @@ function App() {
                 {t('activities')}
               </a>
             )}
+            {isSectionActive('branches') && (
+              <a
+                href="#branches"
+                onClick={() => { setMobileMenuOpen(false); setCurrentPage('landing'); setTimeout(() => document.getElementById('branches')?.scrollIntoView({ behavior: 'smooth' }), 50); }}
+                className="px-3 py-2 rounded-lg text-base font-semibold text-slate-700 hover:bg-slate-50 hover:text-emerald-600"
+              >
+                {t('Cabang', 'Branches')}
+              </a>
+            )}
             <a
               href="#contact"
               onClick={() => { setMobileMenuOpen(false); setCurrentPage('landing'); setTimeout(() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }), 50); }}
@@ -2999,9 +3151,15 @@ function App() {
               <h4 className="text-sm font-bold text-white uppercase tracking-wider">{t('navigation')}</h4>
               <ul className="space-y-2 text-sm">
                 <li><a href="#" onClick={goHome} className="hover:text-emerald-500 transition-colors">{t('home')}</a></li>
+                {isSectionActive('about') && <li><a href="#about" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="hover:text-emerald-500 transition-colors">{t('about')}</a></li>}
                 {isSectionActive('services') && <li><a href="#services" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="hover:text-emerald-500 transition-colors">{t('printing_services')}</a></li>}
                 {isSectionActive('benefits') && <li><a href="#benefits" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('benefits')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="hover:text-emerald-500 transition-colors">{t('our_advantages')}</a></li>}
                 {isSectionActive('portfolio') && <li><a href="#portfolio" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="hover:text-emerald-500 transition-colors">{t('portfolio')}</a></li>}
+                {isSectionActive('timeline') && <li><a href="#timeline" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('timeline')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="hover:text-emerald-500 transition-colors">{t('timeline')}</a></li>}
+                {isSectionActive('branches') && <li><a href="#branches" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('branches')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="hover:text-emerald-500 transition-colors">{t('Cabang', 'Branches')}</a></li>}
+                {isSectionActive('news') && <li><a href="#" onClick={(e) => { e.preventDefault(); navigateToNewsList(); }} className="hover:text-emerald-500 transition-colors">{t('news')}</a></li>}
+                {isSectionActive('activities') && <li><a href="#" onClick={(e) => { e.preventDefault(); navigateToActivitiesList(); }} className="hover:text-emerald-500 transition-colors">{t('activities')}</a></li>}
+                <li><a href="#contact" onClick={(e) => { e.preventDefault(); setCurrentPage('landing'); setTimeout(() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="hover:text-emerald-500 transition-colors">{t('contact')}</a></li>
               </ul>
             </div>
 
