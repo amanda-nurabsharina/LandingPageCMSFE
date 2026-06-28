@@ -493,6 +493,8 @@ const translateText = (text, lang) => {
     'Kembali ke Beranda': 'Back to Home',
     'Kembali ke Daftar': 'Back to List',
     'Tanya Admin via WA': 'Ask Admin via WA',
+    'Tanya via WA': 'Ask via WA',
+    'Hubungi Kami': 'Contact Us',
     'Pesan Instant via WhatsApp': 'Instant Order via WhatsApp',
     'Navigasi': 'Navigation',
     'Layanan Cetak': 'Printing Services',
@@ -1267,104 +1269,164 @@ function App() {
         )
 
       case 'hero_carousel':
-        return (
+        const parseCarouselItem = (item) => {
+          if (!item) return null
+          if (typeof item === 'string') {
+            return {
+              image: item,
+              title: 'Produk',
+              subtitle: 'Bestseller',
+              footer: 'Hubungi Kami'
+            }
+          }
+          return {
+            image: item.image || '',
+            title: item.title || 'Produk',
+            subtitle: item.subtitle || 'Bestseller',
+            footer: item.footer || 'Hubungi Kami'
+          }
+        }
+        
+        const carouselItems = (hero_carousel.carousel_images || []).map(parseCarouselItem).filter(Boolean)
+        const heroItemsPerView = windowWidth >= 1024 ? 2 : (windowWidth >= 768 ? 2 : 1)
+        const maxIdx = Math.max(0, carouselItems.length - heroItemsPerView)
+            return (
           <section
             key="hero_carousel"
-            className="relative min-h-[550px] lg:min-h-[650px] flex items-center py-20 lg:py-32 overflow-hidden bg-slate-900"
+            className="relative overflow-hidden py-16 lg:py-24 bg-gradient-to-b from-emerald-50/40 via-white to-slate-100 text-slate-900"
           >
-            {/* Carousel Images Background */}
-            {hero_carousel.carousel_images && hero_carousel.carousel_images.length > 0 ? (
-              hero_carousel.carousel_images.map((img, i) => (
-                <div
-                  key={i}
-                  className={`absolute inset-0 bg-cover bg-center transition-all duration-1000 ease-in-out -z-20 ${
-                    i === carouselIndex ? 'opacity-60 scale-100' : 'opacity-0 scale-105 pointer-events-none'
-                  }`}
-                  style={{ backgroundImage: `url(${getImageUrl(img)})` }}
-                ></div>
-              ))
-            ) : (
-              /* Fallback if no images uploaded */
-              <div className="absolute inset-0 bg-gradient-to-tr from-emerald-950 via-slate-900 to-emerald-900 -z-20"></div>
-            )}
+            <div className="absolute inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,theme(colors.emerald.50/30),transparent)] opacity-35"></div>
             
-            {/* Dark Gradient Overlay for cinematic look and high text contrast */}
-            <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent -z-10"></div>
-            
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
-              <div className="max-w-2xl space-y-6 text-left">
-                {hero_carousel.badge && (
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-xs font-extrabold tracking-wide uppercase">
-                    <Sparkles className="w-3.5 h-3.5 text-emerald-400 fill-emerald-400 animate-pulse" />
-                    <span>{t(hero_carousel.badge)}</span>
-                  </div>
-                )}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+              <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center font-sans">
                 
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight">
-                  {renderFormattedText(hero_carousel.title, true, lang)}
-                </h1>
+                {/* Left Content (Text) */}
+                <div className="lg:col-span-5 space-y-6 text-center lg:text-left">
+                  {hero_carousel.badge && (
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100/60 border border-emerald-200/50 text-emerald-800 text-xs font-extrabold tracking-wide uppercase">
+                      <Sparkles className="w-3.5 h-3.5 text-emerald-600 fill-emerald-600 animate-pulse" />
+                      <span>{t(hero_carousel.badge)}</span>
+                    </div>
+                  )}
+                  
+                  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-950 tracking-tight leading-tight">
+                    {renderFormattedText(hero_carousel.title, true, lang)}
+                  </h1>
 
-                <p className="text-lg text-slate-350 leading-relaxed font-normal">
-                  {renderFormattedText(hero_carousel.subtitle, false, lang)}
-                </p>
+                  <p className="text-lg text-slate-605 leading-relaxed font-semibold max-w-xl mx-auto lg:mx-0">
+                    {renderFormattedText(hero_carousel.subtitle, false, lang)}
+                  </p>
 
-                <div className="flex flex-col sm:flex-row items-center justify-start gap-4 pt-4">
-                  <a
-                    href={resolveButtonUrl(hero_carousel.primary_btn_url, 'whatsapp')}
-                    target={getButtonTarget(hero_carousel.primary_btn_url)}
-                    rel={getButtonRel(hero_carousel.primary_btn_url)}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-base font-bold shadow-lg shadow-emerald-600/20 hover:shadow-emerald-600/30 hover:-translate-y-0.5 active:translate-y-0 transition-all"
-                  >
-                    <span>{t(hero_carousel.primary_btn_text) || t('Pesan Sekarang')}</span>
-                    <ArrowRight className="w-5 h-5" />
-                  </a>
-                  <a
-                    href={resolveButtonUrl(hero_carousel.secondary_btn_url, '#services')}
-                    target={getButtonTarget(hero_carousel.secondary_btn_url)}
-                    rel={getButtonRel(hero_carousel.secondary_btn_url)}
-                    className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-xl border-2 border-white/20 hover:border-white hover:bg-white/10 text-white text-base font-bold hover:-translate-y-0.5 active:translate-y-0 transition-all"
-                  >
-                    {t(hero_carousel.secondary_btn_text) || t('Layanan Kami')}
-                  </a>
+                  <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+                    {hero_carousel.primary_btn_text && (
+                      <a
+                        href={resolveButtonUrl(hero_carousel.primary_btn_url, 'whatsapp')}
+                        target={getButtonTarget(hero_carousel.primary_btn_url)}
+                        rel={getButtonRel(hero_carousel.primary_btn_url)}
+                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-base font-bold shadow-lg shadow-emerald-600/20 hover:shadow-emerald-600/30 hover:-translate-y-0.5 active:translate-y-0 transition-all"
+                      >
+                        <span>{t(hero_carousel.primary_btn_text)}</span>
+                        <ArrowRight className="w-5 h-5" />
+                      </a>
+                    )}
+                    {hero_carousel.secondary_btn_text && (
+                      <a
+                        href={resolveButtonUrl(hero_carousel.secondary_btn_url, '#services')}
+                        target={getButtonTarget(hero_carousel.secondary_btn_url)}
+                        rel={getButtonRel(hero_carousel.secondary_btn_url)}
+                        className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-xl border-2 border-slate-200 hover:border-emerald-655 hover:bg-emerald-50/30 text-slate-700 hover:text-emerald-700 text-base font-bold hover:-translate-y-0.5 active:translate-y-0 transition-all"
+                      >
+                        {t(hero_carousel.secondary_btn_text)}
+                      </a>
+                    )}
+                  </div>
                 </div>
+
+                {/* Right Content (Product Cards Slider) */}
+                <div className="lg:col-span-7 relative w-full overflow-hidden select-none">
+                  {carouselItems.length > 0 ? (
+                    <div className="space-y-6">
+                      <div className="relative w-full overflow-hidden">
+                        <div 
+                          className="flex gap-6 transition-transform duration-500 ease-out"
+                          style={{ transform: `translateX(-${Math.min(carouselIndex, maxIdx) * (260 + 24)}px)` }}
+                        >
+                          {carouselItems.map((item, i) => (
+                            <div
+                              key={i}
+                              onClick={() => {
+                                const waUrl = getWhatsAppLink(`Halo, saya tertarik dengan produk *${item.title}*. Bisa minta info selengkapnya?`);
+                                window.open(waUrl, '_blank', 'noopener,noreferrer');
+                              }}
+                              className="flex-shrink-0 w-[260px] bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col p-4 cursor-pointer group hover:scale-[1.02] hover:shadow-2xl transition-all duration-300 border border-slate-100"
+                            >
+                              {/* Product Image Clickable to WA */}
+                              <div className="w-full aspect-square overflow-hidden rounded-xl bg-slate-50 relative">
+                                <img
+                                  src={getImageUrl(item.image)}
+                                  alt={item.title}
+                                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                />
+                                <div className="absolute inset-0 bg-slate-950/20 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
+                                  <div className="px-4 py-2 bg-emerald-600 text-white text-xs font-bold rounded-full shadow-lg flex items-center gap-1.5">
+                                    <Phone className="w-3.5 h-3.5 fill-white" />
+                                    <span>{t('Tanya via WA')}</span>
+                                  </div>
+                                </div>
+                              </div>
+                              
+                              {/* Card Text Content */}
+                              <div className="mt-4 flex flex-col flex-grow text-left">
+                                <span className="text-[10px] font-extrabold text-emerald-600 tracking-widest uppercase mb-1">
+                                  {t(item.subtitle)}
+                                </span>
+                                <h3 className="text-base font-black text-slate-900 line-clamp-1 group-hover:text-emerald-700 transition-colors">
+                                  {t(item.title)}
+                                </h3>
+                                <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-slate-500">
+                                  <span>{t(item.footer)}</span>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Navigation Arrow Buttons */}
+                      {carouselItems.length > 1 && (
+                        <div className="flex items-center justify-center lg:justify-start gap-4">
+                          <button
+                            onClick={() => setCarouselIndex(prev => Math.max(0, prev - 1))}
+                            disabled={carouselIndex === 0}
+                            className={`w-12 h-12 bg-white rounded-full border border-slate-200 flex items-center justify-center text-slate-700 shadow-sm transition-all ${
+                              carouselIndex === 0 ? 'opacity-40 cursor-not-allowed' : 'hover:bg-emerald-600 hover:text-white hover:border-emerald-600'
+                            }`}
+                            aria-label="Previous slide"
+                          >
+                            <ChevronLeft className="w-6 h-6" />
+                          </button>
+                          <button
+                            onClick={() => setCarouselIndex(prev => Math.min(maxIdx, prev + 1))}
+                            disabled={carouselIndex >= maxIdx}
+                            className={`w-12 h-12 bg-white rounded-full border border-slate-200 flex items-center justify-center text-slate-700 shadow-sm transition-all ${
+                              carouselIndex >= maxIdx ? 'opacity-40 cursor-not-allowed' : 'hover:bg-emerald-600 hover:text-white hover:border-emerald-600'
+                            }`}
+                            aria-label="Next slide"
+                          >
+                            <ChevronRight className="w-6 h-6" />
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="h-64 rounded-2xl bg-amber-100/50 border-2 border-dashed border-amber-300 flex items-center justify-center text-amber-800 text-sm font-semibold">
+                      Belum ada item carousel. Tambahkan di admin panel.
+                    </div>
+                  )}
+                </div>
+
               </div>
             </div>
-            
-            {/* Carousel Navigation Indicators (Dots) */}
-            {hero_carousel.carousel_images && hero_carousel.carousel_images.length > 1 && (
-              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 z-20 bg-slate-950/40 px-3 py-1.5 rounded-full backdrop-blur-sm">
-                {hero_carousel.carousel_images.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setCarouselIndex(i)}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                      i === carouselIndex ? 'bg-emerald-500 w-4' : 'bg-white/40 hover:bg-white/60'
-                    }`}
-                    aria-label={`Go to slide ${i + 1}`}
-                  ></button>
-                ))}
-              </div>
-            )}
-            
-            {/* Carousel Side Buttons (Arrows) */}
-            {hero_carousel.carousel_images && hero_carousel.carousel_images.length > 1 && (
-              <>
-                <button
-                  onClick={() => setCarouselIndex((prev) => (prev - 1 + hero_carousel.carousel_images.length) % hero_carousel.carousel_images.length)}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-950/30 hover:bg-slate-950/60 border border-white/10 flex items-center justify-center text-white backdrop-blur-sm transition-colors z-20"
-                  aria-label="Previous slide"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-                <button
-                  onClick={() => setCarouselIndex((prev) => (prev + 1) % hero_carousel.carousel_images.length)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-950/30 hover:bg-slate-950/60 border border-white/10 flex items-center justify-center text-white backdrop-blur-sm transition-colors z-20"
-                  aria-label="Next slide"
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </button>
-              </>
-            )}
           </section>
         )
 
