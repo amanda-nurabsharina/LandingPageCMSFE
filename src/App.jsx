@@ -170,9 +170,10 @@ const translations = {
     
     // Headers & Subtitles / Fallbacks
     services_badge: "Layanan Kami",
-    services_title: "Solusi Percetakan Cetak Custom Lengkap",
-    services_subtitle: "Kami siap mencetak berbagai produk kebutuhan branding, promosi, dan bisnis Anda dengan mesin berteknologi canggih.",
+    services_title: "Solusi Profesional & Layanan Terintegrasi",
+    services_subtitle: "Kami siap menghadirkan berbagai solusi terbaik untuk kebutuhan branding, pengembangan bisnis, dan transformasi digital Anda.",
     order_now: "Pesan Sekarang",
+    start_project: "Mulai Proyek",
     
     no_premium_services: "Belum ada layanan premium yang tersedia saat ini.",
     no_work_steps: "Belum ada langkah cara kerja yang ditambahkan saat ini.",
@@ -180,41 +181,41 @@ const translations = {
     no_about_content: "Belum ada konten Tentang Kami saat ini.",
     benefits_badge: "Keunggulan",
     portfolio_badge: "Portofolio",
-    portfolio_title: "Hasil Cetakan Terbaik Kami",
-    portfolio_subtitle: "Berikut adalah beberapa galeri foto produk cetakan yang telah diselesaikan untuk klien-klien kami yang puas.",
+    portfolio_title: "Portofolio Proyek Unggulan",
+    portfolio_subtitle: "Berikut adalah beberapa showcase proyek dan solusi terbaik yang telah diselesaikan untuk klien-klien kami yang puas.",
     portfolio_updating_title: "Portofolio Sedang Diperbarui",
-    portfolio_updating_desc: "Kami sedang memperbarui galeri cetakan digital terbaru kami. Hubungi admin kami untuk melihat katalog foto sampel cetakan stiker, brosur, atau banner lengkap!",
-    request_sample: "Minta Katalog Sampel",
+    portfolio_updating_desc: "Kami sedang memperbarui galeri showcase proyek dan portofolio terbaru kami. Hubungi admin kami untuk informasi lebih lanjut atau diskusi proyek!",
+    request_sample: "Konsultasi Proyek",
     
     timeline_badge: "Proses Kerja",
-    timeline_title: "Cara Pemesanan Sangat Mudah",
-    timeline_subtitle: "Cukup selesaikan 4 langkah mudah berikut untuk mewujudkan ide Anda dalam hasil cetak siap pakai.",
+    timeline_title: "Alur Kerja Mudah & Terstruktur",
+    timeline_subtitle: "Cukup selesaikan 4 langkah mudah berikut untuk mewujudkan proyek dan kebutuhan bisnis Anda.",
     contact_wa_btn: "Hubungi WhatsApp",
     
     testimonials_badge: "Testimoni",
-    testimonials_title: "Apa Kata Pelanggan Setia Kami",
-    testimonials_subtitle: "Kelegaan dan kepuasan pelanggan adalah komitmen utama kami. Simak penilaian langsung mereka.",
+    testimonials_title: "Apa Kata Klien & Mitra Kami",
+    testimonials_subtitle: "Kepercayaan dan kepuasan klien adalah komitmen utama kami. Simak penilaian langsung mereka.",
     
-    ready_to_print_title: "Siap Mencetak Ide Anda?",
-    ready_to_print_subtitle: "Yuk, mulai konsultasi gratis dengan tim ahli kami untuk mendapatkan hasil terbaik untuk bisnismu!",
+    ready_to_print_title: "Siap Memulai Proyek Anda?",
+    ready_to_print_subtitle: "Yuk, mulai konsultasi gratis dengan tim ahli kami untuk mendapatkan solusi terbaik bagi kebutuhan bisnismu!",
     view_services: "Lihat Layanan",
     
     news_badge: "Kabar Terbaru",
     news_title: "Berita & Informasi Terkini",
-    news_subtitle: "Ikuti perkembangan terbaru mengenai layanan, promo, dan tips seputar percetakan digital kami.",
+    news_subtitle: "Ikuti perkembangan terbaru mengenai layanan, inovasi, dan tips seputar industri kami.",
     view_all_news: "Lihat Semua Berita",
     read_more: "Baca Selengkapnya",
     no_news: "Belum ada berita yang diterbitkan saat ini.",
     
     activities_badge: "Kegiatan Kami",
-    activities_title: "Aktifitas & Dokumentasi",
-    activities_subtitle: "Dokumentasi portofolio kerja, kesibukan tim cetak, serta event penting yang kami hadiri.",
-    view_all_activities: "Lihat Semua Aktifitas",
+    activities_title: "Aktivitas & Dokumentasi",
+    activities_subtitle: "Dokumentasi portofolio kerja, aktivitas tim, serta event penting yang kami hadiri.",
+    view_all_activities: "Lihat Semua Aktivitas",
     view_details: "Lihat Detail",
-    no_activities: "Belum ada aktifitas yang didokumentasikan saat ini.",
+    no_activities: "Belum ada aktivitas yang didokumentasikan saat ini.",
     
     contact_title: "Kirimkan Pesan atau Konsultasi Gratis",
-    contact_subtitle: "Punya pertanyaan mengenai bahan, ukuran cetakan, atau ingin mendiskusikan pesanan khusus (custom)? Isi formulir, tim ahli kami akan segera menghubungi Anda.",
+    contact_subtitle: "Punya pertanyaan seputar layanan kami, atau ingin mendiskusikan kebutuhan proyek Anda? Isi formulir, tim kami akan segera menghubungi Anda.",
     address: "Alamat",
     our_email: "Email Kami",
     wa_admin: "WhatsApp Admin",
@@ -224,53 +225,53 @@ const translations = {
     wa_phone_number: "Nomor WhatsApp / Telepon",
     example_phone: "Contoh: 08123456789",
     your_message: "Pesan Anda",
-    message_placeholder: "Tuliskan spesifikasi produk cetakan yang ingin ditanyakan (ukuran, jumlah, bahan) atau pesan lainnya...",
+    message_placeholder: "Tuliskan rincian kebutuhan proyek yang ingin didiskusikan atau pesan lainnya...",
     sending: "Mengirim...",
     send_message_now: "Kirim Pesan Sekarang",
     
     news_articles_title: "Kumpulan Berita & Artikel",
-    news_articles_subtitle: "Temukan informasi, artikel edukatif, dan tips-tips bermanfaat seputar digital printing.",
+    news_articles_subtitle: "Temukan informasi, artikel edukatif, dan tips-tips bermanfaat seputar inovasi digital & bisnis.",
     search_news: "Cari berita...",
     no_news_match: "Tidak ada berita yang cocok dengan pencarian Anda.",
     
     doc_activities_title: "Dokumentasi & Kegiatan Kami",
-    doc_activities_subtitle: "Simak berbagai aktifitas produksi cetak kami, proses pengerjaan pesanan, serta event internal/eksternal.",
-    search_activities: "Cari aktifitas...",
+    doc_activities_subtitle: "Simak berbagai dokumentasi pengerjaan proyek kami, proses kerja tim, serta event internal/eksternal.",
+    search_activities: "Cari aktivitas...",
     no_activities_match: "Tidak ada dokumentasi kegiatan yang cocok dengan pencarian Anda.",
     content_not_found: "Konten tidak ditemukan atau gagal dimuat.",
     
     ask_admin_wa: "Tanya Admin via WA",
-    instant_wa: "Pesan Instant via WhatsApp",
+    instant_wa: "Konsultasi via WhatsApp",
     navigation: "Navigasi",
-    printing_services: "Layanan Cetak",
+    printing_services: "Layanan Kami",
     our_advantages: "Keunggulan Kami",
     Semua: "Semua",
     
     // Statistics & Fallback Items translations (optional but good to have)
     clients_satisfied: "Klien Puas",
-    products_delivered: "Produk Terkirim",
+    products_delivered: "Proyek Selesai",
     experience: "Pengalaman",
     years: "Tahun",
     client_rating: "Rating Klien",
     
-    hero_badge: "Percetakan Digital",
-    hero_title: "Wujudkan Ide Anda Dalam Cetakan",
-    hero_subtitle: "Temukan solusi percetakan digital berkualitas terbaik untuk spanduk, brosur, stiker, dan kemasan Anda.",
+    hero_badge: "Solusi Terpercaya",
+    hero_title: "Wujudkan Solusi Terbaik Untuk Bisnis Anda",
+    hero_subtitle: "Temukan solusi profesional dan terintegrasi berkualitas tinggi untuk mendukung pertumbuhan bisnis Anda.",
     why_choose_title: "Mengapa Memilih Kami?",
-    why_choose_subtitle: "Prioritas utama kami adalah memberikan hasil cetak dengan kualitas premium, pengerjaan cepat, dan pelayanan terbaik untuk Anda.",
-    why_choose_feat1: "Kualitas cetak tajam & presisi",
-    why_choose_feat2: "Tim desainer profesional",
+    why_choose_subtitle: "Prioritas utama kami adalah memberikan hasil dengan kualitas premium, pengerjaan cepat & tepat, serta pelayanan terbaik untuk Anda.",
+    why_choose_feat1: "Kualitas hasil berstandar tinggi",
+    why_choose_feat2: "Tim ahli & berpengalaman",
     why_choose_feat3: "Pengerjaan cepat & tepat waktu",
-    why_choose_feat4: "Harga terjangkau & kompetitif",
+    why_choose_feat4: "Solusi terpercaya & kompetitif",
     
     order_step_1_title: "Konsultasi",
-    order_step_1_desc: "Hubungi kami via WhatsApp untuk konsultasi bahan, ukuran, dan jumlah cetak.",
-    order_step_2_title: "Desain",
-    order_step_2_desc: "Kirim file desain Anda atau gunakan jasa tim desainer kami untuk hasil maksimal.",
-    order_step_3_title: "Cetak",
-    order_step_3_desc: "Proses cetak cepat menggunakan mesin digital printing berteknologi modern.",
-    order_step_4_title: "Selesai",
-    order_step_4_desc: "Hasil cetakan siap diambil atau dikirim langsung ke alamat Anda dengan aman.",
+    order_step_1_desc: "Hubungi kami via WhatsApp atau form kontak untuk mendiskusikan kebutuhan dan spesifikasi proyek Anda.",
+    order_step_2_title: "Perencanaan & Desain",
+    order_step_2_desc: "Kirim brief kebutuhan atau diskusikan konsep bersama tim ahli kami untuk rencana terbaik.",
+    order_step_3_title: "Pengerjaan Proyek",
+    order_step_3_desc: "Proses pengerjaan dilakukan secara profesional dengan standar mutu tinggi dan pengawasan berkala.",
+    order_step_4_title: "Selesai & Serah Terima",
+    order_step_4_desc: "Hasil proyek siap diserahkan dan diimplementasikan sesuai kebutuhan bisnis Anda.",
     connecting_to_db: "Menghubungkan ke database...",
     failed_send_lead: "Gagal mengirim pesan. Silakan coba beberapa saat lagi.",
     success_send_lead: "Pesan Anda berhasil terkirim!",
@@ -283,7 +284,7 @@ const translations = {
     services: "Services",
     benefits: "Advantages",
     portfolio: "Portfolio",
-    timeline: "How to Order",
+    timeline: "How it Works",
     work_steps: "How it Works",
     testimonials: "Testimonials",
     news: "News",
@@ -297,9 +298,10 @@ const translations = {
     
     // Headers & Subtitles / Fallbacks
     services_badge: "Our Services",
-    services_title: "Complete Custom Printing Solutions",
-    services_subtitle: "We are ready to print various products for your branding, promotional, and business needs with state-of-the-art machinery.",
+    services_title: "Complete Professional & Integrated Solutions",
+    services_subtitle: "We are ready to deliver top solutions for your branding, business growth, and digital transformation needs.",
     order_now: "Order Now",
+    start_project: "Start Project",
     
     no_premium_services: "No premium services available at this time.",
     no_work_steps: "No work steps added at this time.",
@@ -307,41 +309,41 @@ const translations = {
     no_about_content: "No About Us content available at this time.",
     benefits_badge: "Advantages",
     portfolio_badge: "Portfolio",
-    portfolio_title: "Our Best Printed Products",
-    portfolio_subtitle: "Here are some galleries of printed products completed for our satisfied clients.",
+    portfolio_title: "Our Best Projects",
+    portfolio_subtitle: "Here are some showcase projects and solutions completed for our satisfied clients.",
     portfolio_updating_title: "Portfolio is Being Updated",
-    portfolio_updating_desc: "We are updating our latest digital print gallery. Contact our admin to see the full catalog of stickers, brochures, or banners!",
-    request_sample: "Request Sample Catalog",
+    portfolio_updating_desc: "We are updating our latest project showcase and portfolio gallery. Contact our admin for more details or project discussions!",
+    request_sample: "Project Consultation",
     
     timeline_badge: "Work Process",
-    timeline_title: "Very Easy Ordering Process",
-    timeline_subtitle: "Simply complete the following 4 easy steps to bring your ideas to life in ready-to-use print.",
+    timeline_title: "Easy & Structured Workflow",
+    timeline_subtitle: "Simply complete the following 4 easy steps to bring your projects and business needs to life.",
     contact_wa_btn: "Contact WhatsApp",
     
     testimonials_badge: "Testimonials",
-    testimonials_title: "What Our Loyal Customers Say",
-    testimonials_subtitle: "Customer satisfaction is our main commitment. Hear directly from them.",
+    testimonials_title: "What Our Clients Say",
+    testimonials_subtitle: "Client trust and satisfaction are our main commitments. Hear directly from them.",
     
-    ready_to_print_title: "Ready to Print Your Ideas?",
-    ready_to_print_subtitle: "Let's start a free consultation with our expert team to get the best results for your business!",
+    ready_to_print_title: "Ready to Start Your Project?",
+    ready_to_print_subtitle: "Let's start a free consultation with our expert team to get the best solutions for your business!",
     view_services: "View Services",
     
     news_badge: "Latest News",
     news_title: "Latest News & Information",
-    news_subtitle: "Follow the latest developments about services, promos, and tips about our digital printing.",
+    news_subtitle: "Follow the latest developments about services, innovations, and industry tips from us.",
     view_all_news: "View All News",
     read_more: "Read More",
     no_news: "No news published at this time.",
     
     activities_badge: "Our Activities",
     activities_title: "Activities & Documentation",
-    activities_subtitle: "Documentation of work portfolio, printing team operations, and important events we attend.",
+    activities_subtitle: "Documentation of project workflows, team operations, and important events we attend.",
     view_all_activities: "View All Activities",
     view_details: "View Details",
     no_activities: "No activities documented at this time.",
     
     contact_title: "Send a Message or Free Consultation",
-    contact_subtitle: "Have questions about materials, print sizes, or want to discuss a custom order? Fill out the form, our expert team will contact you shortly.",
+    contact_subtitle: "Have questions about our services, or want to discuss your project requirements? Fill out the form, our team will contact you shortly.",
     address: "Address",
     our_email: "Our Email",
     wa_admin: "WhatsApp Admin",
@@ -351,53 +353,53 @@ const translations = {
     wa_phone_number: "WhatsApp / Phone Number",
     example_phone: "Example: 08123456789",
     your_message: "Your Message",
-    message_placeholder: "Write down print specifications (size, quantity, material) or other questions...",
+    message_placeholder: "Write down your project requirements, questions, or message...",
     sending: "Sending...",
     send_message_now: "Send Message Now",
     
     news_articles_title: "News & Articles Collection",
-    news_articles_subtitle: "Find information, educational articles, and useful tips about digital printing.",
+    news_articles_subtitle: "Find information, educational articles, and useful tips about digital business & innovations.",
     search_news: "Search news...",
     no_news_match: "No news matches your search.",
     
     doc_activities_title: "Our Documentation & Activities",
-    doc_activities_subtitle: "Follow our printing production activities, order processes, and internal/external events.",
+    doc_activities_subtitle: "Follow our project documentation, working process, and internal/external events.",
     search_activities: "Search activities...",
     no_activities_match: "No activity documentation matches your search.",
     content_not_found: "Content not found or failed to load.",
     
     ask_admin_wa: "Ask Admin via WA",
-    instant_wa: "Instant Order via WhatsApp",
+    instant_wa: "Consultation via WhatsApp",
     navigation: "Navigation",
-    printing_services: "Printing Services",
+    printing_services: "Our Services",
     our_advantages: "Our Advantages",
     Semua: "All",
     
     // Statistics & Fallback Items translations (optional but good to have)
     clients_satisfied: "Satisfied Clients",
-    products_delivered: "Products Delivered",
+    products_delivered: "Projects Completed",
     experience: "Experience",
     years: "Years",
     client_rating: "Client Rating",
     
-    hero_badge: "Digital Printing",
-    hero_title: "Bring Your Ideas to Life in Print",
-    hero_subtitle: "Find the best quality digital printing solutions for your banners, brochures, stickers, and packaging.",
+    hero_badge: "Trusted Solutions",
+    hero_title: "Bring the Best Solutions to Your Business",
+    hero_subtitle: "Find high-quality, integrated professional solutions to empower and scale your business.",
     why_choose_title: "Why Choose Us?",
-    why_choose_subtitle: "Our main priority is to deliver premium quality print, fast turnaround, and the best service for you.",
-    why_choose_feat1: "Sharp & precise print quality",
-    why_choose_feat2: "Professional designer team",
-    why_choose_feat3: "Fast & on-time delivery",
-    why_choose_feat4: "Affordable & competitive pricing",
+    why_choose_subtitle: "Our main priority is to deliver premium quality results, on-time completion, and the best service for you.",
+    why_choose_feat1: "High standard quality results",
+    why_choose_feat2: "Expert & experienced team",
+    why_choose_feat3: "Fast & on-time completion",
+    why_choose_feat4: "Trusted & competitive solutions",
     
     order_step_1_title: "Consultation",
-    order_step_1_desc: "Contact us via WhatsApp for consultation on materials, size, and print quantity.",
-    order_step_2_title: "Design",
-    order_step_2_desc: "Send your design file or use our designer team services for best results.",
-    order_step_3_title: "Print",
-    order_step_3_desc: "Fast printing process using digital printing machinery with modern technology.",
-    order_step_4_title: "Done",
-    order_step_4_desc: "Printed results are ready to be picked up or shipped directly to your address safely.",
+    order_step_1_desc: "Contact us via WhatsApp or contact form to discuss your project needs and specifications.",
+    order_step_2_title: "Planning & Design",
+    order_step_2_desc: "Share your project brief or discuss concepts with our expert team for optimal planning.",
+    order_step_3_title: "Project Execution",
+    order_step_3_desc: "Execution is carried out professionally with high quality standards and structured oversight.",
+    order_step_4_title: "Completion & Handover",
+    order_step_4_desc: "Final deliverables are handed over with top quality assurance and ready for implementation.",
     connecting_to_db: "Connecting to database...",
     failed_send_lead: "Failed to send message. Please try again later.",
     success_send_lead: "Your message has been successfully sent!",
@@ -424,48 +426,68 @@ const translateText = (text, lang) => {
     'Hubungi via WhatsApp': 'Contact via WhatsApp',
     
     'Layanan Kami': 'Our Services',
-    'Solusi Percetakan Cetak Custom Lengkap': 'Complete Custom Printing Solutions',
-    'Kami siap mencetak berbagai produk kebutuhan branding, promosi, dan bisnis Anda dengan mesin berteknologi canggih.': 'We are ready to print various products for your branding, promotional, and business needs with state-of-the-art machinery.',
-    'Pesan Sekarang': 'Order Now',
+    'Solusi Profesional & Layanan Terintegrasi': 'Complete Professional & Integrated Solutions',
+    'Solusi Percetakan Cetak Custom Lengkap': 'Complete Professional & Integrated Solutions',
+    'Kami siap menghadirkan berbagai solusi terbaik untuk kebutuhan branding, pengembangan bisnis, dan transformasi digital Anda.': 'We are ready to deliver top solutions for your branding, business growth, and digital transformation needs.',
+    'Kami siap mencetak berbagai produk kebutuhan branding, promosi, dan bisnis Anda dengan mesin berteknologi canggih.': 'We are ready to deliver top solutions for your branding, business growth, and digital transformation needs.',
+    'Pesan Sekarang': 'Start Project',
+    'Mulai Proyek': 'Start Project',
+    'Tanya Cetak': 'Start Project',
+    'Konsultasi Proyek': 'Project Consultation',
     
     'Belum ada layanan premium yang tersedia saat ini.': 'No premium services available at this time.',
     'Belum ada langkah cara kerja yang ditambahkan saat ini.': 'No work steps added at this time.',
     'Tentang Kami': 'About Us',
     'Belum ada konten Tentang Kami saat ini.': 'No About Us content available at this time.',
-    'Hasil Cetakan Terbaik Kami': 'Our Best Printed Products',
-    'Berikut adalah beberapa galeri foto produk cetakan yang telah diselesaikan untuk klien-klien kami yang puas.': 'Here are some galleries of printed products completed for our satisfied clients.',
+    'Portofolio Proyek Unggulan': 'Our Best Projects',
+    'Hasil Cetakan Terbaik Kami': 'Our Best Projects',
+    'Berikut adalah beberapa showcase proyek dan solusi terbaik yang telah diselesaikan untuk klien-klien kami yang puas.': 'Here are some showcase projects and solutions completed for our satisfied clients.',
+    'Berikut adalah beberapa galeri foto produk cetakan yang telah diselesaikan untuk klien-klien kami yang puas.': 'Here are some showcase projects and solutions completed for our satisfied clients.',
     'Portofolio Sedang Diperbarui': 'Portfolio is Being Updated',
-    'Kami sedang memperbarui galeri cetakan digital terbaru kami. Hubungi admin kami untuk melihat katalog foto sampel cetakan stiker, brosur, atau banner lengkap!': 'We are updating our latest digital print gallery. Contact our admin to see the full catalog of stickers, brochures, or banners!',
-    'Minta Katalog Sampel': 'Request Sample Catalog',
+    'Kami sedang memperbarui galeri showcase proyek dan portofolio terbaru kami. Hubungi admin kami untuk informasi lebih lanjut atau diskusi proyek!': 'We are updating our latest project showcase and portfolio gallery. Contact our admin for more details or project discussions!',
+    'Kami sedang memperbarui galeri cetakan digital terbaru kami. Hubungi admin kami untuk melihat katalog foto sampel cetakan stiker, brosur, atau banner lengkap!': 'We are updating our latest project showcase and portfolio gallery. Contact our admin for more details or project discussions!',
+    'Minta Katalog Sampel': 'Project Consultation',
     
     'Proses Kerja': 'Work Process',
-    'Cara Pemesanan Sangat Mudah': 'Very Easy Ordering Process',
-    'Cukup selesaikan 4 langkah mudah berikut untuk mewujudkan ide Anda dalam hasil cetak siap pakai.': 'Simply complete the following 4 easy steps to bring your ideas to life in ready-to-use print.',
+    'Alur Kerja Mudah & Terstruktur': 'Easy & Structured Workflow',
+    'Cara Pemesanan Sangat Mudah': 'Easy & Structured Workflow',
+    'Cukup selesaikan 4 langkah mudah berikut untuk mewujudkan proyek dan kebutuhan bisnis Anda.': 'Simply complete the following 4 easy steps to bring your projects and business needs to life.',
+    'Cukup selesaikan 4 langkah mudah berikut untuk mewujudkan ide Anda dalam hasil cetak siap pakai.': 'Simply complete the following 4 easy steps to bring your projects and business needs to life.',
     'Hubungi WhatsApp': 'Contact WhatsApp',
     
-    'Apa Kata Pelanggan Setia Kami': 'What Our Loyal Customers Say',
-    'Kelegaan dan kepuasan pelanggan adalah komitmen utama kami. Simak penilaian langsung mereka.': 'Customer satisfaction is our main commitment. Hear directly from them.',
+    'Apa Kata Klien & Mitra Kami': 'What Our Clients Say',
+    'Apa Kata Pelanggan Setia Kami': 'What Our Clients Say',
+    'Kepercayaan dan kepuasan klien adalah komitmen utama kami. Simak penilaian langsung mereka.': 'Client trust and satisfaction are our main commitments. Hear directly from them.',
+    'Kelegaan dan kepuasan pelanggan adalah komitmen utama kami. Simak penilaian langsung mereka.': 'Client trust and satisfaction are our main commitments. Hear directly from them.',
     
-    'Siap Mencetak Ide Anda?': 'Ready to Print Your Ideas?',
-    'Yuk, mulai konsultasi gratis dengan tim ahli kami untuk mendapatkan hasil terbaik untuk bisnismu!': 'Let\'s start a free consultation with our expert team to get the best results for your business!',
+    'Siap Memulai Proyek Anda?': 'Ready to Start Your Project?',
+    'Siap Mencetak Ide Anda?': 'Ready to Start Your Project?',
+    'Yuk, mulai konsultasi gratis dengan tim ahli kami untuk mendapatkan solusi terbaik bagi kebutuhan bisnismu!': 'Let\'s start a free consultation with our expert team to get the best solutions for your business!',
+    'Yuk, mulai konsultasi gratis dengan tim ahli kami untuk mendapatkan hasil terbaik untuk bisnismu!': 'Let\'s start a free consultation with our expert team to get the best solutions for your business!',
     'Lihat Layanan': 'View Services',
     
     'Kabar Terbaru': 'Latest News',
     'Berita & Informasi Terkini': 'Latest News & Information',
-    'Ikuti perkembangan terbaru mengenai layanan, promo, dan tips seputar percetakan digital kami.': 'Follow the latest developments about services, promos, and tips about our digital printing.',
+    'Ikuti perkembangan terbaru mengenai layanan, inovasi, dan tips seputar industri kami.': 'Follow the latest developments about services, innovations, and industry tips from us.',
+    'Ikuti perkembangan terbaru mengenai layanan, promo, dan tips seputar percetakan digital kami.': 'Follow the latest developments about services, innovations, and industry tips from us.',
     'Lihat Semua Berita': 'View All News',
     'Baca Selengkapnya': 'Read More',
     'Belum ada berita yang diterbitkan saat ini.': 'No news published at this time.',
     
     'Kegiatan Kami': 'Our Activities',
+    'Aktivitas & Dokumentasi': 'Activities & Documentation',
     'Aktifitas & Dokumentasi': 'Activities & Documentation',
-    'Dokumentasi portofolio kerja, kesibukan tim cetak, serta event penting yang kami hadiri.': 'Documentation of work portfolio, printing team operations, and important events we attend.',
+    'Dokumentasi portofolio kerja, aktivitas tim, serta event penting yang kami hadiri.': 'Documentation of project workflows, team operations, and important events we attend.',
+    'Dokumentasi portofolio kerja, kesibukan tim cetak, serta event penting yang kami hadiri.': 'Documentation of project workflows, team operations, and important events we attend.',
+    'Lihat Semua Aktivitas': 'View All Activities',
     'Lihat Semua Aktifitas': 'View All Activities',
     'Lihat Detail': 'View Details',
+    'Belum ada aktivitas yang didokumentasikan saat ini.': 'No activities documented at this time.',
     'Belum ada aktifitas yang didokumentasikan saat ini.': 'No activities documented at this time.',
     
     'Kirimkan Pesan atau Konsultasi Gratis': 'Send a Message or Free Consultation',
-    'Punya pertanyaan mengenai bahan, ukuran cetakan, atau ingin mendiskusikan pesanan khusus (custom)? Isi formulir, tim ahli kami akan segera menghubungi Anda.': 'Have questions about materials, print sizes, or want to discuss a custom order? Fill out the form, our expert team will contact you shortly.',
+    'Punya pertanyaan seputar layanan kami, atau ingin mendiskusikan kebutuhan proyek Anda? Isi formulir, tim kami akan segera menghubungi Anda.': 'Have questions about our services, or want to discuss your project requirements? Fill out the form, our team will contact you shortly.',
+    'Punya pertanyaan mengenai bahan, ukuran cetakan, atau ingin mendiskusikan pesanan khusus (custom)? Isi formulir, tim ahli kami akan segera menghubungi Anda.': 'Have questions about our services, or want to discuss your project requirements? Fill out the form, our team will contact you shortly.',
     'Alamat': 'Address',
     'Email Kami': 'Our Email',
     'WhatsApp Admin': 'WhatsApp Admin',
@@ -475,18 +497,22 @@ const translateText = (text, lang) => {
     'Nomor WhatsApp / Telepon': 'WhatsApp / Phone Number',
     'Contoh: 08123456789': 'Example: 08123456789',
     'Pesan Anda': 'Your Message',
-    'Tuliskan spesifikasi produk cetakan yang ingin ditanyakan (ukuran, jumlah, bahan) atau pesan lainnya...': 'Write down print specifications (size, quantity, material) or other questions...',
+    'Tuliskan rincian kebutuhan proyek yang ingin didiskusikan atau pesan lainnya...': 'Write down your project requirements, questions, or message...',
+    'Tuliskan spesifikasi produk cetakan yang ingin ditanyakan (ukuran, jumlah, bahan) atau pesan lainnya...': 'Write down your project requirements, questions, or message...',
     'Mengirim...': 'Sending...',
     'Kirim Pesan Sekarang': 'Send Message Now',
     
     'Kembali ke Home': 'Back to Home',
     'Kumpulan Berita & Artikel': 'News & Articles Collection',
-    'Temukan informasi, artikel edukatif, dan tips-tips bermanfaat seputar digital printing.': 'Find information, educational articles, and useful tips about digital printing.',
+    'Temukan informasi, artikel edukatif, dan tips-tips bermanfaat seputar inovasi digital & bisnis.': 'Find information, educational articles, and useful tips about digital business & innovations.',
+    'Temukan informasi, artikel edukatif, dan tips-tips bermanfaat seputar digital printing.': 'Find information, educational articles, and useful tips about digital business & innovations.',
     'Cari berita...': 'Search news...',
     'Tidak ada berita yang cocok dengan pencarian Anda.': 'No news matches your search.',
     
     'Dokumentasi & Kegiatan Kami': 'Our Documentation & Activities',
-    'Simak berbagai aktifitas produksi cetak kami, proses pengerjaan pesanan, serta event internal/eksternal.': 'Follow our printing production activities, order processes, and internal/external events.',
+    'Simak berbagai dokumentasi pengerjaan proyek kami, proses kerja tim, serta event internal/eksternal.': 'Follow our project documentation, working process, and internal/external events.',
+    'Simak berbagai aktifitas produksi cetak kami, proses pengerjaan pesanan, serta event internal/eksternal.': 'Follow our project documentation, working process, and internal/external events.',
+    'Cari aktivitas...': 'Search activities...',
     'Cari aktifitas...': 'Search activities...',
     'Tidak ada dokumentasi kegiatan yang cocok dengan pencarian Anda.': 'No activity documentation matches your search.',
     'Konten tidak ditemukan atau gagal dimuat.': 'Content not found or failed to load.',
@@ -503,52 +529,72 @@ const translateText = (text, lang) => {
     'Cabang': 'Branches',
     'Mitra Bisnis': 'Our Clients',
     'Klien Kami': 'Our Clients',
-    'Telah dipercaya oleh berbagai perusahaan dan institusi di Indonesia untuk solusi percetakan berkualitas.': 'Trusted by various companies and institutions in Indonesia for quality printing solutions.',
+    'Telah dipercaya oleh berbagai perusahaan dan institusi di Indonesia untuk solusi bisnis berkualitas.': 'Trusted by various companies and institutions in Indonesia for quality business solutions.',
+    'Telah dipercaya oleh berbagai perusahaan dan institusi di Indonesia untuk solusi percetakan berkualitas.': 'Trusted by various companies and institutions in Indonesia for quality business solutions.',
     'Klien': 'Clients',
-    'Pesan Instant via WhatsApp': 'Instant Order via WhatsApp',
+    'Pesan Instant via WhatsApp': 'Consultation via WhatsApp',
     'Navigasi': 'Navigation',
-    'Layanan Cetak': 'Printing Services',
+    'Layanan Cetak': 'Our Services',
     'Keunggulan Kami': 'Our Advantages',
     'Semua': 'All',
     
     'Klien Puas': 'Satisfied Clients',
-    'Produk Terkirim': 'Products Delivered',
+    'Produk Terkirim': 'Projects Completed',
+    'Proyek Selesai': 'Projects Completed',
     'Pengalaman': 'Experience',
     '5 Tahun': '5 Years',
     'Tahun': 'Years',
     'Rating Klien': 'Client Rating',
     
-    'Percetakan Digital': 'Digital Printing',
-    'Wujudkan Ide Anda Dalam Cetakan': 'Bring Your Ideas to Life in Print',
-    'Temukan solusi percetakan digital berkualitas terbaik untuk spanduk, brosur, stiker, dan kemasan Anda.': 'Find the best quality digital printing solutions for your banners, brochures, stickers, and packaging.',
+    'Solusi Terpercaya': 'Trusted Solutions',
+    'Percetakan Digital': 'Trusted Solutions',
+    'Wujudkan Solusi Terbaik Untuk Bisnis Anda': 'Bring the Best Solutions to Your Business',
+    'Wujudkan Ide Anda Dalam Cetakan': 'Bring the Best Solutions to Your Business',
+    'Temukan solusi profesional dan terintegrasi berkualitas tinggi untuk mendukung pertumbuhan bisnis Anda.': 'Find high-quality, integrated professional solutions to empower and scale your business.',
+    'Temukan solusi percetakan digital berkualitas terbaik untuk spanduk, brosur, stiker, dan kemasan Anda.': 'Find high-quality, integrated professional solutions to empower and scale your business.',
     'Mengapa Memilih Kami?': 'Why Choose Us?',
-    'Prioritas utama kami adalah memberikan hasil cetak dengan kualitas premium, pengerjaan cepat, dan pelayanan terbaik untuk Anda.': 'Our main priority is to deliver premium quality print, fast turnaround, and the best service for you.',
-    'Kualitas cetak tajam & presisi': 'Sharp & precise print quality',
-    'Tim desainer profesional': 'Professional designer team',
-    'Pengerjaan cepat & tepat waktu': 'Fast & on-time delivery',
-    'Harga terjangkau & kompetitif': 'Affordable & competitive pricing',
+    'Prioritas utama kami adalah memberikan hasil dengan kualitas premium, pengerjaan cepat & tepat, serta pelayanan terbaik untuk Anda.': 'Our main priority is to deliver premium quality results, on-time completion, and the best service for you.',
+    'Prioritas utama kami adalah memberikan hasil cetak dengan kualitas premium, pengerjaan cepat, dan pelayanan terbaik untuk Anda.': 'Our main priority is to deliver premium quality results, on-time completion, and the best service for you.',
+    'Kualitas hasil berstandar tinggi': 'High standard quality results',
+    'Kualitas cetak tajam & presisi': 'High standard quality results',
+    'Tim ahli & berpengalaman': 'Expert & experienced team',
+    'Tim desainer profesional': 'Expert & experienced team',
+    'Pengerjaan cepat & tepat waktu': 'Fast & on-time completion',
+    'Solusi terpercaya & kompetitif': 'Trusted & competitive solutions',
+    'Harga terjangkau & kompetitif': 'Trusted & competitive solutions',
     
     'Konsultasi': 'Consultation',
-    'Hubungi kami via WhatsApp untuk konsultasi bahan, ukuran, dan jumlah cetak.': 'Contact us via WhatsApp for consultation on materials, size, and print quantity.',
+    'Hubungi kami via WhatsApp atau form kontak untuk mendiskusikan kebutuhan dan spesifikasi proyek Anda.': 'Contact us via WhatsApp or contact form to discuss your project needs and specifications.',
+    'Hubungi kami via WhatsApp untuk konsultasi bahan, ukuran, dan jumlah cetak.': 'Contact us via WhatsApp or contact form to discuss your project needs and specifications.',
+    'Perencanaan & Desain': 'Planning & Design',
     'Desain': 'Design',
-    'Kirim file desain Anda atau gunakan jasa tim desainer kami untuk hasil maksimal.': 'Send your design file or use our designer team services for best results.',
-    'Cetak': 'Print',
-    'Proses cetak cepat menggunakan mesin digital printing berteknologi modern.': 'Fast printing process using digital printing machinery with modern technology.',
-    'Selesai': 'Done',
-    'Hasil cetakan siap diambil atau dikirim langsung ke alamat Anda dengan aman.': 'Printed results are ready to be picked up or shipped directly to your address safely.',
+    'Kirim brief kebutuhan atau diskusikan konsep bersama tim ahli kami untuk rencana terbaik.': 'Share your project brief or discuss concepts with our expert team for optimal planning.',
+    'Kirim file desain Anda atau gunakan jasa tim desainer kami untuk hasil maksimal.': 'Share your project brief or discuss concepts with our expert team for optimal planning.',
+    'Pengerjaan Proyek': 'Project Execution',
+    'Cetak': 'Project Execution',
+    'Proses pengerjaan dilakukan secara profesional dengan standar mutu tinggi dan pengawasan berkala.': 'Execution is carried out professionally with high quality standards and structured oversight.',
+    'Proses cetak cepat menggunakan mesin digital printing berteknologi modern.': 'Execution is carried out professionally with high quality standards and structured oversight.',
+    'Selesai & Serah Terima': 'Completion & Handover',
+    'Selesai': 'Completion & Handover',
+    'Hasil proyek siap diserahkan dan diimplementasikan sesuai kebutuhan bisnis Anda.': 'Final deliverables are ready to be handed over and deployed to meet your business requirements.',
+    'Hasil cetakan siap diambil atau dikirim langsung ke alamat Anda dengan aman.': 'Final deliverables are ready to be handed over and deployed to meet your business requirements.',
     
-    'Cetak Kualitas HD': 'HD Quality Printing',
-    'Warna cemerlang & akurat 99%.': 'Brilliant & 99% accurate colors.',
+    'Standar Kualitas Tinggi': 'High Quality Standards',
+    'Cetak Kualitas HD': 'High Quality Standards',
+    'Hasil presisi, konsisten, dan teruji.': 'Precise, consistent, and proven results.',
+    'Warna cemerlang & akurat 99%.': 'Precise, consistent, and proven results.',
     'Express Delivery': 'Express Delivery',
     'Pengerjaan tepat waktu sesuai deadline.': 'On-time completion according to deadline.',
     'Layanan Terbaik': 'Best Service',
-    'Gratis revisi setup file cetak.': 'Free print file setup revision.',
+    'Konsultasi & dukungan proyek terpadu.': 'Comprehensive project consultation & support.',
+    'Gratis revisi setup file cetak.': 'Comprehensive project consultation & support.',
     'Customer': 'Customer',
     'Belum ada layanan premium yang tersedia.': 'No premium services available.',
     'Belum ada langkah cara kerja yang tersedia saat ini.': 'No work steps available at this time.',
     
-    'Sangat puas dengan cetakan stiker kemasan cup kopi saya. Warnanya tajam, tidak luntur bila terkena air, dan pengerjaannya sangat cepat!': 'Very satisfied with the sticker prints for my coffee cups. The colors are sharp, water-resistant, and the service was extremely fast!',
-    'Pemilik Kedai Kopi': 'Coffee Shop Owner',
+    'Sangat puas dengan kualitas pengerjaan dan hasil proyek dari tim ini. Komunikasi responsif, desain modern, dan pengerjaannya sangat cepat!': 'Very satisfied with the quality of work and project results from this team. Responsive communication, modern design, and fast delivery!',
+    'Sangat puas dengan cetakan stiker kemasan cup kopi saya. Warnanya tajam, tidak luntur bila terkena air, dan pengerjaannya sangat cepat!': 'Very satisfied with the quality of work and project results from this team. Responsive communication, modern design, and fast delivery!',
+    'Pemilik Kedai Kopi': 'Business Owner',
     
     // Services We Provide and work steps
     'Services We Provide': 'Services We Provide',
@@ -583,8 +629,9 @@ const translateText = (text, lang) => {
     'Fast Delivery': 'Fast Delivery',
     'Rapid development with regular updates and continuous feedback loops.': 'Rapid development with regular updates and continuous feedback loops.',
     
-    'Menyediakan layanan cetak banner, stiker kemasan, brosur, kartu nama, dan aneka merchandise digital berkualitas tinggi dengan pengerjaan kilat.': 'Providing high-quality banner printing, packaging stickers, brochures, business cards, and digital merchandise with express delivery.',
-    'Layanan Cetak': 'Printing Services',
+    'Menyediakan layanan profesional dan solusi digital berkualitas tinggi untuk mendukung pertumbuhan bisnis Anda.': 'Providing high-quality professional services and digital solutions tailored to grow your business effectively.',
+    'Menyediakan layanan cetak banner, stiker kemasan, brosur, kartu nama, dan aneka merchandise digital berkualitas tinggi dengan pengerjaan kilat.': 'Providing high-quality professional services and digital solutions tailored to grow your business effectively.',
+    'Layanan Cetak': 'Our Services',
     'Keunggulan Kami': 'Our Advantages',
     'Managed by Four Plus One': 'Managed by Four Plus One',
     'Design Premium': 'Premium Design'
@@ -953,15 +1000,15 @@ function App() {
   // Fallback data in case the API is unreachable (so the frontend still loads beautifully!)
   const landingData = data || {
     site_config: {
-      site_name: 'PrintHub',
+      site_name: 'FourPlusOne',
       whatsapp_number: '628123456789',
-      email: 'info@printhub.com',
-      address: 'Jl. Percetakan Indah No. 45, Jakarta Selatan',
+      email: 'info@fourplusone.com',
+      address: 'Jakarta, Indonesia',
       facebook_url: '#',
       instagram_url: '#',
       twitter_url: '#',
       contact_title: 'Kirimkan Pesan atau Konsultasi Gratis',
-      contact_subtitle: 'Punya pertanyaan mengenai bahan, ukuran cetakan, atau ingin mendiskusikan pesanan khusus (custom)? Isi formulir, tim ahli kami akan segera menghubungi Anda.',
+      contact_subtitle: 'Punya pertanyaan seputar layanan kami, atau ingin mendiskusikan kebutuhan proyek Anda? Isi formulir, tim kami akan segera menghubungi Anda.',
       about_title: 'Innovation meets precision.',
       about_subtitle: 'Welcome to Fourplusone. We are a premier IT Software House dedicated to bridging the gap between complex business needs and elegant digital experiences',
       service_premium_title: 'Services We Provide',
@@ -970,44 +1017,44 @@ function App() {
       work_steps_subtitle: 'A seamless process designed to save you time and ensure top-quality results',
     },
     hero_section: {
-      badge: 'Percetakan Digital',
-      title: 'Wujudkan Ide Anda Dalam Cetakan',
-      subtitle: 'Temukan solusi percetakan digital berkualitas terbaik untuk spanduk, brosur, stiker, dan kemasan Anda.',
-      primary_btn_text: 'Pesan Sekarang',
+      badge: 'Solusi Terpercaya',
+      title: 'Wujudkan Solusi Terbaik Untuk Bisnis Anda',
+      subtitle: 'Temukan solusi profesional dan terintegrasi berkualitas tinggi untuk mendukung pertumbuhan bisnis Anda.',
+      primary_btn_text: 'Mulai Proyek',
       primary_btn_url: '#order',
       secondary_btn_text: 'Layanan Kami',
       secondary_btn_url: '#services',
     },
     why_choose_us: {
       title: 'Mengapa Memilih Kami?',
-      subtitle: 'Prioritas utama kami adalah memberikan hasil cetak dengan kualitas premium, pengerjaan cepat, dan pelayanan terbaik untuk Anda.',
+      subtitle: 'Prioritas utama kami adalah memberikan hasil dengan kualitas premium, pengerjaan cepat & tepat, serta pelayanan terbaik untuk Anda.',
       features: [
-        'Kualitas cetak tajam & presisi',
-        'Tim desainer profesional',
+        'Kualitas hasil berstandar tinggi',
+        'Tim ahli & berpengalaman',
         'Pengerjaan cepat & tepat waktu',
-        'Harga terjangkau & kompetitif',
+        'Solusi terpercaya & kompetitif',
       ]
     },
     statistics: [
       { value: '500+', label: 'Klien Puas' },
-      { value: '10,000+', label: 'Produk Terkirim' },
+      { value: '10,000+', label: 'Proyek Selesai' },
       { value: '5 Tahun', label: 'Pengalaman' },
       { value: '4.9/5', label: 'Rating Klien' }
     ],
     services: [
-      { title: 'Spanduk & Banner', description: 'Cetak spanduk berkualitas tinggi dengan warna tajam untuk kebutuhan promosi bisnis Anda.', icon: 'printer' },
-      { title: 'Stiker & Label', description: 'Stiker kemasan produk, label pengiriman, cutting stiker vinyl tahan air berkualitas tinggi.', icon: 'tag' },
-      { title: 'Brosur & Flyer', description: 'Media promosi lipat dua, lipat tiga, brosur pamflet dengan kertas art paper mengkilap.', icon: 'file-text' }
+      { title: 'Website & App Development', description: 'Solusi pembuatan website profil perusahaan, aplikasi web, dan landing page modern berperforma tinggi.', icon: 'globe' },
+      { title: 'UI/UX & Branding', description: 'Desain identitas visual, antarmuka pengguna elegan, dan pengalaman digital yang mengesankan.', icon: 'layout' },
+      { title: 'Custom Dashboards & ERP', description: 'Pengembangan sistem manajemen data, CRM, dan sistem otomasi bisnis terintegrasi.', icon: 'cpu' }
     ],
     order_steps: [
-      { step_number: 1, title: 'Konsultasi', description: 'Hubungi kami via WhatsApp untuk konsultasi bahan, ukuran, dan jumlah cetak.', icon: 'message-square' },
-      { step_number: 2, title: 'Desain', description: 'Kirim file desain Anda atau gunakan jasa tim desainer kami untuk hasil maksimal.', icon: 'edit' },
-      { step_number: 3, title: 'Cetak', description: 'Proses cetak cepat menggunakan mesin digital printing berteknologi modern.', icon: 'printer' },
-      { step_number: 4, title: 'Selesai', description: 'Hasil cetakan siap diambil atau dikirim langsung to alamat Anda dengan aman.', icon: 'check' }
+      { step_number: 1, title: 'Konsultasi', description: 'Hubungi kami via WhatsApp atau form kontak untuk mendiskusikan kebutuhan dan spesifikasi proyek Anda.', icon: 'message-square' },
+      { step_number: 2, title: 'Perencanaan & Desain', description: 'Kirim brief kebutuhan atau diskusikan konsep bersama tim ahli kami untuk rencana terbaik.', icon: 'edit' },
+      { step_number: 3, title: 'Pengerjaan Proyek', description: 'Proses pengerjaan dilakukan secara profesional dengan standar mutu tinggi dan pengawasan berkala.', icon: 'briefcase' },
+      { step_number: 4, title: 'Selesai & Serah Terima', description: 'Hasil proyek siap diserahkan dan diimplementasikan sesuai kebutuhan bisnis Anda.', icon: 'check' }
     ],
     portfolios: [],
     testimonials: [
-      { client_name: 'Rian Diantono', client_role: 'Pemilik Kedai Kopi', stars: 5, content: 'Sangat puas dengan cetakan stiker kemasan cup kopi saya. Warnanya tajam, tidak luntur bila terkena air, dan pengerjaannya sangat cepat!' }
+      { client_name: 'Rian Diantono', client_role: 'Founder & Business Owner', stars: 5, content: 'Sangat puas dengan kualitas pengerjaan dan hasil proyek dari tim ini. Komunikasi responsif, desain modern, dan pengerjaannya sangat cepat!' }
     ],
     news: [],
     activities: [],
@@ -1029,25 +1076,25 @@ function App() {
       { title: 'Fast Delivery', description: 'Rapid development with regular updates and continuous feedback loops.' }
     ],
     cta_section: {
-      title: 'Siap Mencetak Ide Anda?',
-      subtitle: 'Yuk, mulai konsultasi gratis dengan tim ahli kami untuk mendapatkan hasil terbaik untuk bisnismu!',
-      btn_text: 'Pesan Sekarang',
+      title: 'Siap Memulai Proyek Anda?',
+      subtitle: 'Yuk, mulai konsultasi gratis dengan tim ahli kami untuk mendapatkan solusi terbaik bagi kebutuhan bisnismu!',
+      btn_text: 'Mulai Proyek',
       btn_url: 'whatsapp',
     },
     hero_background: {
-      badge: 'Bisnis Digital',
-      title: 'Wujudkan Ide Anda Dalam Cetakan',
-      subtitle: 'Temukan solusi percetakan digital berkualitas terbaik untuk spanduk, brosur, stiker, dan kemasan Anda.',
-      primary_btn_text: 'Pesan Sekarang',
+      badge: 'Solusi Digital',
+      title: 'Wujudkan Solusi Terbaik Untuk Bisnis Anda',
+      subtitle: 'Temukan solusi profesional dan terintegrasi berkualitas tinggi untuk mendukung pertumbuhan bisnis Anda.',
+      primary_btn_text: 'Mulai Proyek',
       primary_btn_url: '#order',
       secondary_btn_text: 'Layanan Kami',
       secondary_btn_url: '#services',
     },
     hero_carousel: {
-      badge: 'Promo Unggulan',
-      title: 'Wujudkan Ide Anda Dalam Cetakan',
-      subtitle: 'Temukan solusi percetakan digital berkualitas terbaik untuk spanduk, brosur, stiker, dan kemasan Anda.',
-      primary_btn_text: 'Pesan Sekarang',
+      badge: 'Inovasi Digital',
+      title: 'Wujudkan Solusi Terbaik Untuk Bisnis Anda',
+      subtitle: 'Temukan solusi profesional dan terintegrasi berkualitas tinggi untuk mendukung pertumbuhan bisnis Anda.',
+      primary_btn_text: 'Mulai Proyek',
       primary_btn_url: '#order',
       secondary_btn_text: 'Layanan Kami',
       secondary_btn_url: '#services',
@@ -1094,8 +1141,8 @@ function App() {
   }
 
   // WhatsApp redirection generator
-  const getWhatsAppLink = (message = "Halo PrintHub, saya ingin memesan cetakan...") => {
-    const cleanNumber = site_config.whatsapp_number.replace(/\D/g, '')
+  const getWhatsAppLink = (message = `Halo ${site_config.site_name || 'Admin'}, saya ingin berkonsultasi mengenai proyek...`) => {
+    const cleanNumber = (site_config.whatsapp_number || '').replace(/\D/g, '')
     return `https://wa.me/${cleanNumber}?text=${encodeURIComponent(message)}`
   }
 
@@ -1185,7 +1232,7 @@ function App() {
                       <div className="relative overflow-hidden rounded-2xl border border-slate-200/80 shadow-2xl bg-white p-2 animate-in slide-in-from-right-12 duration-700">
                         <img
                           src={getImageUrl(hero_section.image_path)}
-                          alt="PrintHub Printing Machine Banner"
+                          alt={`${site_config.site_name || 'Company'} Showcase Banner`}
                           className="w-full h-auto rounded-xl object-cover hover:scale-[1.02] transition-transform duration-500"
                         />
                       </div>
@@ -1479,10 +1526,10 @@ function App() {
               <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
                 <span className="text-xs font-extrabold tracking-widest text-emerald-700 uppercase">{t('Layanan Kami')}</span>
                 <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                  {renderFormattedText(site_config.services_title || 'Solusi Percetakan Cetak Custom Lengkap', true, lang)}
+                  {renderFormattedText(site_config.services_title || 'Solusi Profesional & Layanan Terintegrasi', true, lang)}
                 </h2>
                 <p className="text-base text-slate-600">
-                  {renderFormattedText(site_config.services_subtitle || 'Kami siap mencetak berbagai produk kebutuhan branding, promosi, dan bisnis Anda dengan mesin berteknologi canggih.', false, lang)}
+                  {renderFormattedText(site_config.services_subtitle || 'Kami siap menghadirkan berbagai solusi terbaik untuk kebutuhan branding, pengembangan bisnis, dan transformasi digital Anda.', false, lang)}
                 </p>
               </div>
 
@@ -1516,12 +1563,12 @@ function App() {
 
                       <div className={`pt-6 border-t mt-6 flex items-center justify-between ${isFirst ? 'border-emerald-500/30' : 'border-slate-50'}`}>
                         <a
-                          href={getWhatsAppLink(t(`Halo PrintHub, saya ingin berkonsultasi tentang cetak custom ${service.title}.`))}
+                          href={getWhatsAppLink(t(`Halo ${site_config.site_name || 'Admin'}, saya ingin berkonsultasi tentang layanan ${service.title}.`))}
                           target="_blank"
                           rel="noreferrer"
                           className={`inline-flex items-center gap-1 text-xs font-bold ${isFirst ? 'text-white hover:text-emerald-100' : 'text-emerald-600 group-hover:text-emerald-700'}`}
                         >
-                          <span>{t('Pesan Sekarang')}</span>
+                          <span>{t('Mulai Proyek')}</span>
                           <ChevronRight className="w-4 h-4" />
                         </a>
                         <span className={`text-xs font-bold ${isFirst ? 'text-emerald-200/50' : 'text-slate-300 group-hover:text-emerald-300'}`}>0{i+1}</span>
@@ -1823,8 +1870,8 @@ function App() {
                               <Award className="w-5 h-5" />
                             </div>
                             <div>
-                              <h4 className="text-sm font-bold text-slate-800">{t('Cetak Kualitas HD')}</h4>
-                              <p className="text-xs text-slate-500">{t('Warna cemerlang & akurat 99%.')}</p>
+                              <h4 className="text-sm font-bold text-slate-800">{t('Standar Kualitas Tinggi')}</h4>
+                              <p className="text-xs text-slate-500">{t('Hasil presisi, konsisten, dan teruji.')}</p>
                             </div>
                           </div>
                           <div className="flex gap-4 items-start">
@@ -1842,13 +1889,13 @@ function App() {
                             </div>
                             <div>
                               <h4 className="text-sm font-bold text-slate-800">{t('Layanan Terbaik')}</h4>
-                              <p className="text-xs text-slate-500">{t('Gratis revisi setup file cetak.')}</p>
+                              <p className="text-xs text-slate-500">{t('Konsultasi & dukungan proyek terpadu.')}</p>
                             </div>
                           </div>
                         </div>
 
                         <div className="border-t border-slate-100 pt-4 text-center">
-                          <span className="text-xs font-bold text-emerald-600">PrintHub Printing House</span>
+                          <span className="text-xs font-bold text-emerald-600">{site_config.site_name || 'FourPlusOne'}</span>
                         </div>
                       </div>
                     )}
@@ -1888,10 +1935,10 @@ function App() {
               <div className="text-center max-w-3xl mx-auto space-y-4 mb-12">
                 <span className="text-xs font-extrabold tracking-widest text-emerald-600 uppercase">{t('Portofolio')}</span>
                 <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                  {renderFormattedText(site_config.portfolio_title || 'Hasil Cetakan Terbaik Kami', true, lang)}
+                  {renderFormattedText(site_config.portfolio_title || 'Portofolio Proyek Unggulan', true, lang)}
                 </h2>
                 <p className="text-base text-slate-600">
-                  {renderFormattedText(site_config.portfolio_subtitle || 'Berikut adalah beberapa galeri foto produk cetakan yang telah diselesaikan untuk klien-klien kami yang puas.', false, lang)}
+                  {renderFormattedText(site_config.portfolio_subtitle || 'Berikut adalah beberapa showcase proyek dan solusi terbaik yang telah diselesaikan untuk klien-klien kami yang puas.', false, lang)}
                 </p>
               </div>
 
@@ -1932,12 +1979,12 @@ function App() {
                         <h3 className="text-white text-base font-extrabold tracking-tight">{t(portfolio.title)}</h3>
                         <div className="pt-2">
                           <a
-                            href={getWhatsAppLink(t(`Halo PrintHub, saya tertarik dengan hasil cetakan portofolio "${portfolio.title}". Bisakah saya cetak custom yang mirip?`))}
+                            href={getWhatsAppLink(t(`Halo ${site_config.site_name || 'Admin'}, saya tertarik dengan portofolio "${portfolio.title}". Bisakah kita diskusikan proyek serupa?`))}
                             target="_blank"
                             rel="noreferrer"
                             className="px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md tracking-wider uppercase inline-flex items-center gap-1.5"
                           >
-                            <span>{t('Tanya Cetak')}</span>
+                            <span>{t('Mulai Proyek')}</span>
                             <ChevronRight className="w-4 h-4" />
                           </a>
                         </div>
@@ -1949,20 +1996,20 @@ function App() {
                 /* Empty / skeleton layout invitation */
                 <div className="bg-white border border-slate-200/60 border-dashed rounded-3xl p-12 text-center max-w-xl mx-auto space-y-4 shadow-sm">
                   <div className="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto shadow-sm">
-                    <Printer className="w-8 h-8" />
+                    <Briefcase className="w-8 h-8" />
                   </div>
                   <h3 className="text-lg font-bold text-slate-800">{t('Portofolio Sedang Diperbarui')}</h3>
                   <p className="text-sm text-slate-500 leading-relaxed font-normal">
-                    {t('Kami sedang memperbarui galeri cetakan digital terbaru kami. Hubungi admin kami untuk melihat katalog foto sampel cetakan stiker, brosur, atau banner lengkap!')}
+                    {t('Kami sedang memperbarui galeri showcase proyek dan portofolio terbaru kami. Hubungi admin kami untuk informasi lebih lanjut atau diskusi proyek!')}
                   </p>
                   <a
-                    href={getWhatsAppLink(t("Halo PrintHub, saya ingin meminta katalog foto hasil cetakan sampel stiker & brosur."))}
+                    href={getWhatsAppLink(t(`Halo ${site_config.site_name || 'Admin'}, saya ingin mengetahui lebih banyak mengenai portofolio dan layanan Anda.`))}
                     target="_blank"
                     rel="noreferrer"
                     className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md tracking-wider uppercase"
                   >
                     <Phone className="w-4 h-4 fill-white" />
-                    <span>{t('Minta Katalog Sampel')}</span>
+                    <span>{t('Konsultasi Proyek')}</span>
                   </a>
                 </div>
               )}
@@ -1977,10 +2024,10 @@ function App() {
               <div className="text-center max-w-3xl mx-auto space-y-4 mb-20">
                 <span className="text-xs font-extrabold tracking-widest text-emerald-650 uppercase">{t('Proses Kerja')}</span>
                 <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                  {renderFormattedText(site_config.order_steps_title || 'Cara Pemesanan Sangat Mudah', true, lang)}
+                  {renderFormattedText(site_config.order_steps_title || 'Alur Kerja Mudah & Terstruktur', true, lang)}
                 </h2>
                 <p className="text-base text-slate-600">
-                  {renderFormattedText(site_config.order_steps_subtitle || 'Cukup selesaikan 4 langkah mudah berikut untuk mewujudkan ide Anda dalam hasil cetak siap pakai.', false, lang)}
+                  {renderFormattedText(site_config.order_steps_subtitle || 'Cukup selesaikan 4 langkah mudah berikut untuk mewujudkan proyek dan kebutuhan bisnis Anda.', false, lang)}
                 </p>
               </div>
 
@@ -2013,7 +2060,7 @@ function App() {
                         {step.step_number === 1 && (
                           <div className="pt-4 border-t border-slate-100 mt-4 w-full">
                             <a
-                              href={getWhatsAppLink(t("Halo PrintHub, saya ingin melakukan konsultasi cetak custom."))}
+                              href={getWhatsAppLink(t(`Halo ${site_config.site_name || 'Admin'}, saya ingin melakukan konsultasi proyek.`))}
                               target="_blank"
                               rel="noreferrer"
                               className="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 hover:text-emerald-700 justify-center w-full"
@@ -2094,10 +2141,10 @@ function App() {
               
               <div className="relative z-10 max-w-3xl mx-auto space-y-6">
                 <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
-                  {t(cta_section.title) || t('Siap Mencetak Ide Anda?')}
+                  {t(cta_section.title) || t('Siap Memulai Proyek Anda?')}
                 </h2>
                 <p className="text-emerald-100 text-sm sm:text-base leading-relaxed max-w-xl mx-auto font-normal">
-                  {t(cta_section.subtitle) || t('Yuk, mulai konsultasi gratis dengan tim ahli kami untuk mendapatkan hasil terbaik untuk bisnismu!')}
+                  {t(cta_section.subtitle) || t('Yuk, mulai konsultasi gratis dengan tim ahli kami untuk mendapatkan solusi terbaik bagi kebutuhan bisnismu!')}
                 </p>
                 
                 <div className="flex flex-wrap justify-center gap-4 pt-4">
@@ -2107,7 +2154,7 @@ function App() {
                     rel={getButtonRel(cta_section.btn_url)}
                     className="px-8 py-3.5 rounded-xl bg-white hover:bg-emerald-50 text-emerald-950 font-extrabold text-sm shadow-md tracking-wider uppercase transition-all hover:scale-105 active:scale-95"
                   >
-                    {t(cta_section.btn_text) || t('Pesan Sekarang')}
+                    {t(cta_section.btn_text) || t('Mulai Proyek')}
                   </a>
                   {isSectionActive('services') && (
                     <a
@@ -2134,7 +2181,7 @@ function App() {
                     {t(site_config.news_title) || t('Berita & Informasi Terkini')}
                   </h2>
                   <p className="text-base text-slate-600">
-                    {t(site_config.news_subtitle) || t('Ikuti perkembangan terbaru mengenai layanan, promo, and tips seputar percetakan digital kami.')}
+                    {t(site_config.news_subtitle) || t('Ikuti perkembangan terbaru mengenai layanan, inovasi, dan tips seputar industri kami.')}
                   </p>
                 </div>
                 {news.length > 0 && (
@@ -2237,7 +2284,7 @@ function App() {
                     {t(site_config.activities_title) || t('Aktifitas & Dokumentasi')}
                   </h2>
                   <p className="text-base text-slate-600">
-                    {t(site_config.activities_subtitle) || t('Dokumentasi portofolio kerja, kesibukan tim cetak, serta event penting yang kami hadiri.')}
+                    {t(site_config.activities_subtitle) || t('Dokumentasi portofolio kerja, aktivitas tim, serta event penting yang kami hadiri.')}
                   </p>
                 </div>
                 {activities.length > 0 && (
@@ -2357,7 +2404,7 @@ function App() {
                   <span className="text-xs font-extrabold tracking-widest text-emerald-400 uppercase">{t('contact_us')}</span>
                   <h2 className="text-3xl font-extrabold tracking-tight">{t(site_config.contact_title) || t('Kirimkan Pesan atau Konsultasi Gratis')}</h2>
                   <p className="text-sm text-emerald-100/80 leading-relaxed font-normal">
-                    {t(site_config.contact_subtitle) || t('Punya pertanyaan mengenai bahan, ukuran cetakan, atau ingin mendiskusikan pesanan khusus (custom)? Isi formulir, tim ahli kami akan segera menghubungi Anda.')}
+                    {t(site_config.contact_subtitle) || t('Punya pertanyaan seputar layanan kami, atau ingin mendiskusikan kebutuhan proyek Anda? Isi formulir, tim kami akan segera menghubungi Anda.')}
                   </p>
                 </div>
 
@@ -2645,7 +2692,7 @@ function App() {
             </h2>
             <div className="w-16 h-1 bg-emerald-600 mx-auto mt-4 rounded-full"></div>
             <p className="text-base text-slate-600 pt-2">
-              {t(site_config.clients_subtitle) || t('Telah dipercaya oleh berbagai perusahaan dan institusi di Indonesia untuk solusi percetakan berkualitas.', 'Trusted by various companies and institutions in Indonesia for quality printing solutions.')}
+              {t(site_config.clients_subtitle) || t('Telah dipercaya oleh berbagai perusahaan dan institusi di Indonesia untuk solusi bisnis berkualitas.', 'Trusted by various companies and institutions in Indonesia for quality business solutions.')}
             </p>
           </div>
 
@@ -3014,7 +3061,7 @@ function App() {
               <span>{lang === 'id' ? 'ID' : 'EN'}</span>
             </button>
             <a
-              href={getWhatsAppLink("Halo PrintHub, saya ingin melakukan pemesanan...")}
+              href={getWhatsAppLink(`Halo ${site_config.site_name || 'Admin'}, saya ingin berkonsultasi mengenai proyek...`)}
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold shadow-md shadow-emerald-600/10 hover:shadow-emerald-600/20 active:scale-95 transition-all"
@@ -3172,7 +3219,7 @@ function App() {
             </div>
 
             <a
-              href={getWhatsAppLink("Halo PrintHub, saya ingin melakukan pemesanan...")}
+              href={getWhatsAppLink(`Halo ${site_config.site_name || 'Admin'}, saya ingin berkonsultasi mengenai proyek...`)}
               target="_blank"
               rel="noreferrer"
               className="mt-4 flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold shadow-md"
@@ -3196,7 +3243,7 @@ function App() {
 
       {/* 9. WhatsApp Sticky Floating Button with Pulse Animation */}
       <a
-        href={getWhatsAppLink("Halo PrintHub, saya ingin bertanya tentang cetak custom...")}
+        href={getWhatsAppLink(`Halo ${site_config.site_name || 'Admin'}, saya ingin berdiskusi mengenai proyek / layanan...`)}
         target="_blank"
         rel="noreferrer"
         className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white shadow-2xl hover:scale-105 active:scale-95 transition-all group flex items-center justify-center"
@@ -3225,7 +3272,7 @@ function App() {
                 </span>
               </a>
               <p className="text-sm text-slate-400 max-w-sm leading-relaxed">
-                {t(site_config?.footer_description || "Menyediakan layanan cetak banner, stiker kemasan, brosur, kartu nama, dan aneka merchandise digital berkualitas tinggi dengan pengerjaan kilat.")}
+                {t(site_config?.footer_description || "Menyediakan layanan profesional dan solusi digital berkualitas tinggi untuk mendukung pertumbuhan bisnis Anda.")}
               </p>
               
               {/* Social links */}
@@ -3292,7 +3339,7 @@ function App() {
                 )}
                 <li className="flex gap-3 items-center">
                   <Phone className="w-5 h-5 text-emerald-500 flex-shrink-0" />
-                  <a href={getWhatsAppLink(t("Halo PrintHub, saya ingin memesan cetakan."))} target="_blank" rel="noreferrer" className="hover:text-emerald-500 transition-colors">
+                  <a href={getWhatsAppLink(t(`Halo ${site_config.site_name || 'Admin'}, saya ingin berkonsultasi mengenai proyek / layanan.`))} target="_blank" rel="noreferrer" className="hover:text-emerald-500 transition-colors">
                     +{site_config.whatsapp_number}
                   </a>
                 </li>
