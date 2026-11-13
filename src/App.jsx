@@ -2086,10 +2086,10 @@ function App() {
               <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
                 <span className="text-xs font-extrabold tracking-widest text-emerald-650 uppercase">{t('Testimoni')}</span>
                 <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                  {renderFormattedText(site_config.testimonials_title || 'Apa Kata Pelanggan Setia Kami', true, lang)}
+                  {renderFormattedText(site_config.testimonials_title || 'Apa Kata Klien & Mitra Kami', true, lang)}
                 </h2>
                 <p className="text-base text-slate-600">
-                  {renderFormattedText(site_config.testimonials_subtitle || 'Kelegaan dan kepuasan pelanggan adalah komitmen utama kami. Simak penilaian langsung mereka.', false, lang)}
+                  {renderFormattedText(site_config.testimonials_subtitle || 'Kepercayaan dan kepuasan klien adalah komitmen utama kami. Simak penilaian langsung mereka.', false, lang)}
                 </p>
               </div>
 
@@ -3020,7 +3020,7 @@ function App() {
               <img src={getImageUrl(site_config.logo)} alt={site_config.site_name} className="h-10 w-auto object-contain" />
             ) : (
               <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white font-extrabold text-xl shadow-md group-hover:scale-105 transition-transform">
-                ND
+                {site_config.site_name ? site_config.site_name.slice(0, 2).toUpperCase() : 'FP'}
               </div>
             )}
             <span className="text-xl font-bold tracking-tight text-slate-900 group-hover:text-emerald-600 transition-colors">
@@ -3264,7 +3264,7 @@ function App() {
                   <img src={getImageUrl(site_config.logo)} alt={site_config.site_name} className="h-10 w-auto object-contain" />
                 ) : (
                   <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white font-extrabold text-xl shadow-md group-hover:scale-105 transition-transform">
-                    ND
+                    {site_config.site_name ? site_config.site_name.slice(0, 2).toUpperCase() : 'FP'}
                   </div>
                 )}
                 <span className="text-xl font-bold tracking-tight text-white group-hover:text-emerald-500 transition-colors">
